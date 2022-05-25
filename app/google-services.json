@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "889494920568",
+    "firebase_url": "https://sayeedquranfy-default-rtdb.firebaseio.com",
+    "project_id": "sayeedquranfy",
+    "storage_bucket": "sayeedquranfy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:889494920568:android:e6d55fe9dcdac675837c8d",
+        "android_client_info": {
+          "package_name": "com.Strong.quranfy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "889494920568-lapvtfm8v8qiro2ghm7cj5ruhvbpfj46.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.Strong.quranfy",
+            "certificate_hash": "c82dabe86aba65e67e4eae7ebf2f946a24df7320"
+          }
+        },
+        {
+          "client_id": "889494920568-uaoiernoq67s3onp4k6e4kde24udbirq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHKGVZbM_SOTFix4JZTRmjYJ1bjtm2mp4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "889494920568-uaoiernoq67s3onp4k6e4kde24udbirq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
