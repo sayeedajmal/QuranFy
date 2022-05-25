@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:theme="@style/Theme.QuranFy"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Dashboard">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/Setting"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="Menu"
+            android:scaleType="centerCrop"
+            android:foreground="?android:selectableItemBackgroundBorderless"
+            android:src="@drawable/setting"
+            android:theme="@style/Theme.QuranFy.icons"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="32dp"
+            android:gravity="center"
+            android:text="Quran App"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/Setting"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/Search"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="Search"
+            android:foreground="?android:selectableItemBackgroundBorderless"
+            android:scaleType="centerCrop"
+            android:src="@drawable/search"
+            android:theme="@style/Theme.QuranFy.icons"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_margin="5dp"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="32dp"
+            android:fontFamily="@font/allah_01"
+            android:text="اسلام عليكم"
+            android:textSize="25dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/PersonName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Username"
+            android:textSize="20sp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        app:cardCornerRadius="10dp"
+        android:backgroundTint="#8239dc"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/cardview"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:background="#8239DC"
+            android:src="@drawable/quran"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#8239DC"
+            android:textSize="15sp"
+            android:textColor="@color/White"
+            android:fontFamily="@font/senbold"
+            android:text="Last Read"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/LastReadsurah"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/White"
+            android:background="#8239DC"
+            android:fontFamily="@font/senextrabold"
+            android:text="Al-Fatiah"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:ignore="MissingConstraints" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="90dp"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="#8239DC"
+            android:src="@drawable/quran"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:theme="@style/Theme.QuranFy"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/dashboardPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/playStrip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dashboardPager">
+
+            <ImageButton
+                android:id="@+id/PlayPauseButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:foreground="?android:selectableItemBackgroundBorderless"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/button_round"
+                android:padding="5dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/play"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/NextTrackButton"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageButton
+                android:id="@+id/NextTrackButton"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/button_round"
+                android:padding="8dp"
+                android:foreground="?android:selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
+                android:src="@drawable/next"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/surahIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="10dp"
+                android:text="۝"
+                android:textSize="35sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/Play_surah_Number"
+                android:layout_width="32dp"
+                android:layout_height="wrap_content"
+                android:text="01"
+                android:textAlignment="center"
+                android:textColor="#8239DC"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toBottomOf="@+id/surahIcon"
+                app:layout_constraintEnd_toEndOf="@+id/surahIcon"
+                app:layout_constraintHorizontal_bias="0.58"
+                app:layout_constraintStart_toStartOf="@+id/surahIcon"
+                app:layout_constraintTop_toTopOf="@+id/surahIcon"
+                app:layout_constraintVertical_bias="0.42000002"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/Play_surah_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:maxWidth="200dp"
+                android:text="surah_Fateha"
+                app:layout_constraintStart_toEndOf="@+id/Play_surah_Number"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/Play_surah_Location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="Makki"
+                app:layout_constraintStart_toEndOf="@+id/Play_surah_Number"
+                app:layout_constraintTop_toBottomOf="@+id/Play_surah_name" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -1,0 +1,9 @@
+<resources>
+    <style name="Theme.QuranFy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="android:background">@color/White</item>
+        <item name="android:textColor">#672cbc</item>
+        <item name="fontFamily">@font/senregular</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+</resources>
