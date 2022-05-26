@@ -31,7 +31,6 @@ public class surah extends Fragment {
     FirebaseDatabase database;
     ArrayList<surah_getter> SurahName = new ArrayList<>();
     ArrayList<surahInform> SurahInform=new ArrayList<>();
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

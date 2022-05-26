@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="01"
         android:textAlignment="center"
-        android:textColor="#8239DC"
+        android:textColor="#8427F6"
         android:textSize="17sp"
         app:layout_constraintBottom_toBottomOf="@+id/surahIcon"
         app:layout_constraintEnd_toEndOf="@+id/surahIcon"
