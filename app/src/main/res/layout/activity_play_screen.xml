@@ -47,16 +47,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="308dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="144dp"
         android:background="@drawable/cardview"
         android:backgroundTint="#6223B1"
         app:cardCornerRadius="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.436"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/surahName"
         tools:ignore="MissingConstraints">
@@ -92,6 +93,7 @@
             android:id="@+id/locationwithVerses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:background="@color/transparent"
             android:text="MECCAN - 7 VERSES"
             android:textColor="@color/White"
@@ -101,8 +103,8 @@
             app:layout_constraintTop_toBottomOf="@+id/Particularsurahname" />
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="195dp"
+            android:layout_height="179dp"
             android:background="@color/transparent"
             android:padding="15dp"
             android:scaleType="centerCrop"
@@ -121,9 +123,10 @@
         android:layout_margin="10dp"
         app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
-
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.477" />
 
     <ImageButton
         android:id="@+id/PreviousTrackButton"
@@ -131,7 +134,7 @@
         android:layout_height="45dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/button_round"
         android:contentDescription="Next Track"
         android:foreground="?android:selectableItemBackgroundBorderless"
@@ -148,7 +151,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/button_round"
         android:contentDescription="Play/Pause"
         android:foreground="?android:selectableItemBackgroundBorderless"
@@ -166,7 +169,7 @@
         android:layout_height="45dp"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/button_round"
         android:contentDescription="Next Track"
         android:foreground="?android:selectableItemBackgroundBorderless"

@@ -13,7 +13,7 @@
         <entry key="app/src/main/res/drawable/index_view.xml" value="0.1975" />
         <entry key="app/src/main/res/drawable/search.xml" value="0.23" />
         <entry key="app/src/main/res/drawable/setting.xml" value="0.2035" />
-        <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2234375" />
         <entry key="app/src/main/res/layout/activity_play_screen.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.23645833333333333" />
