@@ -153,7 +153,6 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
-        android:theme="@style/Theme.QuranFy"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginStart="5dp"
@@ -233,7 +232,7 @@
                 android:layout_height="wrap_content"
                 android:text="01"
                 android:textAlignment="center"
-                android:textColor="#8239DC"
+                android:textColor="#7A10FB"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="@+id/surahIcon"
                 app:layout_constraintEnd_toEndOf="@+id/surahIcon"

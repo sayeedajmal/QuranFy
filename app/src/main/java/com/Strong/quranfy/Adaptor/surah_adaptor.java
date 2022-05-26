@@ -20,12 +20,17 @@ import java.util.ArrayList;
 public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder>{
      ArrayList<surah_getter> surah_getters;
      ArrayList<surahInform> SurahInform;
-
     Context context;
+    private final onClickSendData onClickSendData;
     public surah_adaptor(ArrayList<surah_getter> surah_getters,Context context, ArrayList<surahInform> surahInform) {
         this.context=context;
         this.surah_getters=surah_getters;
         this.SurahInform=surahInform;
+        try{
+            this.onClickSendData=((surah_adaptor.onClickSendData) context);
+        }catch (ClassCastException e){
+            throw new ClassCastException(e.getMessage());
+        }
     }
 
     @NonNull
@@ -47,11 +52,11 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
 
         holder.itemView.setOnClickListener(view ->{
             Intent intent=new Intent(context, playScreen.class);
-
             /*Sending Data From RecyclerView to PlayScreen*/
             intent.putExtra("SurahNumber",surah_getter.getSurahNumber());
             intent.putExtra("SurahName",surah_getter.getSurahName());
             intent.putExtra("SurahInformation",surahInform.getSurahInformation());
+            onClickSendData.onReceiveData(intent);
             context.startActivity(intent);
         });
     }
@@ -71,5 +76,9 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             surahInformation=itemView.findViewById(R.id.surahInformation);
             surahNameArabic=itemView.findViewById(R.id.surahNameArabic);
         }
+    }
+
+ public interface onClickSendData{
+        public void onReceiveData(Intent intent);
     }
 }
