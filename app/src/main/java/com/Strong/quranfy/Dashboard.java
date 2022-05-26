@@ -5,7 +5,10 @@ import static com.Strong.quranfy.R.drawable.play;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 
@@ -34,6 +37,17 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
         // Playing Control
         mediaPlayer=MediaPlayer.create(this, R.raw.sureh_fatiha);
+        //Adding Data of SharedPreferences
+        SharedPreferences preferences=getSharedPreferences("RecentPlay",MODE_APPEND);
+        String SurahNumber=preferences.getString("SurahNumber","");
+        String SurahName=preferences.getString("SurahName","");
+        String SurahNameArabic=preferences.getString("SurahNameArabic","");
+        BindDash.LastReadSurahNum.setText(SurahNumber);
+        BindDash.LastReadSurah.setText(SurahName);
+        BindDash.LastReadSurahArabic.setText(SurahNameArabic);
+
+        BindDash.PlaySurahNumber.setText(SurahNumber);
+        BindDash.PlaySurahName.setText(SurahName);
 
         BindDash.PlayPauseButton.setOnClickListener(view ->{
             if(mediaPlayer.isPlaying()){

@@ -2,6 +2,7 @@ package com.Strong.quranfy.Adaptor;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,9 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             intent.putExtra("SurahName",surah_getter.getSurahName());
             intent.putExtra("SurahInformation",surahInform.getSurahInformation());
             onClickSendData.onReceiveData(intent);
+            //Sending the Data to SharedPreference
+            DataPref(surah_getter.getSurahNumber(), surah_getter.getSurahName(), surahInform.getSurahInformation());
+
             context.startActivity(intent);
         });
     }
@@ -80,5 +84,14 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
 
  public interface onClickSendData{
         public void onReceiveData(Intent intent);
+    }
+        //DataPreference Setup
+    public void DataPref(String SurahNumber, String SurahName, String SurahNameArabic){
+        SharedPreferences preferences= context.getSharedPreferences("RecentPlay",Context.MODE_PRIVATE);
+        SharedPreferences.Editor prefEditor=preferences.edit();
+        prefEditor.putString("SurahNumber",SurahNumber);
+        prefEditor.putString("SurahName",SurahName);
+        prefEditor.putString("SurahNameArabic",SurahNameArabic);
+        prefEditor.apply();
     }
 }
