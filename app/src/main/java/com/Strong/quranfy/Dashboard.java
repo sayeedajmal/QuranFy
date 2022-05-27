@@ -21,34 +21,24 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
     static MediaPlayer mediaPlayer;
     ActivityDashboardBinding BindDash;
     viewPagerSelection viewPagerAdaptor;
+    String SurahNumber, SurahName,SurahInform,SurahNameArabic;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BindDash=ActivityDashboardBinding.inflate(getLayoutInflater());
 
         surah surah=new surah();
-
         juz juz=new juz();
         viewPagerAdaptor=new viewPagerSelection(getSupportFragmentManager(), 0);
         viewPagerAdaptor.addFragment(surah, "surah");
         viewPagerAdaptor.addFragment(juz, "Juz");
 
+        SetData();
+
         BindDash.dashboardPager.setAdapter(viewPagerAdaptor);
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
         // Playing Control
         mediaPlayer=MediaPlayer.create(this, R.raw.sureh_fatiha);
-        //Adding Data of SharedPreferences
-        SharedPreferences preferences=getSharedPreferences("RecentPlay",MODE_APPEND);
-        String SurahNumber=preferences.getString("SurahNumber","");
-        String SurahName=preferences.getString("SurahName","");
-        String SurahNameArabic=preferences.getString("SurahNameArabic","");
-        BindDash.LastReadSurahNum.setText(SurahNumber);
-        BindDash.LastReadSurah.setText(SurahName);
-        BindDash.LastReadSurahArabic.setText(SurahNameArabic);
-
-        BindDash.PlaySurahNumber.setText(SurahNumber);
-        BindDash.PlaySurahName.setText(SurahName);
-
         BindDash.PlayPauseButton.setOnClickListener(view ->{
             if(mediaPlayer.isPlaying()){
                 BindDash.PlayPauseButton.setImageResource(play);
@@ -64,6 +54,9 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         BindDash.playStrip.setOnClickListener(view ->{
             Intent intent=new Intent(this, playScreen.class);
+            intent.putExtra("SurahNumber",SurahNumber);
+            intent.putExtra("SurahName",SurahName);
+            intent.putExtra("SurahInformation",SurahInform);
             startActivity(intent);
         });
         setContentView(BindDash.getRoot());
@@ -74,7 +67,22 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         super.onBackPressed();
         finishAffinity();
     }
-
+    public void SetData(){
+        //Adding Data of SharedPreferences
+        @SuppressLint("WrongConstant") SharedPreferences preferences=getSharedPreferences("RecentPlay",MODE_APPEND);
+        this.SurahNumber=preferences.getString("SurahNumber","");
+        this.SurahName=preferences.getString("SurahName","");
+        this.SurahInform=preferences.getString("SurahInform","");
+        this.SurahNameArabic=preferences.getString("SurahNameArabic","");
+        //LAST READ
+        BindDash.LastReadSurahNum.setText(SurahNumber);
+        BindDash.LastReadSurah.setText(SurahName);
+        BindDash.LastReadSurahArabic.setText(SurahNameArabic);
+        //PLAY STRIP
+        BindDash.PlaySurahNumber.setText(SurahNumber);
+        BindDash.PlaySurahName.setText(SurahName);
+        BindDash.PlaySurahLocation.setText(SurahInform);
+    }
     @Override
     public void onReceiveData(Intent intent) {
         BindDash.PlayPauseButton.setImageResource(play);
