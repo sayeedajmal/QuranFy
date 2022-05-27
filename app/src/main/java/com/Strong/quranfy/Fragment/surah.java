@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.Strong.quranfy.Adaptor.surah_adaptor;
+import com.Strong.quranfy.GetSet.SurahArabicGet;
 import com.Strong.quranfy.GetSet.surahInform;
 import com.Strong.quranfy.GetSet.surah_getter;
 import com.Strong.quranfy.databinding.FragmentMainBinding;
@@ -31,6 +32,7 @@ public class surah extends Fragment {
     FirebaseDatabase database;
     ArrayList<surah_getter> SurahName = new ArrayList<>();
     ArrayList<surahInform> SurahInform=new ArrayList<>();
+    ArrayList<SurahArabicGet> ArabicGet=new ArrayList<>();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +47,7 @@ public class surah extends Fragment {
                              Bundle savedInstanceState) {
         BindMain=FragmentMainBinding.inflate(inflater,  container, false);
 
-        surah_adaptor surah_adaptor = new surah_adaptor(SurahName, getContext(), SurahInform);
+        surah_adaptor surah_adaptor = new surah_adaptor(SurahName, getContext(), SurahInform,ArabicGet);
         BindMain.RecyclerView.setAdapter(surah_adaptor);
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         BindMain.RecyclerView.setLayoutManager(linearLayoutManager);
@@ -63,12 +65,15 @@ public class surah extends Fragment {
                 for (DataSnapshot dataSnapshot:snapshot.child("SurahInform").getChildren()){
                     SurahInform.add(new surahInform(dataSnapshot.getValue(String.class)));
                 }
+                for (DataSnapshot dataSnapshot:snapshot.child("SurahArabic").getChildren()){
+                    ArabicGet.add(new SurahArabicGet(dataSnapshot.getValue(String.class)));
+                }
             surah_adaptor.notifyDataSetChanged();
             }
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(), "Can't Fetched Surah List", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Can't Fetched List", Toast.LENGTH_SHORT).show();
                 surah_adaptor.notifyDataSetChanged();
             }
         });

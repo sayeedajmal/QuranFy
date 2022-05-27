@@ -11,22 +11,26 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.Strong.quranfy.GetSet.SurahArabicGet;
 import com.Strong.quranfy.GetSet.surahInform;
 import com.Strong.quranfy.GetSet.surah_getter;
 import com.Strong.quranfy.R;
 import com.Strong.quranfy.playScreen;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder>{
      ArrayList<surah_getter> surah_getters;
      ArrayList<surahInform> SurahInform;
+     ArrayList<SurahArabicGet> SurahArabic;
     Context context;
     private final onClickSendData onClickSendData;
-    public surah_adaptor(ArrayList<surah_getter> surah_getters,Context context, ArrayList<surahInform> surahInform) {
+    public surah_adaptor(ArrayList<surah_getter> surah_getters, Context context, ArrayList<surahInform> surahInform, ArrayList<SurahArabicGet> surahArabic) {
         this.context=context;
         this.surah_getters=surah_getters;
         this.SurahInform=surahInform;
+        this.SurahArabic=surahArabic;
         try{
             this.onClickSendData=((surah_adaptor.onClickSendData) context);
         }catch (ClassCastException e){
@@ -45,11 +49,12 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         surah_getter surah_getter =surah_getters.get(position);
         surahInform surahInform=SurahInform.get(position);
+        SurahArabicGet ArabicGet=SurahArabic.get(position);
 
         holder.surahNumber.setText(surah_getter.getSurahNumber());
         holder.surahName.setText(surah_getter.getSurahName());
         holder.surahInformation.setText(surahInform.getSurahInformation());
-       /* holder.surahNameArabic.setText(surah_getter.getSurahNameArabic());*/
+        holder.surahNameArabic.setText(ArabicGet.getSurahArabic());
 
         holder.itemView.setOnClickListener(view ->{
             Intent intent=new Intent(context, playScreen.class);
@@ -59,7 +64,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             intent.putExtra("SurahInformation",surahInform.getSurahInformation());
             onClickSendData.onReceiveData(intent);
             //Sending the Data to SharedPreference
-            DataPref(surah_getter.getSurahNumber(), surah_getter.getSurahName(), surahInform.getSurahInformation());
+            DataPref(surah_getter.getSurahNumber(), surah_getter.getSurahName(),ArabicGet.getSurahArabic(), surahInform.getSurahInformation());
 
             context.startActivity(intent);
         });
@@ -86,12 +91,13 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         public void onReceiveData(Intent intent);
     }
         //DataPreference Setup
-    public void DataPref(String SurahNumber, String SurahName, String SurahNameArabic){
+    public void DataPref(String SurahNumber, String SurahName, String SurahNameArabic, String SurahInform){
         SharedPreferences preferences= context.getSharedPreferences("RecentPlay",Context.MODE_PRIVATE);
         SharedPreferences.Editor prefEditor=preferences.edit();
         prefEditor.putString("SurahNumber",SurahNumber);
         prefEditor.putString("SurahName",SurahName);
         prefEditor.putString("SurahNameArabic",SurahNameArabic);
+        prefEditor.putString("SurahInform", SurahInform);
         prefEditor.apply();
     }
 }

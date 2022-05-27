@@ -2,7 +2,7 @@ package com.Strong.quranfy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.media.MediaPlayer;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -20,7 +20,18 @@ public class playScreen extends AppCompatActivity {
         String SurahName=getIntent().getStringExtra("SurahName");
         String SurahInformation=getIntent().getStringExtra("SurahInformation");
 
-        // Setting Data Of List to PlayScreen
+        //Setting Data of SharedPreference
+        SharedPreferences preferences=getSharedPreferences("RecentPlay",MODE_APPEND);
+        String SharedNumber=preferences.getString("SurahNumber","");
+        String SharedName=preferences.getString("SurahName","");
+        String SurahInform=preferences.getString("SurahInform","");
+
+        BindPlayScreen.SurahNumber.setText(SharedNumber);
+        BindPlayScreen.Particularsurahname.setText(SharedName);
+        BindPlayScreen.Particularsurahname.setText(SharedName);
+        BindPlayScreen.locationwithVerses.setText(SurahInform);
+
+        // Setting Data Of List to PlayScreen by ItemViewClick
         BindPlayScreen.SurahNumber.setText(SurahNumber);
         BindPlayScreen.surahName.setText(SurahName);
         BindPlayScreen.Particularsurahname.setText(SurahName);
@@ -40,9 +51,7 @@ public class playScreen extends AppCompatActivity {
             }
         });
 
-        BindPlayScreen.backbutton.setOnClickListener(view ->{
-            onBackPressed();
-        });
+        BindPlayScreen.backbutton.setOnClickListener(view -> onBackPressed());
         setContentView(BindPlayScreen.getRoot());
     }
 }
