@@ -18,10 +18,12 @@ import com.Strong.quranfy.Fragment.surah;
 import com.Strong.quranfy.databinding.ActivityDashboardBinding;
 
 public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData {
-    static MediaPlayer mediaPlayer;
     ActivityDashboardBinding BindDash;
+    MediaHandler MediaHandler=new MediaHandler();
     viewPagerSelection viewPagerAdaptor;
     String SurahNumber, SurahName,SurahInform,SurahNameArabic;
+
+    static MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,9 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
             intent.putExtra("SurahInformation",SurahInform);
             startActivity(intent);
         });
+        /*Check Player Playing or Not*/
+        MediaHandler.PlayOrNot(mediaPlayer);
+
         setContentView(BindDash.getRoot());
     }
 

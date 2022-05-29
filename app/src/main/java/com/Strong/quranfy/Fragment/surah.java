@@ -57,14 +57,16 @@ public class surah extends Fragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                /*This is For SurahName With Information*/
+                /*For SurahName*/
                 for (DataSnapshot dataSnapshot:snapshot.child("SurahIndex").getChildren()) {
                     SurahName.add(new surah_getter(dataSnapshot.getKey(),
                             dataSnapshot.getValue(String.class)));
                 }
+                /*For SurahInformation*/
                 for (DataSnapshot dataSnapshot:snapshot.child("SurahInform").getChildren()){
                     SurahInform.add(new surahInform(dataSnapshot.getValue(String.class)));
                 }
+                /*For SurahNameArabic*/
                 for (DataSnapshot dataSnapshot:snapshot.child("SurahArabic").getChildren()){
                     ArabicGet.add(new SurahArabicGet(dataSnapshot.getValue(String.class)));
                 }
