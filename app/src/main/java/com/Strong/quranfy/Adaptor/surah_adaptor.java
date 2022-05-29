@@ -3,6 +3,7 @@ package com.Strong.quranfy.Adaptor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
      ArrayList<surahInform> SurahInform;
      ArrayList<SurahArabicGet> SurahArabic;
     Context context;
+
     private final onClickSendData onClickSendData;
     public surah_adaptor(ArrayList<surah_getter> surah_getters, Context context, ArrayList<surahInform> surahInform, ArrayList<SurahArabicGet> surahArabic) {
         this.context=context;
@@ -90,6 +92,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
  public interface onClickSendData{
         public void onReceiveData(Intent intent);
     }
+
         //DataPreference Setup
     public void DataPref(String SurahNumber, String SurahName, String SurahNameArabic, String SurahInform){
         SharedPreferences preferences= context.getSharedPreferences("RecentPlay",Context.MODE_PRIVATE);
@@ -100,4 +103,5 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         prefEditor.putString("SurahInform", SurahInform);
         prefEditor.apply();
     }
+
 }
