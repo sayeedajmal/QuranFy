@@ -9,7 +9,10 @@
         <item name="tabIndicatorHeight">2dp</item>
         <item name="tabSelectedTextColor">#8239DC</item>
         <item name="tabTextColor">#545252</item>
+        <item name="android:screenOrientation">portrait</item>
         <item name="cardBackgroundColor">@color/White</item>
+        <item name="android:statusBarColor">#494848</item>
+
     </style>
 
     <!-- This is for icons !-->

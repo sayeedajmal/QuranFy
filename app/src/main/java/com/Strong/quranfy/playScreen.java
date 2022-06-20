@@ -2,15 +2,19 @@ package com.Strong.quranfy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import com.Strong.quranfy.databinding.ActivityPlayScreenBinding;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class playScreen extends AppCompatActivity {
     ActivityPlayScreenBinding BindPlayScreen;
     int favouriteFlag=0;
+    String AudioFileUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +25,7 @@ public class playScreen extends AppCompatActivity {
         String SurahInformation=getIntent().getStringExtra("SurahInformation");
 
         //Setting Data of SharedPreference
-        SharedPreferences preferences=getSharedPreferences("RecentPlay",MODE_APPEND);
+        SharedPreferences preferences=getSharedPreferences("RecentPlay", Context.MODE_PRIVATE);
         String SharedNumber=preferences.getString("SurahNumber","");
         String SharedName=preferences.getString("SurahName","");
         String SurahInform=preferences.getString("SurahInform","");
@@ -53,5 +57,12 @@ public class playScreen extends AppCompatActivity {
 
         BindPlayScreen.backbutton.setOnClickListener(view -> onBackPressed());
         setContentView(BindPlayScreen.getRoot());
+
+        // Getting AudioFile From FireStorage
+        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber+".mp3");
+        mStorageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+             AudioFileUrl=uri.toString();
+            Toast.makeText(this, AudioFileUrl, Toast.LENGTH_SHORT).show();
+        }).addOnFailureListener(Throwable::printStackTrace);
     }
 }

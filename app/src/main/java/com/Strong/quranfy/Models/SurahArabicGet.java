@@ -1,4 +1,4 @@
-package com.Strong.quranfy.GetSet;
+package com.Strong.quranfy.Models;
 
 public class SurahArabicGet {
     public SurahArabicGet() {

@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Strong.quranfy.GetSet.surah_getter;
+import com.Strong.quranfy.Models.surah_getter;
 import com.Strong.quranfy.R;
 
 import java.util.ArrayList;

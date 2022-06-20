@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.Strong.quranfy.Adaptor.juz_adaptor;
-import com.Strong.quranfy.GetSet.surah_getter;
+import com.Strong.quranfy.Models.surah_getter;
 import com.Strong.quranfy.databinding.FragmentMainBinding;
 
 import java.util.ArrayList;
