@@ -10,6 +10,8 @@
         <item name="tabTextColor">#949494</item>
         <item name="cardBackgroundColor">#011240</item>
         <item name="android:screenOrientation">portrait</item>
+        <item name="android:statusBarColor">@color/transparent</item>
+
 
     </style>
     <!-- This is for icons !-->

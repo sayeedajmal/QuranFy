@@ -6,10 +6,8 @@ import static com.Strong.quranfy.R.drawable.play;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 
 import com.Strong.quranfy.Adaptor.surah_adaptor;
@@ -23,7 +21,6 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
     viewPagerSelection viewPagerAdaptor;
     String SurahNumber, SurahName,SurahInform,SurahNameArabic;
 
-    static MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,18 +36,15 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         BindDash.dashboardPager.setAdapter(viewPagerAdaptor);
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
-        // Playing Control
-        mediaPlayer=MediaPlayer.create(this, R.raw.sureh_fatiha);
-        BindDash.PlayPauseButton.setOnClickListener(view ->{
-            if(mediaPlayer.isPlaying()){
-                BindDash.PlayPauseButton.setImageResource(play);
-                mediaPlayer.pause();
-            }else{
-                BindDash.PlayPauseButton.setImageResource(pause);
-               mediaPlayer.start();
 
-            }
+
+        // Playing Control
+        BindDash.PlayPauseButton.setOnClickListener(view ->{
+          // Controlling Media with The Class Of MediaHandler
         });
+
+
+
         BindDash.NextTrackButton.setOnClickListener(view ->{
         });
 
@@ -61,8 +55,6 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
             intent.putExtra("SurahInformation",SurahInform);
             startActivity(intent);
         });
-        /*Check Player Playing or Not*/
-        MediaHandler.PlayOrNot(mediaPlayer);
 
         setContentView(BindDash.getRoot());
     }

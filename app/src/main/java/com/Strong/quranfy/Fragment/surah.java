@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.Strong.quranfy.Adaptor.surah_adaptor;
-import com.Strong.quranfy.GetSet.SurahArabicGet;
-import com.Strong.quranfy.GetSet.surahInform;
-import com.Strong.quranfy.GetSet.surah_getter;
+import com.Strong.quranfy.Models.SurahArabicGet;
+import com.Strong.quranfy.Models.surahInform;
+import com.Strong.quranfy.Models.surah_getter;
 import com.Strong.quranfy.databinding.FragmentMainBinding;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,8 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class surah extends Fragment {
     FragmentMainBinding BindMain;
@@ -42,6 +40,7 @@ public class surah extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,10 +48,12 @@ public class surah extends Fragment {
 
         surah_adaptor surah_adaptor = new surah_adaptor(SurahName, getContext(), SurahInform,ArabicGet);
         BindMain.RecyclerView.setAdapter(surah_adaptor);
+
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getContext());
         BindMain.RecyclerView.setLayoutManager(linearLayoutManager);
 
         database=FirebaseDatabase.getInstance();
+
         database.getReference().addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -79,6 +80,7 @@ public class surah extends Fragment {
                 surah_adaptor.notifyDataSetChanged();
             }
         });
+
         return BindMain.getRoot();
     }
 }
