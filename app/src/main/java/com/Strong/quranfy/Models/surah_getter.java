@@ -3,6 +3,7 @@ package com.Strong.quranfy.Models;
 public class surah_getter {
    String SurahNumber;
    String SurahName;
+   String URL;
 
     public surah_getter(){
 
@@ -22,5 +23,11 @@ public class surah_getter {
         return SurahName;
     }
 
+    public String getURL() {
+        return URL;
+    }
 
+    public void setURL(String URL) {
+        this.URL = URL;
+    }
 }
