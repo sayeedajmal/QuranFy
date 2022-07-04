@@ -9,15 +9,20 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.Strong.quranfy.Adaptor.surah_adaptor;
 import com.Strong.quranfy.Fragment.juz;
 import com.Strong.quranfy.Fragment.surah;
 import com.Strong.quranfy.databinding.ActivityDashboardBinding;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
-public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData {
+public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData,MediaHandler.PlayPauseButton {
     ActivityDashboardBinding BindDash;
-    MediaHandler MediaHandler=new MediaHandler();
+    MediaHandler mediaHandler =new MediaHandler();
     viewPagerSelection viewPagerAdaptor;
     String SurahNumber, SurahName,SurahInform,SurahNameArabic;
 
@@ -38,16 +43,19 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
 
 
-        // Playing Control
-        BindDash.PlayPauseButton.setOnClickListener(view ->{
-          // Controlling Media with The Class Of MediaHandler
+        //Search Button
+        BindDash.Search.setOnClickListener(view ->{
+            BindDash.SearchText.setVisibility(View.VISIBLE);
         });
 
 
 
+        //Next Track
         BindDash.NextTrackButton.setOnClickListener(view ->{
+            mediaHandler.ButtonNext(BindDash.NextTrackButton, getApplicationContext());
         });
 
+        //PlayStrip At bottom
         BindDash.playStrip.setOnClickListener(view ->{
             Intent intent=new Intent(this, playScreen.class);
             intent.putExtra("SurahNumber",SurahNumber);
@@ -64,6 +72,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         super.onBackPressed();
         finishAffinity();
     }
+    // SETTING DATA FROM SHARED PREFERENCES TO ITEM_VIEW
     public void SetData(){
         //Adding Data of SharedPreferences
         @SuppressLint("WrongConstant") SharedPreferences preferences=getSharedPreferences("RecentPlay",MODE_APPEND);
@@ -87,5 +96,13 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.PlaySurahName.setText(intent.getStringExtra("SurahName"));
         BindDash.PlaySurahLocation.setText(intent.getStringExtra("SurahInformation"));
         BindDash.PlayPauseButton.setImageResource(pause);
+    }
+
+    // Playing Control
+    @Override
+    public void SendPlayPause(ImageButton button) {
+        BindDash.PlayPauseButton.setOnClickListener(v -> {
+            mediaHandler.ButtonPlayPause(BindDash.PlayPauseButton);
+        });
     }
 }

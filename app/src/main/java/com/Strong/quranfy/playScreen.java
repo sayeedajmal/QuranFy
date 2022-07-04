@@ -5,20 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.SeekBar;
 import android.widget.Toast;
-
 import com.Strong.quranfy.databinding.ActivityPlayScreenBinding;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+
+import java.io.IOException;
 
 public class playScreen extends AppCompatActivity {
     ActivityPlayScreenBinding BindPlayScreen;
     int favouriteFlag=0;
-    String AudioFileUrl;
+    MediaHandler mediaHandler=new MediaHandler();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BindPlayScreen=ActivityPlayScreenBinding.inflate(getLayoutInflater());
+        setContentView(BindPlayScreen.getRoot());
 
         String SurahNumber=getIntent().getStringExtra("SurahNumber");
         String SurahName=getIntent().getStringExtra("SurahName");
@@ -41,28 +42,60 @@ public class playScreen extends AppCompatActivity {
         BindPlayScreen.Particularsurahname.setText(SurahName);
         BindPlayScreen.locationwithVerses.setText(SurahInformation);
 
-
         //setting Favourite
         BindPlayScreen.selectFavourite.setOnClickListener(view ->{
             if (favouriteFlag==0) {
                 BindPlayScreen.selectFavourite.setImageResource(R.drawable.favouritefilled);
-                Toast.makeText(this, "Favourite", Toast.LENGTH_SHORT).show();
                 favouriteFlag=1;
             }else{
                 BindPlayScreen.selectFavourite.setImageResource(R.drawable.favouriteunfilled);
-                Toast.makeText(this, "UnFavourite", Toast.LENGTH_SHORT).show();
                 favouriteFlag=0;
             }
         });
 
-        BindPlayScreen.backbutton.setOnClickListener(view -> onBackPressed());
-        setContentView(BindPlayScreen.getRoot());
+        //Checking Songs are Playing or not
+        try {
+            mediaHandler.checkPlayingOrNot(getApplicationContext());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        // Getting AudioFile From FireStorage
-        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber+".mp3");
-        mStorageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-             AudioFileUrl=uri.toString();
-            Toast.makeText(this, AudioFileUrl, Toast.LENGTH_SHORT).show();
-        }).addOnFailureListener(Throwable::printStackTrace);
+        //Implementation of Update seekBar
+        mediaHandler.setUpdateSeekBar(BindPlayScreen.seekBar);
+
+        //Implementing Play Pause Button
+        BindPlayScreen.PlayPauseButton.setOnClickListener(view -> mediaHandler.ButtonPlayPause(BindPlayScreen.PlayPauseButton));
+
+        //Performing Button After Song Finish
+        mediaHandler.mediaAfterComplete(BindPlayScreen.NextTrackButton);
+
+        //Implementing NextButton
+        BindPlayScreen.NextTrackButton.setOnClickListener(view -> mediaHandler.ButtonNext(BindPlayScreen.NextTrackButton, getApplicationContext()));
+
+        //Implementing BackButton
+        BindPlayScreen.PreviousTrackButton.setOnClickListener(view -> mediaHandler.ButtonPrevious(BindPlayScreen.PreviousTrackButton, getApplicationContext()));
+
+
+        BindPlayScreen.backbutton.setOnClickListener(view -> onBackPressed());
+
+        //Setting the Music player from the position of the seekbar
+        BindPlayScreen.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                //getting the progress of the seek bar and setting it to Media Player
+                mediaHandler.SeekBarUpdate(seekBar, BindPlayScreen.StartTime, BindPlayScreen.StopTime);
+            }
+        });
+
     }
 }
