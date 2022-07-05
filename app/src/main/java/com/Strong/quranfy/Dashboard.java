@@ -11,18 +11,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
-
 import com.Strong.quranfy.Adaptor.surah_adaptor;
 import com.Strong.quranfy.Fragment.juz;
 import com.Strong.quranfy.Fragment.surah;
 import com.Strong.quranfy.databinding.ActivityDashboardBinding;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
-public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData,MediaHandler.PlayPauseButton {
+public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData{
     ActivityDashboardBinding BindDash;
-    MediaHandler mediaHandler =new MediaHandler();
     viewPagerSelection viewPagerAdaptor;
     String SurahNumber, SurahName,SurahInform,SurahNameArabic;
 
@@ -48,11 +42,13 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
             BindDash.SearchText.setVisibility(View.VISIBLE);
         });
 
+        //PlayButton
+        BindDash.PlayPauseButton.setOnClickListener(view ->{
 
+        });
 
         //Next Track
         BindDash.NextTrackButton.setOnClickListener(view ->{
-            mediaHandler.ButtonNext(BindDash.NextTrackButton, getApplicationContext());
         });
 
         //PlayStrip At bottom
@@ -72,6 +68,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         super.onBackPressed();
         finishAffinity();
     }
+
     // SETTING DATA FROM SHARED PREFERENCES TO ITEM_VIEW
     public void SetData(){
         //Adding Data of SharedPreferences
@@ -89,6 +86,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.PlaySurahName.setText(SurahName);
         BindDash.PlaySurahLocation.setText(SurahInform);
     }
+
     @Override
     public void onReceiveData(Intent intent) {
         BindDash.PlayPauseButton.setImageResource(play);
@@ -96,13 +94,5 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.PlaySurahName.setText(intent.getStringExtra("SurahName"));
         BindDash.PlaySurahLocation.setText(intent.getStringExtra("SurahInformation"));
         BindDash.PlayPauseButton.setImageResource(pause);
-    }
-
-    // Playing Control
-    @Override
-    public void SendPlayPause(ImageButton button) {
-        BindDash.PlayPauseButton.setOnClickListener(v -> {
-            mediaHandler.ButtonPlayPause(BindDash.PlayPauseButton);
-        });
     }
 }
