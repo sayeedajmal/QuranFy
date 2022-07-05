@@ -6,10 +6,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.SeekBar;
-import android.widget.Toast;
 import com.Strong.quranfy.databinding.ActivityPlayScreenBinding;
 
-import java.io.IOException;
 
 public class playScreen extends AppCompatActivity {
     ActivityPlayScreenBinding BindPlayScreen;
@@ -53,18 +51,12 @@ public class playScreen extends AppCompatActivity {
             }
         });
 
-        //Checking Songs are Playing or not
-        try {
-            mediaHandler.checkPlayingOrNot(getApplicationContext());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //Implementing Play Pause Button
+        //BindPlayScreen.PlayPauseButton.setOnClickListener(view -> mediaHandler.ButtonPlayPause());
 
         //Implementation of Update seekBar
         mediaHandler.setUpdateSeekBar(BindPlayScreen.seekBar);
 
-        //Implementing Play Pause Button
-        BindPlayScreen.PlayPauseButton.setOnClickListener(view -> mediaHandler.ButtonPlayPause(BindPlayScreen.PlayPauseButton));
 
         //Performing Button After Song Finish
         mediaHandler.mediaAfterComplete(BindPlayScreen.NextTrackButton);

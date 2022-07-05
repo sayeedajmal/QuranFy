@@ -2,39 +2,38 @@ package com.Strong.quranfy;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.Strong.quranfy.Models.AudioUri;
 import com.Strong.quranfy.Models.surah_getter;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 
 public class MediaHandler {
-    static MediaPlayer mediaPlayer;
+    MediaPlayer mediaPlayer;
     surah_getter URL=new surah_getter();
-    public PlayPauseButton playPauseButton;
-    //THIS IS USED FOR DOWNLOADING THE FILE WHICH YOU HAVE CLICKED ON ITEM_VIEW
-    public void getAudioFile(String SurahNumber, Context context) {
-        // Getting AudioFile From FireStorage
-        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
-        mStorageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            URL.setURL(uri.toString());
-        }
-        ).addOnFailureListener(Throwable::printStackTrace);
-    }
 
-    public void checkPlayingOrNot(Context context) throws IOException {
-        //Checking if any song playing or not
-        mediaPlayer = new MediaPlayer();
-        //we will start mediaPlayer if currently there is no songs in it
-        mediaPlayer.start();
-        mediaPlayer.release();
+    //Method of PlayAudio
+    private void playAudio(){
+        AudioUri audioUri=new AudioUri();
+        String audiURL=audioUri.getURL();
+        //Initializing mediaPlayer
+        mediaPlayer=new MediaPlayer();
+
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        //Setting audioFile to MediaPlayer
+        try {
+            mediaPlayer.setDataSource(audiURL);
+            mediaPlayer.prepare();
+            mediaPlayer.start();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
     }
 
     //Thread to update the seekBar while playing song
@@ -105,28 +104,6 @@ public class MediaHandler {
             }
         }, delay);
         */
-    }
-
-    //Implementing OnClickListener for Play and Pause Button
-    public void ButtonPlayPause(ImageButton ButtonPlayPause) {
-            //Checking playing any songs or not
-        /*   if (mediaPlayer.isPlaying()) {
-
-                //setting the play icon
-                ButtonPlayPause.setBackgroundResource(R.drawable.play);
-
-                //Pausing the current media
-                mediaPlayer.pause();
-
-            } else {
-
-                //Setting the pause icon
-                ButtonPlayPause.setBackgroundResource(R.drawable.pause);
-
-                //Starting the media player
-                mediaPlayer.start();
-
-            } */
     }
 
     //Performing the Button Click Operation after the completion of song
@@ -208,7 +185,27 @@ public class MediaHandler {
     }
 
 
-    public interface PlayPauseButton{
-        void SendPlayPause(ImageButton button);
+    //Implementing OnClickListener for Play and Pause Button
+    public void ButtonPlayPause(ImageButton ButtonPlayPause){
+        //Checking playing any songs or not
+
+        mediaPlayer=new MediaPlayer();
+
+        if (mediaPlayer.isPlaying()) {
+
+            //setting the play icon
+            ButtonPlayPause.setBackgroundResource(R.drawable.play);
+
+            //Pausing the current media
+            mediaPlayer.pause();
+
+
+        } else {
+            //Setting the pause icon
+            ButtonPlayPause.setBackgroundResource(R.drawable.pause);
+            //Starting the current media
+            playAudio();
+        }
     }
+
 }

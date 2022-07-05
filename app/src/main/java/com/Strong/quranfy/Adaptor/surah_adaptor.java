@@ -12,22 +12,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Strong.quranfy.MediaHandler;
+import com.Strong.quranfy.Models.AudioUri;
 import com.Strong.quranfy.Models.SurahArabicGet;
 import com.Strong.quranfy.Models.surahInform;
 import com.Strong.quranfy.Models.surah_getter;
 import com.Strong.quranfy.R;
 import com.Strong.quranfy.playScreen;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder>{
      ArrayList<surah_getter> surah_getters;
      ArrayList<surahInform> SurahInform;
      ArrayList<SurahArabicGet> SurahArabic;
+    AudioUri audioUri=new AudioUri();
 
     Context context;
 
     private final onClickSendData onClickSendData;
+
     public surah_adaptor(ArrayList<surah_getter> surah_getters, Context context, ArrayList<surahInform> surahInform, ArrayList<SurahArabicGet> surahArabic) {
         this.context=context;
         this.surah_getters=surah_getters;
@@ -61,8 +67,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         //Clicking The ItemView or Surah List
         holder.itemView.setOnClickListener(view ->{
             //Implementation of song download
-            MediaHandler mediaHandler=new MediaHandler();
-            mediaHandler.getAudioFile(surah_getter.getSurahNumber(), context);
+                getAudioFile(surah_getter.getSurahNumber());
 
             Intent intent=new Intent(context, playScreen.class);
             /*Sending Data From RecyclerView to PlayScreen*/
@@ -111,5 +116,13 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         prefEditor.apply();
     }
 
-
+    //THIS IS USED FOR DOWNLOADING THE FILE WHICH YOU HAVE CLICKED ON ITEM_VIEW
+    public void getAudioFile(String SurahNumber) {
+        // Getting AudioFile From FireStorage
+        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
+        mStorageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            audioUri.setURL(uri.toString());
+                }
+        ).addOnFailureListener(Throwable::printStackTrace);
+    }
 }
