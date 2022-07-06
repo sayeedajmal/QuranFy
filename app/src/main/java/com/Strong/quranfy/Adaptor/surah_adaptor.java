@@ -3,6 +3,7 @@ package com.Strong.quranfy.Adaptor;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Strong.quranfy.MediaHandler;
-import com.Strong.quranfy.Models.AudioUri;
 import com.Strong.quranfy.Models.SurahArabicGet;
 import com.Strong.quranfy.Models.surahInform;
 import com.Strong.quranfy.Models.surah_getter;
@@ -21,14 +21,13 @@ import com.Strong.quranfy.playScreen;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.net.URL;
 import java.util.ArrayList;
 
 public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder>{
      ArrayList<surah_getter> surah_getters;
      ArrayList<surahInform> SurahInform;
      ArrayList<SurahArabicGet> SurahArabic;
-    AudioUri audioUri=new AudioUri();
+     MediaHandler mediaHandler=new MediaHandler();
 
     Context context;
 
@@ -82,6 +81,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             DataPref(surah_getter.getSurahNumber(), surah_getter.getSurahName(),ArabicGet.getSurahArabic(), surahInform.getSurahInformation());
 
             context.startActivity(intent);
+
         });
     }
 
@@ -121,12 +121,10 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
     public void getAudioFile(String SurahNumber) {
         // Getting AudioFile From FireStorage
         StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
-        mStorageRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            audioUri.setURL(uri.toString());
-           // System.out.println("<<<<<<<<<<<<<<<"+uri.toString());
-                MediaHandler mediaHandler=new MediaHandler();
-                mediaHandler.playAudio();
-                }
+        mStorageRef.getDownloadUrl().addOnSuccessListener(this::AudioPlay
         ).addOnFailureListener(Throwable::printStackTrace);
+    }
+    private void AudioPlay(Uri uri) {
+        mediaHandler.MediaPlay(uri.toString());
     }
 }
