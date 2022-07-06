@@ -51,43 +51,7 @@ public class playScreen extends AppCompatActivity {
             }
         });
 
-        //Implementing Play Pause Button
-        //BindPlayScreen.PlayPauseButton.setOnClickListener(view -> mediaHandler.ButtonPlayPause());
-
-        //Implementation of Update seekBar
-        mediaHandler.setUpdateSeekBar(BindPlayScreen.seekBar);
-
-
-        //Performing Button After Song Finish
-        mediaHandler.mediaAfterComplete(BindPlayScreen.NextTrackButton);
-
-        //Implementing NextButton
-        BindPlayScreen.NextTrackButton.setOnClickListener(view -> mediaHandler.ButtonNext(BindPlayScreen.NextTrackButton, getApplicationContext()));
-
-        //Implementing BackButton
-        BindPlayScreen.PreviousTrackButton.setOnClickListener(view -> mediaHandler.ButtonPrevious(BindPlayScreen.PreviousTrackButton, getApplicationContext()));
-
-
         BindPlayScreen.backbutton.setOnClickListener(view -> onBackPressed());
-
-        //Setting the Music player from the position of the seekbar
-        BindPlayScreen.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                //getting the progress of the seek bar and setting it to Media Player
-                mediaHandler.SeekBarUpdate(seekBar, BindPlayScreen.StartTime, BindPlayScreen.StopTime);
-            }
-        });
 
     }
 }
