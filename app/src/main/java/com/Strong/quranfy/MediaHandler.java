@@ -7,7 +7,7 @@ public class MediaHandler {
     //Method of PlayAudio
     public void playAudio() {
         AudioUri audioUri = new AudioUri();
-        String audiURL = audioUri.getAudioURL();
+        String audiURL = audioUri.getURL();
         System.out.println("<<<<<<<<<<" + audiURL);
     }
 }
