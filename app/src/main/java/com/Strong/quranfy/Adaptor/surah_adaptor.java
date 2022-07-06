@@ -66,6 +66,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
 
         //Clicking The ItemView or Surah List
         holder.itemView.setOnClickListener(view ->{
+
             //Implementation of song download
                 getAudioFile(surah_getter.getSurahNumber());
 
@@ -122,6 +123,9 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
         mStorageRef.getDownloadUrl().addOnSuccessListener(uri -> {
             audioUri.setURL(uri.toString());
+           // System.out.println("<<<<<<<<<<<<<<<"+uri.toString());
+                MediaHandler mediaHandler=new MediaHandler();
+                mediaHandler.playAudio();
                 }
         ).addOnFailureListener(Throwable::printStackTrace);
     }
