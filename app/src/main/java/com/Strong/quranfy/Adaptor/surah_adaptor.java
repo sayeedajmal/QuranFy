@@ -67,7 +67,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         holder.itemView.setOnClickListener(view ->{
 
             //Implementation of song download
-                getAudioFile(surah_getter.getSurahNumber());
+            getAudioFile(surah_getter.getSurahNumber());
 
             Intent intent=new Intent(context, playScreen.class);
             /*Sending Data From RecyclerView to PlayScreen*/
@@ -81,7 +81,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             DataPref(surah_getter.getSurahNumber(), surah_getter.getSurahName(),ArabicGet.getSurahArabic(), surahInform.getSurahInformation());
 
             context.startActivity(intent);
-
+            mediaHandler.CheckMediaPlaying();
         });
     }
 
@@ -124,6 +124,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         mStorageRef.getDownloadUrl().addOnSuccessListener(this::AudioPlay
         ).addOnFailureListener(Throwable::printStackTrace);
     }
+
     private void AudioPlay(Uri uri) {
         mediaHandler.MediaPlay(uri.toString());
     }

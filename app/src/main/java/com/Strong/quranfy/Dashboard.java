@@ -10,14 +10,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import com.Strong.quranfy.Adaptor.surah_adaptor;
 import com.Strong.quranfy.Fragment.juz;
 import com.Strong.quranfy.Fragment.surah;
 import com.Strong.quranfy.databinding.ActivityDashboardBinding;
-public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData{
+public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData, MediaHandler.SendData{
     ActivityDashboardBinding BindDash;
     viewPagerSelection viewPagerAdaptor;
+    MediaHandler mediaHandler=new MediaHandler();
     String SurahNumber, SurahName,SurahInform,SurahNameArabic;
 
     @Override
@@ -30,7 +30,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         viewPagerAdaptor=new viewPagerSelection(getSupportFragmentManager(), 0);
         viewPagerAdaptor.addFragment(surah, "surah");
         viewPagerAdaptor.addFragment(juz, "Juz");
-
+        
         SetData();
 
         BindDash.dashboardPager.setAdapter(viewPagerAdaptor);
@@ -38,14 +38,10 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
 
         //Search Button
-        BindDash.Search.setOnClickListener(view ->{
-            BindDash.SearchText.setVisibility(View.VISIBLE);
-        });
+        BindDash.Search.setOnClickListener(view -> BindDash.SearchText.setVisibility(View.VISIBLE));
 
         //PlayButton
-        BindDash.PlayPauseButton.setOnClickListener(view ->{
-
-        });
+        BindDash.PlayPauseButton.setOnClickListener(view -> mediaHandler.PlayPause(BindDash.PlayPauseButton, getApplicationContext()));
 
         //Next Track
         BindDash.NextTrackButton.setOnClickListener(view ->{
@@ -94,5 +90,16 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.PlaySurahName.setText(intent.getStringExtra("SurahName"));
         BindDash.PlaySurahLocation.setText(intent.getStringExtra("SurahInformation"));
         BindDash.PlayPauseButton.setImageResource(pause);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mediaHandler.Destroy();
+    }
+
+    @Override
+    public void onPlayPauseImage(int number) {
+        System.out.println("MEDIA PLAYER: "+number);
     }
 }
