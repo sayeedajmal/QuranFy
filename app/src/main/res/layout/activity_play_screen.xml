@@ -54,16 +54,14 @@
         android:id="@+id/constraintLayout"
         android:layout_width="308dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="160dp"
+        android:layout_marginTop="108dp"
         android:background="@drawable/cardview"
         android:backgroundTint="#6223B1"
         app:cardCornerRadius="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/surahName"
-        app:layout_constraintVertical_bias="0.642"
         tools:ignore="MissingConstraints">
 
         <TextView
@@ -144,7 +142,7 @@
         app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toEndOf="@+id/StartTime"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.527" />
+        app:layout_constraintVertical_bias="0.396" />
 
     <TextView
         android:id="@+id/StopTime"
@@ -161,7 +159,7 @@
         android:layout_height="45dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="24dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="88dp"
         android:background="@drawable/button_round"
         android:contentDescription="Next Track"
         android:foreground="?android:selectableItemBackgroundBorderless"
@@ -178,13 +176,13 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="84dp"
         android:background="@drawable/button_round"
         android:contentDescription="Play/Pause"
         android:foreground="?android:selectableItemBackgroundBorderless"
         android:padding="5dp"
         android:scaleType="centerInside"
-        android:src="@drawable/play"
+        android:src="@drawable/pause"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/NextTrackButton"
         app:layout_constraintStart_toEndOf="@+id/PreviousTrackButton"
@@ -196,7 +194,7 @@
         android:layout_height="45dp"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="88dp"
         android:background="@drawable/button_round"
         android:contentDescription="Next Track"
         android:foreground="?android:selectableItemBackgroundBorderless"

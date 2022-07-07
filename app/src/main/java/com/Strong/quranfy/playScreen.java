@@ -1,15 +1,18 @@
 package com.Strong.quranfy;
 
+import static com.Strong.quranfy.R.drawable.pause;
+import static com.Strong.quranfy.R.drawable.play;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.SeekBar;
+
 import com.Strong.quranfy.databinding.ActivityPlayScreenBinding;
 
 
-public class playScreen extends AppCompatActivity {
+public class playScreen extends AppCompatActivity{
     ActivityPlayScreenBinding BindPlayScreen;
     int favouriteFlag=0;
     MediaHandler mediaHandler=new MediaHandler();
@@ -53,5 +56,8 @@ public class playScreen extends AppCompatActivity {
 
         BindPlayScreen.backbutton.setOnClickListener(view -> onBackPressed());
 
+        BindPlayScreen.PlayPauseButton.setOnClickListener(view ->{
+            mediaHandler.PlayPause(BindPlayScreen.PlayPauseButton, getApplicationContext());
+        });
     }
 }
