@@ -1,7 +1,7 @@
 package com.Strong.quranfy.Models;
 
 public class surahInform {
-    public surahInform(){
+    public surahInform() {
 
     }
 

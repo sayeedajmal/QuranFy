@@ -10,11 +10,12 @@ import com.Strong.quranfy.databinding.ActivitySplashBinding;
 
 
 public class Splash extends AppCompatActivity {
-        ActivitySplashBinding BindSplash;
+    ActivitySplashBinding BindSplash;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BindSplash=ActivitySplashBinding.inflate(getLayoutInflater());
+        BindSplash = ActivitySplashBinding.inflate(getLayoutInflater());
 
         new Handler().postDelayed(() -> {
             startActivity(new Intent(this, Dashboard.class));

@@ -4,6 +4,7 @@ public class SurahArabicGet {
     public SurahArabicGet() {
 
     }
+
     public SurahArabicGet(String surahArabic) {
         SurahArabic = surahArabic;
     }

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class juz extends Fragment {
     FragmentMainBinding BindMainFrag;
-    ArrayList<surah_getter> surah_getters=new ArrayList<>();
+    ArrayList<surah_getter> surah_getters = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,11 +34,11 @@ public class juz extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        BindMainFrag=FragmentMainBinding.inflate(inflater, container, false);
+        BindMainFrag = FragmentMainBinding.inflate(inflater, container, false);
 
-        juz_adaptor surah_adaptor=new juz_adaptor(surah_getters, getContext());
+        juz_adaptor surah_adaptor = new juz_adaptor(surah_getters, getContext());
         BindMainFrag.RecyclerView.setAdapter(surah_adaptor);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         BindMainFrag.RecyclerView.setLayoutManager(layoutManager);
         return BindMainFrag.getRoot();
     }

@@ -10,27 +10,29 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+
 import com.Strong.quranfy.Adaptor.surah_adaptor;
 import com.Strong.quranfy.Fragment.juz;
 import com.Strong.quranfy.Fragment.surah;
 import com.Strong.quranfy.databinding.ActivityDashboardBinding;
-public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData, MediaHandler.SendData{
+
+public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData, MediaHandler.SendData {
     ActivityDashboardBinding BindDash;
     viewPagerSelection viewPagerAdaptor;
-    MediaHandler mediaHandler=new MediaHandler();
-    String SurahNumber, SurahName,SurahInform,SurahNameArabic;
+    MediaHandler mediaHandler = new MediaHandler();
+    String SurahNumber, SurahName, SurahInform, SurahNameArabic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BindDash=ActivityDashboardBinding.inflate(getLayoutInflater());
+        BindDash = ActivityDashboardBinding.inflate(getLayoutInflater());
 
-        surah surah=new surah();
-        juz juz=new juz();
-        viewPagerAdaptor=new viewPagerSelection(getSupportFragmentManager(), 0);
+        surah surah = new surah();
+        juz juz = new juz();
+        viewPagerAdaptor = new viewPagerSelection(getSupportFragmentManager(), 0);
         viewPagerAdaptor.addFragment(surah, "surah");
         viewPagerAdaptor.addFragment(juz, "Juz");
-        
+
         SetData();
 
         BindDash.dashboardPager.setAdapter(viewPagerAdaptor);
@@ -44,15 +46,15 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.PlayPauseButton.setOnClickListener(view -> mediaHandler.PlayPause(BindDash.PlayPauseButton, getApplicationContext()));
 
         //Next Track
-        BindDash.NextTrackButton.setOnClickListener(view ->{
+        BindDash.NextTrackButton.setOnClickListener(view -> {
         });
 
         //PlayStrip At bottom
-        BindDash.playStrip.setOnClickListener(view ->{
-            Intent intent=new Intent(this, playScreen.class);
-            intent.putExtra("SurahNumber",SurahNumber);
-            intent.putExtra("SurahName",SurahName);
-            intent.putExtra("SurahInformation",SurahInform);
+        BindDash.playStrip.setOnClickListener(view -> {
+            Intent intent = new Intent(this, playScreen.class);
+            intent.putExtra("SurahNumber", SurahNumber);
+            intent.putExtra("SurahName", SurahName);
+            intent.putExtra("SurahInformation", SurahInform);
             startActivity(intent);
         });
 
@@ -66,13 +68,13 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
     }
 
     // SETTING DATA FROM SHARED PREFERENCES TO ITEM_VIEW
-    public void SetData(){
+    public void SetData() {
         //Adding Data of SharedPreferences
-        @SuppressLint("WrongConstant") SharedPreferences preferences=getSharedPreferences("RecentPlay",MODE_APPEND);
-        this.SurahNumber=preferences.getString("SurahNumber","");
-        this.SurahName=preferences.getString("SurahName","");
-        this.SurahInform=preferences.getString("SurahInform","");
-        this.SurahNameArabic=preferences.getString("SurahNameArabic","");
+        @SuppressLint("WrongConstant") SharedPreferences preferences = getSharedPreferences("RecentPlay", MODE_APPEND);
+        this.SurahNumber = preferences.getString("SurahNumber", "");
+        this.SurahName = preferences.getString("SurahName", "");
+        this.SurahInform = preferences.getString("SurahInform", "");
+        this.SurahNameArabic = preferences.getString("SurahNameArabic", "");
         //LAST READ
         BindDash.LastReadSurahNum.setText(SurahNumber);
         BindDash.LastReadSurah.setText(SurahName);
@@ -100,6 +102,6 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
     @Override
     public void onPlayPauseImage(int number) {
-        System.out.println("MEDIA PLAYER: "+number);
+        System.out.println("MEDIA PLAYER: " + number);
     }
 }
