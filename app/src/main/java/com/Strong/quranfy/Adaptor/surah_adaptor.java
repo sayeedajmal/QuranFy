@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Strong.quranfy.MediaHandler;
 import com.Strong.quranfy.Models.SurahArabicGet;
+import com.Strong.quranfy.Models.surahData;
 import com.Strong.quranfy.Models.surahInform;
 import com.Strong.quranfy.Models.surah_getter;
 import com.Strong.quranfy.R;
@@ -75,10 +76,10 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             intent.putExtra("SurahName", surah_getter.getSurahName());
             intent.putExtra("SurahInformation", surahInform.getSurahInformation());
 
-            onClickSendData.onReceiveData(intent);
-
             //Sending the Data to SharedPreference
             DataPref(surah_getter.getSurahNumber(), surah_getter.getSurahName(), ArabicGet.getSurahArabic(), surahInform.getSurahInformation());
+
+            onClickSendData.onReceiveData(intent);
 
             context.startActivity(intent);
             mediaHandler.CheckMediaPlaying();
@@ -113,8 +114,11 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         prefEditor.putString("SurahNumber", SurahNumber);
         prefEditor.putString("SurahName", SurahName);
         prefEditor.putString("SurahNameArabic", SurahNameArabic);
-        prefEditor.putString("SurahInform", SurahInform);
         prefEditor.apply();
+
+        surahData.setSurahNumber(SurahNumber);
+        surahData.setSurahName(SurahName);
+        surahData.setSurahInform(SurahInform);
     }
 
     //THIS IS USED FOR DOWNLOADING THE FILE WHICH YOU HAVE CLICKED ON ITEM_VIEW

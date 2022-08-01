@@ -20,7 +20,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
     ActivityDashboardBinding BindDash;
     viewPagerSelection viewPagerAdaptor;
     MediaHandler mediaHandler = new MediaHandler();
-    String SurahNumber, SurahName, SurahInform, SurahNameArabic;
+    String SurahNumber, SurahName, SurahInform;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +52,9 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         //PlayStrip At bottom
         BindDash.playStrip.setOnClickListener(view -> {
             Intent intent = new Intent(this, playScreen.class);
-            intent.putExtra("SurahNumber", SurahNumber);
+         /*   intent.putExtra("SurahNumber", SurahNumber);
             intent.putExtra("SurahName", SurahName);
-            intent.putExtra("SurahInformation", SurahInform);
+            intent.putExtra("SurahInformation", SurahInform);*/
             startActivity(intent);
         });
 
@@ -67,22 +67,17 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         finishAffinity();
     }
 
-    // SETTING DATA FROM SHARED PREFERENCES TO ITEM_VIEW
+    // SETTING DATA FROM SHARED PREFERENCES TO LAST READ
     public void SetData() {
         //Adding Data of SharedPreferences
         @SuppressLint("WrongConstant") SharedPreferences preferences = getSharedPreferences("RecentPlay", MODE_APPEND);
-        this.SurahNumber = preferences.getString("SurahNumber", "");
-        this.SurahName = preferences.getString("SurahName", "");
-        this.SurahInform = preferences.getString("SurahInform", "");
-        this.SurahNameArabic = preferences.getString("SurahNameArabic", "");
+        String SurahNumber = preferences.getString("SurahNumber", "");
+        String SurahName = preferences.getString("SurahName", "");
+        String SurahNameArabic = preferences.getString("SurahNameArabic", "");
         //LAST READ
         BindDash.LastReadSurahNum.setText(SurahNumber);
         BindDash.LastReadSurah.setText(SurahName);
         BindDash.LastReadSurahArabic.setText(SurahNameArabic);
-        //PLAY STRIP
-        BindDash.PlaySurahNumber.setText(SurahNumber);
-        BindDash.PlaySurahName.setText(SurahName);
-        BindDash.PlaySurahLocation.setText(SurahInform);
     }
 
     @Override
