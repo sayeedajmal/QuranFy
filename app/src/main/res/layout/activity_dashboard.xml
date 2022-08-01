@@ -274,7 +274,6 @@
                 android:layout_width="32dp"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:text="01"
                 android:textAlignment="center"
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="@+id/surahIcon"
@@ -293,7 +292,6 @@
                 android:layout_marginTop="12dp"
                 android:background="@color/transparent"
                 android:maxWidth="200dp"
-                android:text="surah_Fateha"
                 android:textSize="18dp"
                 app:layout_constraintStart_toEndOf="@+id/Play_surah_Number"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -305,7 +303,6 @@
                 android:layout_marginStart="16dp"
                 android:background="@color/transparent"
                 android:fontFamily="@font/allah_01"
-                android:text="MECCAN - 7 VERSES"
                 android:textSize="13dp"
                 app:layout_constraintStart_toEndOf="@+id/Play_surah_Number"
                 app:layout_constraintTop_toBottomOf="@+id/Play_surah_name" />
