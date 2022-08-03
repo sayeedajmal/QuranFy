@@ -16,11 +16,9 @@ import com.Strong.quranfy.Fragment.juz;
 import com.Strong.quranfy.Fragment.surah;
 import com.Strong.quranfy.databinding.ActivityDashboardBinding;
 
-public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData, MediaHandler.SendData {
+public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData {
     ActivityDashboardBinding BindDash;
     viewPagerSelection viewPagerAdaptor;
-    MediaHandler mediaHandler = new MediaHandler();
-    String SurahNumber, SurahName, SurahInform;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +41,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.Search.setOnClickListener(view -> BindDash.SearchText.setVisibility(View.VISIBLE));
 
         //PlayButton
-        BindDash.PlayPauseButton.setOnClickListener(view -> mediaHandler.PlayPause(BindDash.PlayPauseButton, getApplicationContext()));
+        BindDash.PlayPauseButton.setOnClickListener(view -> playScreen.PlayPause(getApplicationContext(), BindDash.PlayPauseButton));
 
         //Next Track
         BindDash.NextTrackButton.setOnClickListener(view -> {
@@ -52,9 +50,6 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         //PlayStrip At bottom
         BindDash.playStrip.setOnClickListener(view -> {
             Intent intent = new Intent(this, playScreen.class);
-         /*   intent.putExtra("SurahNumber", SurahNumber);
-            intent.putExtra("SurahName", SurahName);
-            intent.putExtra("SurahInformation", SurahInform);*/
             startActivity(intent);
         });
 
@@ -92,11 +87,5 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mediaHandler.Destroy();
-    }
-
-    @Override
-    public void onPlayPauseImage(int number) {
-        System.out.println("MEDIA PLAYER: " + number);
     }
 }

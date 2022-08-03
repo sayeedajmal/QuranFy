@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Strong.quranfy.MediaHandler;
 import com.Strong.quranfy.Models.SurahArabicGet;
 import com.Strong.quranfy.Models.surahData;
 import com.Strong.quranfy.Models.surahInform;
@@ -28,7 +27,6 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
     ArrayList<surah_getter> surah_getters;
     ArrayList<surahInform> SurahInform;
     ArrayList<SurahArabicGet> SurahArabic;
-    MediaHandler mediaHandler = new MediaHandler();
 
     Context context;
 
@@ -76,13 +74,14 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             intent.putExtra("SurahName", surah_getter.getSurahName());
             intent.putExtra("SurahInformation", surahInform.getSurahInformation());
 
+            playScreen.CheckMediaPlaying();
+
             //Sending the Data to SharedPreference
             DataPref(surah_getter.getSurahNumber(), surah_getter.getSurahName(), ArabicGet.getSurahArabic(), surahInform.getSurahInformation());
 
             onClickSendData.onReceiveData(intent);
 
             context.startActivity(intent);
-            mediaHandler.CheckMediaPlaying();
         });
     }
 
@@ -130,6 +129,6 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
     }
 
     private void AudioPlay(Uri uri) {
-        mediaHandler.MediaPlay(uri.toString());
+        playScreen.MediaPlay(uri.toString());
     }
 }
