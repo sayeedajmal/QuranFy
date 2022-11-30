@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import com.Strong.quranfy.Models.surahData;
 import com.Strong.quranfy.Models.surahInform;
 import com.Strong.quranfy.Models.surah_getter;
 import com.Strong.quranfy.R;
+import com.Strong.quranfy.mediaService;
 import com.Strong.quranfy.playScreen;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -74,13 +76,13 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             intent.putExtra("SurahName", surah_getter.getSurahName());
             intent.putExtra("SurahInformation", surahInform.getSurahInformation());
 
-            playScreen.CheckMediaPlaying();
+            mediaService.CheckMediaPlaying();
 
             //Sending the Data to SharedPreference
             DataPref(surah_getter.getSurahNumber(), surah_getter.getSurahName(), ArabicGet.getSurahArabic(), surahInform.getSurahInformation());
 
             onClickSendData.onReceiveData(intent);
-
+            mediaService.setFlag(1);
             context.startActivity(intent);
         });
     }
@@ -125,10 +127,10 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         // Getting AudioFile From FireStorage
         StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
         mStorageRef.getDownloadUrl().addOnSuccessListener(this::AudioPlay
-        ).addOnFailureListener(Throwable::printStackTrace);
+        ).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void AudioPlay(Uri uri) {
-        playScreen.MediaPlay(uri.toString());
+        mediaService.MediaPlay(uri.toString());
     }
 }

@@ -23,6 +23,7 @@
         android:id="@+id/surahNumber"
         android:layout_width="32dp"
         android:layout_height="wrap_content"
+        android:background="@color/transparent"
         android:text="01"
         android:textAlignment="center"
         android:textSize="17sp"

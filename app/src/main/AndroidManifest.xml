@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuranFy">
         <activity
-            android:name=".Splash"
+            android:name=".splashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
