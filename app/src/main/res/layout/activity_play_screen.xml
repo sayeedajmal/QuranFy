@@ -9,13 +9,12 @@
 
     <ImageButton
         android:id="@+id/backbutton"
-        android:layout_width="40dp"
+        android:layout_width="35dp"
         android:layout_height="30dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:background="#00FFFFFF"
         android:contentDescription="Back"
-        android:foreground="?android:selectableItemBackground"
         android:scaleType="centerCrop"
         android:src="@drawable/backbutton"
         android:theme="@style/Theme.QuranFy.icons"
@@ -41,7 +40,6 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:background="#00FFFFFF"
-        android:foreground="?android:selectableItemBackground"
         android:scaleType="centerCrop"
         android:src="@drawable/favouriteunfilled"
         android:theme="@style/Theme.QuranFy.icons"
@@ -53,12 +51,11 @@
         android:id="@+id/constraintLayout"
         android:layout_width="308dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
         android:background="@drawable/cardview"
         android:backgroundTint="#6223B1"
         app:cardCornerRadius="15dp"
+        app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.466"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/surahName"
         tools:ignore="MissingConstraints">
@@ -119,37 +116,24 @@
         android:id="@+id/StartTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="32dp"
         android:background="@color/transparent"
         android:text="00:00"
-        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/seekBar" />
-
-    <SeekBar
-        android:id="@+id/seekBar"
-        style="@android:style/Widget.Material.SeekBar.Discrete"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:scrollbarStyle="insideInset"
-        android:thumbTint="#6223B1"
         app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
-        app:layout_constraintEnd_toStartOf="@+id/StopTime"
-        app:layout_constraintHorizontal_bias="0.473"
-        app:layout_constraintStart_toEndOf="@+id/StartTime"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintVertical_bias="0.396" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
 
     <TextView
         android:id="@+id/StopTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="32dp"
         android:background="@color/transparent"
         android:text="00:00"
-        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
+        app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/seekBar" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     <ImageButton
         android:id="@+id/PreviousTrackButton"
@@ -157,33 +141,33 @@
         android:layout_height="45dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="24dp"
-        android:layout_marginBottom="88dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/button_round"
         android:contentDescription="Next Track"
-        android:foreground="?android:selectableItemBackgroundBorderless"
         android:padding="8dp"
         android:rotationY="180"
         android:scaleType="centerInside"
         android:src="@drawable/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/PlayPauseButton"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
     <ImageButton
         android:id="@+id/PlayPauseButton"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginBottom="84dp"
+        android:layout_marginTop="32dp"
         android:background="@drawable/button_round"
         android:contentDescription="Play/Pause"
-        android:foreground="?android:selectableItemBackgroundBorderless"
         android:padding="5dp"
         android:scaleType="centerInside"
-        android:src="@drawable/pause"
+        android:src="@drawable/play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/NextTrackButton"
         app:layout_constraintStart_toEndOf="@+id/PreviousTrackButton"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         tools:ignore="MissingConstraints" />
 
     <ImageButton
@@ -191,16 +175,16 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="88dp"
         android:background="@drawable/button_round"
         android:contentDescription="Next Track"
-        android:foreground="?android:selectableItemBackgroundBorderless"
         android:padding="8dp"
         android:scaleType="centerInside"
         android:src="@drawable/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/PlayPauseButton" />
-
+        app:layout_constraintStart_toEndOf="@+id/PlayPauseButton"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+    -->
 </androidx.constraintlayout.widget.ConstraintLayout>

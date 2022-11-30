@@ -2,14 +2,17 @@ package com.Strong.quranfy;
 
 import static com.Strong.quranfy.R.drawable.pause;
 import static com.Strong.quranfy.R.drawable.play;
-
-import androidx.appcompat.app.AppCompatActivity;
+import static com.Strong.quranfy.mediaService.PlayPause;
+import static com.Strong.quranfy.mediaService.flag;
+import static com.Strong.quranfy.mediaService.setFlag;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.Strong.quranfy.Adaptor.surah_adaptor;
 import com.Strong.quranfy.Fragment.juz;
@@ -29,7 +32,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         juz juz = new juz();
         viewPagerAdaptor = new viewPagerSelection(getSupportFragmentManager(), 0);
         viewPagerAdaptor.addFragment(surah, "surah");
-        viewPagerAdaptor.addFragment(juz, "Juz");
+        viewPagerAdaptor.addFragment(juz, "Favourite");
 
         SetData();
 
@@ -37,11 +40,19 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
 
 
+        //PlayButton
+        BindDash.PlayPauseButton.setOnClickListener(view -> {
+            setFlag(PlayPause());
+            if (flag == 0 | flag == 2) {
+                BindDash.PlayPauseButton.setImageResource(play);
+            } else {
+                BindDash.PlayPauseButton.setImageResource(pause);
+            }
+        });
+
         //Search Button
         BindDash.Search.setOnClickListener(view -> BindDash.SearchText.setVisibility(View.VISIBLE));
 
-        //PlayButton
-        BindDash.PlayPauseButton.setOnClickListener(view -> playScreen.PlayPause(getApplicationContext(), BindDash.PlayPauseButton));
 
         //Next Track
         BindDash.NextTrackButton.setOnClickListener(view -> {
@@ -54,6 +65,16 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         });
 
         setContentView(BindDash.getRoot());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (flag == 0 | flag == 2) {
+            BindDash.PlayPauseButton.setImageResource(play);
+        } else {
+            BindDash.PlayPauseButton.setImageResource(pause);
+        }
     }
 
     @Override

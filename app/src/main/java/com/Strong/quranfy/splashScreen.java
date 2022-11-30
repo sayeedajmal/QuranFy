@@ -2,6 +2,7 @@ package com.Strong.quranfy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,7 +10,8 @@ import android.os.Handler;
 import com.Strong.quranfy.databinding.ActivitySplashBinding;
 
 
-public class Splash extends AppCompatActivity {
+@SuppressLint("CustomSplashScreen")
+public class splashScreen extends AppCompatActivity {
     ActivitySplashBinding BindSplash;
 
     @Override

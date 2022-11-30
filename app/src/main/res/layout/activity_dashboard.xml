@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:theme="@style/Theme.QuranFy"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:theme="@style/Theme.QuranFy"
     tools:context=".Dashboard">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -68,17 +68,18 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="50dp"
             android:background="#00FFFFFF"
+            android:backgroundTint="@color/transparent"
             android:contentDescription="Search"
             android:foreground="?android:selectableItemBackgroundBorderless"
+            android:hint="Search Surah or Juzz"
+            android:lines="1"
             android:paddingStart="3dp"
             android:scaleType="centerCrop"
             android:src="@drawable/search"
-            android:hint="Search Surah or Juzz"
             android:textAlignment="textStart"
-            android:backgroundTint="@color/transparent"
             android:textSize="15sp"
-            android:visibility="gone"
             android:theme="@style/Theme.QuranFy.icons"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/textView2"
@@ -107,8 +108,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
         android:background="@drawable/cardview"
         android:backgroundTint="#8239dc"
         app:cardCornerRadius="10dp">
@@ -199,9 +198,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"/>
+        android:layout_height="40dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -221,8 +218,9 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/playStrip"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_height="60dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/curve_strip"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
@@ -234,7 +232,6 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/button_round"
-                android:foreground="?android:selectableItemBackgroundBorderless"
                 android:padding="5dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/play"
@@ -249,7 +246,6 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/button_round"
-                android:foreground="?android:selectableItemBackgroundBorderless"
                 android:padding="8dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/next"
@@ -262,7 +258,6 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="10dp"
                 android:text="۝"
                 android:textSize="35sp"
                 app:layout_constraintBottom_toBottomOf="parent"
