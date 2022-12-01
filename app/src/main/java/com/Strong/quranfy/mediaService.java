@@ -1,6 +1,8 @@
 package com.Strong.quranfy;
 
+import android.content.Context;
 import android.media.MediaPlayer;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -24,6 +26,7 @@ public class mediaService {
         }
     }
 
+
     public static int PlayPause() {
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) {
@@ -36,6 +39,10 @@ public class mediaService {
         } else {
             return 0;
         }
+    }
+
+    public static void NextPlay(Context context) {
+        Toast.makeText(context, "Next", Toast.LENGTH_SHORT).show();
     }
 
     public static void CheckMediaPlaying() {
@@ -60,7 +67,6 @@ public class mediaService {
         }
         time += sec;
         return time;
-
     }
 
     public static int getDuration() {

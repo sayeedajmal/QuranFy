@@ -1,5 +1,7 @@
 package com.Strong.quranfy;
 
+import static com.Strong.quranfy.NotificationService.CHANNEL_ID;
+import static com.Strong.quranfy.R.drawable.next;
 import static com.Strong.quranfy.R.drawable.pause;
 import static com.Strong.quranfy.R.drawable.play;
 import static com.Strong.quranfy.mediaService.PlayPause;
@@ -7,12 +9,19 @@ import static com.Strong.quranfy.mediaService.flag;
 import static com.Strong.quranfy.mediaService.setFlag;
 
 import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.Strong.quranfy.Adaptor.surah_adaptor;
 import com.Strong.quranfy.Fragment.juz;
@@ -22,11 +31,26 @@ import com.Strong.quranfy.databinding.ActivityDashboardBinding;
 public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData {
     ActivityDashboardBinding BindDash;
     viewPagerSelection viewPagerAdaptor;
+    NotificationManagerCompat NotifiComp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BindDash = ActivityDashboardBinding.inflate(getLayoutInflater());
+        NotifiComp = NotificationManagerCompat.from(getApplicationContext());
+
+        Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.quran);
+        Notification channel = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                .setSmallIcon(R.drawable.quran_icon)
+                .setColor(Color.rgb(255, 255, 255))
+                .setContentTitle("AL_AHAD").setContentText("MADANI")
+                .setLargeIcon(image)
+                .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
+                .addAction(play, "Previous", null)
+                .addAction(play, "Play", null)
+                .addAction(next, "Pause", null)
+                .build();
+        NotifiComp.notify(1, channel);
 
         surah surah = new surah();
         juz juz = new juz();
@@ -38,7 +62,6 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         BindDash.dashboardPager.setAdapter(viewPagerAdaptor);
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
-
 
         //PlayButton
         BindDash.PlayPauseButton.setOnClickListener(view -> {
@@ -56,6 +79,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         //Next Track
         BindDash.NextTrackButton.setOnClickListener(view -> {
+            mediaService.NextPlay(Dashboard.this);
         });
 
         //PlayStrip At bottom
@@ -64,17 +88,23 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
             startActivity(intent);
         });
 
+        SharedPreferences preferences = getSharedPreferences("RecentPlay", Context.MODE_PRIVATE);
+        BindDash.PlaySurahNumber.setText(preferences.getString("SurahNumber", ""));
+        BindDash.PlaySurahName.setText(preferences.getString("SurahName", ""));
+        BindDash.PlaySurahInform.setText(preferences.getString("SurahInform", ""));
         setContentView(BindDash.getRoot());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
         if (flag == 0 | flag == 2) {
             BindDash.PlayPauseButton.setImageResource(play);
         } else {
             BindDash.PlayPauseButton.setImageResource(pause);
         }
+
     }
 
     @Override
@@ -83,26 +113,22 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         finishAffinity();
     }
 
-    // SETTING DATA FROM SHARED PREFERENCES TO LAST READ
+    // SETTING DATA FROM SHARED PREFERENCES TO ...LAST READ...
     public void SetData() {
         //Adding Data of SharedPreferences
         @SuppressLint("WrongConstant") SharedPreferences preferences = getSharedPreferences("RecentPlay", MODE_APPEND);
-        String SurahNumber = preferences.getString("SurahNumber", "");
-        String SurahName = preferences.getString("SurahName", "");
-        String SurahNameArabic = preferences.getString("SurahNameArabic", "");
-        //LAST READ
-        BindDash.LastReadSurahNum.setText(SurahNumber);
-        BindDash.LastReadSurah.setText(SurahName);
-        BindDash.LastReadSurahArabic.setText(SurahNameArabic);
+        BindDash.LastReadSurahNum.setText(preferences.getString("SurahNumber", ""));
+        BindDash.LastReadSurah.setText(preferences.getString("SurahName", ""));
+        BindDash.LastReadSurahArabic.setText(preferences.getString("SurahNameArabic", ""));
     }
 
+    //PLAY STRIP DATA SET WHILE CLICK ON SURAH NAME
     @Override
     public void onReceiveData(Intent intent) {
         BindDash.PlayPauseButton.setImageResource(play);
         BindDash.PlaySurahNumber.setText(intent.getStringExtra("SurahNumber"));
         BindDash.PlaySurahName.setText(intent.getStringExtra("SurahName"));
-        BindDash.PlaySurahLocation.setText(intent.getStringExtra("SurahInformation"));
-        BindDash.PlayPauseButton.setImageResource(pause);
+        BindDash.PlaySurahInform.setText(intent.getStringExtra("SurahInformation"));
     }
 
     @Override

@@ -52,7 +52,6 @@
         android:layout_width="308dp"
         android:layout_height="wrap_content"
         android:background="@drawable/cardview"
-        android:backgroundTint="#6223B1"
         app:cardCornerRadius="15dp"
         app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
         app:layout_constraintEnd_toEndOf="parent"
@@ -116,19 +115,32 @@
         android:id="@+id/StartTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="16dp"
         android:background="@color/transparent"
         android:text="00:00"
         app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
+    <SeekBar
+        android:id="@+id/progressBar"
+        style="@style/Seekbar"
+        android:layout_width="0dp"
+        android:layout_height="12dp"
+        android:progressBackgroundTint="@color/White"
+        android:progressTint="#437685"
+        android:thumb="@color/transparent"
+        android:thumbTint="#2F6677"
+        app:layout_constraintBottom_toBottomOf="@+id/StartTime"
+        app:layout_constraintEnd_toStartOf="@+id/StopTime"
+        app:layout_constraintStart_toEndOf="@+id/StartTime"
+        app:layout_constraintTop_toTopOf="@+id/StartTime" />
 
     <TextView
         android:id="@+id/StopTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="16dp"
         android:background="@color/transparent"
         android:text="00:00"
         app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
@@ -186,5 +198,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/PlayPauseButton"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
-    -->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

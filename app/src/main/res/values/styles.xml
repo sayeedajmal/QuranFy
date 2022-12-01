@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Seekbar" parent="@android:style/Widget.SeekBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="background">@drawable/curve_strip</item>
+        <item name="backgroundTint">#437685</item>
+    </style>
+</resources>

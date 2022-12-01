@@ -22,7 +22,7 @@ public class splashScreen extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             startActivity(new Intent(this, Dashboard.class));
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        }, 200);
+        }, 100);
         setContentView(BindSplash.getRoot());
     }
 }
