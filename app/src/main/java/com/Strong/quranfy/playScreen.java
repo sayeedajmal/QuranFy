@@ -4,12 +4,14 @@ import static com.Strong.quranfy.R.drawable.pause;
 import static com.Strong.quranfy.R.drawable.play;
 import static com.Strong.quranfy.mediaService.createDuration;
 import static com.Strong.quranfy.mediaService.flag;
-import static com.Strong.quranfy.mediaService.getCurrentDuration;
 import static com.Strong.quranfy.mediaService.getDuration;
+import static com.Strong.quranfy.mediaService.mediaPlayer;
 import static com.Strong.quranfy.mediaService.setFlag;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.SeekBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -63,16 +65,39 @@ public class playScreen extends AppCompatActivity {
         current.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //Setting the current duration from the media player
-                currentTime = createDuration(getCurrentDuration());
-                BindPlayScreen.StartTime.setText(currentTime);
-
                 //Setting TotalTime of Surah
                 TotalTime = createDuration(getDuration());
                 BindPlayScreen.StopTime.setText(TotalTime);
+
+                //Setting the current duration from the media player
+                assert mediaPlayer != null;
+                mediaPlayer.isPlaying();
+                currentTime = createDuration(mediaPlayer.getCurrentPosition());
+                BindPlayScreen.StartTime.setText(currentTime);
+
+                //Setting progressBar of Slider
+                BindPlayScreen.progressBar.setProgress(mediaPlayer.getCurrentPosition(), true);
+                BindPlayScreen.progressBar.setMax(mediaPlayer.getDuration());
                 current.postDelayed(this, delay);
             }
         }, delay);
+
+        BindPlayScreen.progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mediaPlayer.seekTo(seekBar.getProgress());
+            }
+        });
     }
 
     @Override

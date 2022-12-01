@@ -115,6 +115,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         prefEditor.putString("SurahNumber", SurahNumber);
         prefEditor.putString("SurahName", SurahName);
         prefEditor.putString("SurahNameArabic", SurahNameArabic);
+        prefEditor.putString("SurahInform", SurahInform);
         prefEditor.apply();
 
         surahData.setSurahNumber(SurahNumber);

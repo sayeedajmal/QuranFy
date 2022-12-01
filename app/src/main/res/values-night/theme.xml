@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style parent="Theme.MaterialComponents.DayNight.NoActionBar" name="Theme.QuranFy">
-        <item name="android:background">#EB8239DC</item>
+        <item name="android:background">#4b8494</item>
         <item name="android:textColor">@color/White</item>
         <item name="fontFamily">@font/senbold</item>
         <item name="tabIndicatorColor">@color/White</item>
