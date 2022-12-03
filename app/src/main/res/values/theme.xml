@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style parent="Theme.MaterialComponents.DayNight.NoActionBar" name="Theme.QuranFy">
+
+    <style name="Theme.QuranFy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:background">@color/White</item>
-        <item name="android:textColor">#8239DC</item>
+        <item name="android:textColor">#488395</item>
         <item name="fontFamily">@font/senbold</item>
-        <item name="tabIndicator">@color/BlueViolet</item>
-        <item name="tabIndicatorColor">#8239DC</item>
+        <item name="tabIndicatorColor">#488395</item>
         <item name="tabIndicatorHeight">2dp</item>
-        <item name="tabSelectedTextColor">#8239DC</item>
+        <item name="tabSelectedTextColor">#488395</item>
         <item name="tabTextColor">#545252</item>
         <item name="android:screenOrientation">portrait</item>
         <item name="cardBackgroundColor">@color/White</item>
-        <item name="android:statusBarColor">#494848</item>
+        <item name="android:statusBarColor">#488395</item>
 
     </style>
 
     <!-- This is for icons !-->
     <style name="Theme.QuranFy.icons">
-        <item name="android:tint">#8239DC</item>
+        <item name="android:tint">#488395</item>
     </style>
 </resources>

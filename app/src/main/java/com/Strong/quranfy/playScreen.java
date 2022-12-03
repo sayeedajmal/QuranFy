@@ -8,7 +8,6 @@ import static com.Strong.quranfy.mediaService.getDuration;
 import static com.Strong.quranfy.mediaService.mediaPlayer;
 import static com.Strong.quranfy.mediaService.setFlag;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.SeekBar;
@@ -20,10 +19,9 @@ import com.Strong.quranfy.databinding.ActivityPlayScreenBinding;
 
 
 public class playScreen extends AppCompatActivity {
-    ActivityPlayScreenBinding BindPlayScreen;
+    static ActivityPlayScreenBinding BindPlayScreen;
     int favouriteFlag = 0;
-    String currentTime;
-    String TotalTime;
+    static String currentTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +46,7 @@ public class playScreen extends AppCompatActivity {
             }
         });
 
-        BindPlayScreen.backbutton.setOnClickListener(view -> onBackPressed());
+        BindPlayScreen.backPlayScreen.setOnClickListener(view -> onBackPressed());
 
         BindPlayScreen.PlayPauseButton.setOnClickListener(view -> {
             setFlag(mediaService.PlayPause());
@@ -58,29 +56,6 @@ public class playScreen extends AppCompatActivity {
                 BindPlayScreen.PlayPauseButton.setImageResource(pause);
             }
         });
-
-        //Setting Current Duration
-        Handler current = new Handler();
-        final int delay = 1000;
-        current.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                //Setting TotalTime of Surah
-                TotalTime = createDuration(getDuration());
-                BindPlayScreen.StopTime.setText(TotalTime);
-
-                //Setting the current duration from the media player
-                assert mediaPlayer != null;
-                mediaPlayer.isPlaying();
-                currentTime = createDuration(mediaPlayer.getCurrentPosition());
-                BindPlayScreen.StartTime.setText(currentTime);
-
-                //Setting progressBar of Slider
-                BindPlayScreen.progressBar.setProgress(mediaPlayer.getCurrentPosition(), true);
-                BindPlayScreen.progressBar.setMax(mediaPlayer.getDuration());
-                current.postDelayed(this, delay);
-            }
-        }, delay);
 
         BindPlayScreen.progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -98,6 +73,31 @@ public class playScreen extends AppCompatActivity {
                 mediaPlayer.seekTo(seekBar.getProgress());
             }
         });
+    }
+
+    public static void currentDuration() {
+        Handler current = new Handler();
+        final int delay = 1000;
+        current.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Setting TotalTime of Surah
+                BindPlayScreen.TotalTime.setText(createDuration(getDuration()));
+
+                try {
+                    //Setting the current duration from the media player
+                    BindPlayScreen.progressBar.setMax(mediaPlayer.getDuration());
+                    currentTime = createDuration(mediaPlayer.getCurrentPosition());
+                    BindPlayScreen.currentTime.setText(currentTime);
+
+                    //Setting progressBar of Slider
+                    BindPlayScreen.progressBar.setProgress(mediaPlayer.getCurrentPosition(), true);
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                }
+                current.postDelayed(this, delay);
+            }
+        }, delay);
     }
 
     @Override
