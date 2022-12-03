@@ -6,7 +6,9 @@ import static com.Strong.quranfy.R.drawable.pause;
 import static com.Strong.quranfy.R.drawable.play;
 import static com.Strong.quranfy.mediaService.PlayPause;
 import static com.Strong.quranfy.mediaService.flag;
+import static com.Strong.quranfy.mediaService.mediaPlayer;
 import static com.Strong.quranfy.mediaService.setFlag;
+import static com.Strong.quranfy.playScreen.currentTime;
 
 import android.annotation.SuppressLint;
 import android.app.Notification;
@@ -17,6 +19,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,15 +44,15 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.quran);
         Notification channel = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
-                .setSmallIcon(R.drawable.quran_icon)
+                .setSmallIcon(R.drawable.quran)
                 .setColor(Color.rgb(255, 255, 255))
-                .setContentTitle("AL_AHAD").setContentText("MADANI")
-                .setLargeIcon(image)
-                .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
+                .setContentTitle("18").setContentTitle("Al-Kahf")
+                .setContentText("MECCAN - 110 VERSES")
+                .setLargeIcon(image).setPriority(NotificationCompat.PRIORITY_LOW)
                 .addAction(play, "Previous", null)
                 .addAction(play, "Play", null)
                 .addAction(next, "Pause", null)
-                .build();
+                .setOnlyAlertOnce(true).setShowWhen(false).build();
         NotifiComp.notify(1, channel);
 
         surah surah = new surah();
@@ -62,6 +65,21 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         BindDash.dashboardPager.setAdapter(viewPagerAdaptor);
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
+
+
+        Handler current = new Handler();
+        final int delay = 500;
+        current.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    BindDash.surahCurrentTime.setText(currentTime);
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                }
+                current.postDelayed(this, delay);
+            }
+        }, delay);
 
         //PlayButton
         BindDash.PlayPauseButton.setOnClickListener(view -> {
@@ -78,14 +96,11 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
 
         //Next Track
-        BindDash.NextTrackButton.setOnClickListener(view -> {
-            mediaService.NextPlay(Dashboard.this);
-        });
+        BindDash.NextTrackButton.setOnClickListener(view -> mediaService.NextPlay(Dashboard.this));
 
         //PlayStrip At bottom
         BindDash.playStrip.setOnClickListener(view -> {
-            Intent intent = new Intent(this, playScreen.class);
-            startActivity(intent);
+            if (mediaPlayer != null) startActivity(new Intent(this, playScreen.class));
         });
 
         SharedPreferences preferences = getSharedPreferences("RecentPlay", Context.MODE_PRIVATE);
@@ -104,7 +119,6 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         } else {
             BindDash.PlayPauseButton.setImageResource(pause);
         }
-
     }
 
     @Override

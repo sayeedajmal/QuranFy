@@ -1,5 +1,6 @@
 package com.Strong.quranfy.Adaptor;
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +24,7 @@ import com.Strong.quranfy.playScreen;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder> {
@@ -127,8 +129,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
     public void getAudioFile(String SurahNumber) {
         // Getting AudioFile From FireStorage
         StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
-        mStorageRef.getDownloadUrl().addOnSuccessListener(this::AudioPlay
-        ).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
+        mStorageRef.getDownloadUrl().addOnSuccessListener(this::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
     private void AudioPlay(Uri uri) {

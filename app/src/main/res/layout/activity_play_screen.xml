@@ -8,7 +8,7 @@
     tools:context=".playScreen">
 
     <ImageButton
-        android:id="@+id/backbutton"
+        android:id="@+id/backPlayScreen"
         android:layout_width="35dp"
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
@@ -30,7 +30,7 @@
         android:layout_marginTop="24dp"
         android:background="@color/transparent"
         android:textSize="25sp"
-        app:layout_constraintStart_toEndOf="@+id/backbutton"
+        app:layout_constraintStart_toEndOf="@+id/backPlayScreen"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
@@ -112,7 +112,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/StartTime"
+        android:id="@+id/currentTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -131,13 +131,13 @@
         android:progressTint="#437685"
         android:thumb="@color/transparent"
         android:thumbTint="#2F6677"
-        app:layout_constraintBottom_toBottomOf="@+id/StartTime"
-        app:layout_constraintEnd_toStartOf="@+id/StopTime"
-        app:layout_constraintStart_toEndOf="@+id/StartTime"
-        app:layout_constraintTop_toTopOf="@+id/StartTime" />
+        app:layout_constraintBottom_toBottomOf="@+id/currentTime"
+        app:layout_constraintEnd_toStartOf="@+id/TotalTime"
+        app:layout_constraintStart_toEndOf="@+id/currentTime"
+        app:layout_constraintTop_toTopOf="@+id/currentTime" />
 
     <TextView
-        android:id="@+id/StopTime"
+        android:id="@+id/TotalTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
@@ -158,7 +158,7 @@
         android:contentDescription="Next Track"
         android:padding="8dp"
         android:rotationY="180"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         android:src="@drawable/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/PlayPauseButton"
@@ -174,8 +174,8 @@
         android:background="@drawable/button_round"
         android:contentDescription="Play/Pause"
         android:padding="5dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/play"
+        android:scaleType="centerCrop"
+        android:src="@drawable/pause"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/NextTrackButton"
         app:layout_constraintStart_toEndOf="@+id/PreviousTrackButton"
@@ -192,7 +192,7 @@
         android:background="@drawable/button_round"
         android:contentDescription="Next Track"
         android:padding="8dp"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         android:src="@drawable/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

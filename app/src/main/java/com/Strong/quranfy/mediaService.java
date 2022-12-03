@@ -1,5 +1,7 @@
 package com.Strong.quranfy;
 
+import static com.Strong.quranfy.playScreen.currentDuration;
+
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.widget.Toast;
@@ -8,7 +10,7 @@ import java.io.IOException;
 
 public class mediaService {
     static int flag;
-    static int duration, currentDuration;
+    static int duration;
     static MediaPlayer mediaPlayer;
 
     public static void MediaPlay(String uri) {
@@ -19,13 +21,13 @@ public class mediaService {
         } else try {
             mediaPlayer.setDataSource(uri);
             mediaPlayer.prepare();
+            mediaPlayer.setOnPreparedListener(mediaPlayer -> currentDuration());
             mediaPlayer.start();
             setDuration(mediaPlayer.getDuration());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     public static int PlayPause() {
         if (mediaPlayer != null) {
@@ -47,7 +49,8 @@ public class mediaService {
 
     public static void CheckMediaPlaying() {
         if (mediaPlayer != null) {
-            mediaPlayer.start();
+            mediaPlayer.stop();
+            mediaPlayer.reset();
             mediaPlayer.release();
         }
     }
@@ -77,13 +80,6 @@ public class mediaService {
         mediaService.duration = duration;
     }
 
-    public static int getCurrentDuration() {
-        return currentDuration;
-    }
-
-    public static void setCurrentDuration(int currentDuration) {
-        mediaService.currentDuration = currentDuration;
-    }
 
     public static void setFlag(int flag) {
         mediaService.flag = flag;
