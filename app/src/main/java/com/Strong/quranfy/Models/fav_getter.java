@@ -1,4 +1,4 @@
 package com.Strong.quranfy.Models;
 
-public class juz_getter {
+public class fav_getter {
 }
