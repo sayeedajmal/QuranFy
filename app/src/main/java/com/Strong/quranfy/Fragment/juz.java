@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.Strong.quranfy.Adaptor.juz_adaptor;
+import com.Strong.quranfy.Adaptor.favourite_adaptor;
 import com.Strong.quranfy.Models.surah_getter;
 import com.Strong.quranfy.databinding.FragmentMainBinding;
 
@@ -36,7 +36,7 @@ public class juz extends Fragment {
                              Bundle savedInstanceState) {
         BindMainFrag = FragmentMainBinding.inflate(inflater, container, false);
 
-        juz_adaptor surah_adaptor = new juz_adaptor(surah_getters, getContext());
+        favourite_adaptor surah_adaptor = new favourite_adaptor(surah_getters, getContext());
         BindMainFrag.RecyclerView.setAdapter(surah_adaptor);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         BindMainFrag.RecyclerView.setLayoutManager(layoutManager);

@@ -14,24 +14,24 @@ import com.Strong.quranfy.R;
 
 import java.util.ArrayList;
 
-public class juz_adaptor extends RecyclerView.Adapter<juz_adaptor.ViewHolder> {
+public class favourite_adaptor extends RecyclerView.Adapter<favourite_adaptor.ViewHolder> {
     ArrayList<surah_getter> surah_list;
     Context context;
 
-    public juz_adaptor(ArrayList<surah_getter> surah_getters, Context context) {
+    public favourite_adaptor(ArrayList<surah_getter> surah_getters, Context context) {
         this.surah_list = surah_getters;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public juz_adaptor.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public favourite_adaptor.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.fragment_main, parent, false);
-        return new juz_adaptor.ViewHolder(view);
+        return new favourite_adaptor.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull juz_adaptor.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull favourite_adaptor.ViewHolder holder, int position) {
         surah_getter getter = surah_list.get(position);
 
     }

@@ -1,9 +1,21 @@
 package com.Strong.quranfy.Adaptor;
 
+import static com.Strong.quranfy.Models.surahData.setSurahInform;
+import static com.Strong.quranfy.Models.surahData.setSurahName;
+import static com.Strong.quranfy.Models.surahData.setSurahNumber;
+import static com.Strong.quranfy.NotificationService.CHANNEL_ID;
+import static com.Strong.quranfy.R.drawable.next;
+import static com.Strong.quranfy.R.drawable.play;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +24,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.Strong.quranfy.Dashboard;
 import com.Strong.quranfy.Models.SurahArabicGet;
-import com.Strong.quranfy.Models.surahData;
 import com.Strong.quranfy.Models.surahInform;
 import com.Strong.quranfy.Models.surah_getter;
 import com.Strong.quranfy.R;
@@ -24,14 +38,14 @@ import com.Strong.quranfy.playScreen;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder> {
     ArrayList<surah_getter> surah_getters;
     ArrayList<surahInform> SurahInform;
     ArrayList<SurahArabicGet> SurahArabic;
-
+    public static final int REQ_CODE = 100;
+    NotificationManagerCompat NotifiComp;
     Context context;
 
     private final onClickSendData onClickSendData;
@@ -78,6 +92,8 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             intent.putExtra("SurahName", surah_getter.getSurahName());
             intent.putExtra("SurahInformation", surahInform.getSurahInformation());
 
+            PushNotification(surah_getter.getSurahNumber(), surah_getter.getSurahName(), surahInform.getSurahInformation());
+
             mediaService.CheckMediaPlaying();
 
             //Sending the Data to SharedPreference
@@ -87,6 +103,34 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             mediaService.setFlag(1);
             context.startActivity(intent);
         });
+    }
+
+    private void PushNotification(String SurahNumber, String SurahName, String SurahInform) {
+        setSurahNumber(SurahNumber);
+        setSurahName(SurahName);
+        setSurahInform(SurahInform);
+
+        Intent intent = new Intent(context, Dashboard.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, REQ_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        NotifiComp = NotificationManagerCompat.from(context);
+        Bitmap image = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.quran);
+        Notification channel = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setLargeIcon(image).
+                setSmallIcon(R.drawable.quran)
+                .setColor(Color.rgb(255, 255, 255))
+                .setContentTitle(SurahNumber + " - " + SurahName)
+                .setContentIntent(pendingIntent)
+                .setContentText(SurahInform)
+                .setSilent(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .addAction(play, "Previous", null)
+                .addAction(play, "Play", null)
+                .addAction(next, "Pause", null)
+                .setOnlyAlertOnce(true).setShowWhen(false).build();
+        NotifiComp.notify(1, channel);
+
     }
 
     @Override
@@ -120,9 +164,9 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         prefEditor.putString("SurahInform", SurahInform);
         prefEditor.apply();
 
-        surahData.setSurahNumber(SurahNumber);
-        surahData.setSurahName(SurahName);
-        surahData.setSurahInform(SurahInform);
+        setSurahNumber(SurahNumber);
+        setSurahName(SurahName);
+        setSurahInform(SurahInform);
     }
 
     //THIS IS USED FOR DOWNLOADING THE FILE WHICH YOU HAVE CLICKED ON ITEM_VIEW
