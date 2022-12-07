@@ -80,7 +80,6 @@ public class mediaService {
         mediaService.duration = duration;
     }
 
-
     public static void setFlag(int flag) {
         mediaService.flag = flag;
     }

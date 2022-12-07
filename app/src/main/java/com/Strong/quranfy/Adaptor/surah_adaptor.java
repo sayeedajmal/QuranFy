@@ -46,7 +46,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
     ArrayList<SurahArabicGet> SurahArabic;
     public static final int REQ_CODE = 100;
     NotificationManagerCompat NotifiComp;
-    Context context;
+    static Context context;
 
     private final onClickSendData onClickSendData;
 
@@ -85,6 +85,9 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
 
             //Implementation of song download
             getAudioFile(surah_getter.getSurahNumber());
+
+            //Setting CurrentSurahNumber
+            playScreen.currentSurahNumber = surah_getter.getSurahNumber();
 
             Intent intent = new Intent(context, playScreen.class);
             /*Sending Data From RecyclerView to PlayScreen*/
@@ -170,13 +173,13 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
     }
 
     //THIS IS USED FOR DOWNLOADING THE FILE WHICH YOU HAVE CLICKED ON ITEM_VIEW
-    public void getAudioFile(String SurahNumber) {
+    public static void getAudioFile(String SurahNumber) {
         // Getting AudioFile From FireStorage
         StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
-        mStorageRef.getDownloadUrl().addOnSuccessListener(this::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
+        mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 
-    private void AudioPlay(Uri uri) {
+    private static void AudioPlay(Uri uri) {
         mediaService.MediaPlay(uri.toString());
     }
 }

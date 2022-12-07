@@ -15,6 +15,7 @@ public class NotificationService extends Application {
     public static final String ACT_PLAY = "ACTIONPLAY";
     public static final String ACT_NEXT = "ACTIONNEXT";
 
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -32,6 +33,4 @@ public class NotificationService extends Application {
         NotificationManager notificationManager = getSystemService(NotificationManager.class);
         notificationManager.createNotificationChannel(NotifiChannel);
     }
-
-
 }
