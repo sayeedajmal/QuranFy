@@ -19,7 +19,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.Strong.quranfy.Adaptor.surah_adaptor;
-import com.Strong.quranfy.Fragment.juz;
+import com.Strong.quranfy.Fragment.favourite;
 import com.Strong.quranfy.Fragment.surah;
 import com.Strong.quranfy.databinding.ActivityDashboardBinding;
 
@@ -33,10 +33,10 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash = ActivityDashboardBinding.inflate(getLayoutInflater());
 
         surah surah = new surah();
-        juz juz = new juz();
+        favourite favourite = new favourite();
         viewPagerAdaptor = new viewPagerSelection(getSupportFragmentManager(), 0);
         viewPagerAdaptor.addFragment(surah, "surah");
-        viewPagerAdaptor.addFragment(juz, "Favourite");
+        viewPagerAdaptor.addFragment(favourite, "Favourite");
 
         SetData();
 
