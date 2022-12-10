@@ -51,7 +51,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
     private final onClickSendData onClickSendData;
 
     public surah_adaptor(ArrayList<surah_getter> surah_getters, Context context, ArrayList<surahInform> surahInform, ArrayList<SurahArabicGet> surahArabic) {
-        this.context = context;
+        surah_adaptor.context = context;
         this.surah_getters = surah_getters;
         this.SurahInform = surahInform;
         this.SurahArabic = surahArabic;
@@ -120,8 +120,8 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         NotifiComp = NotificationManagerCompat.from(context);
         Bitmap image = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.quran);
         Notification channel = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setLargeIcon(image).
-                setSmallIcon(R.drawable.quran)
+                .setLargeIcon(image)
+                .setSmallIcon(R.drawable.quran)
                 .setColor(Color.rgb(255, 255, 255))
                 .setContentTitle(SurahNumber + " - " + SurahName)
                 .setContentIntent(pendingIntent)

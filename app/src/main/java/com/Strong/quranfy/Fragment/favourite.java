@@ -17,7 +17,7 @@ import com.Strong.quranfy.databinding.FragmentMainBinding;
 
 import java.util.ArrayList;
 
-public class juz extends Fragment {
+public class favourite extends Fragment {
     FragmentMainBinding BindMainFrag;
     ArrayList<surah_getter> surah_getters = new ArrayList<>();
 

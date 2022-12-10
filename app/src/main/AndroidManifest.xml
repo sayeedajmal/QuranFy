@@ -25,6 +25,14 @@
         </activity>
         <activity android:name=".Dashboard" />
         <activity android:name=".playScreen" />
+
+        <service android:name=".notificationFirebase"
+            android:exported="true"
+            android:permission="Message">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
