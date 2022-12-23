@@ -1,4 +1,4 @@
-package com.Strong.quranfy;
+package com.Strong.quranfy.Activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

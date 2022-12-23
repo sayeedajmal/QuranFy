@@ -1,25 +1,24 @@
 package com.Strong.quranfy.Fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.Strong.quranfy.Adaptor.favourite_adaptor;
-import com.Strong.quranfy.Models.surah_getter;
-import com.Strong.quranfy.databinding.FragmentMainBinding;
+import com.Strong.quranfy.Models.fav_getter;
+import com.Strong.quranfy.databinding.FragmentFavBinding;
 
 import java.util.ArrayList;
 
 public class favourite extends Fragment {
-    FragmentMainBinding BindMainFrag;
-    ArrayList<surah_getter> surah_getters = new ArrayList<>();
+    FragmentFavBinding BindFav;
+    ArrayList<fav_getter> fav_getters = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,14 +31,20 @@ public class favourite extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        BindMainFrag = FragmentMainBinding.inflate(inflater, container, false);
+        BindFav = FragmentFavBinding.inflate(inflater, container, false);
 
-        favourite_adaptor surah_adaptor = new favourite_adaptor(surah_getters, getContext());
-        BindMainFrag.RecyclerView.setAdapter(surah_adaptor);
+       /* fav_getters.add(new fav_getter("01", "Al-Fateha"));
+        fav_getters.add(new fav_getter("01", "Al-Fateha"));
+        fav_getters.add(new fav_getter("01", "Al-Fateha"));
+        fav_getters.add(new fav_getter("01", "Al-Fateha"));
+        fav_getters.add(new fav_getter("01", "Al-Fateha"));
+        fav_getters.add(new fav_getter("01", "Al-Fateha"));*/
+        favourite_adaptor favourite_adaptor = new favourite_adaptor(fav_getters, getContext());
+        BindFav.RecyclerView.setAdapter(favourite_adaptor);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        BindMainFrag.RecyclerView.setLayoutManager(layoutManager);
-        return BindMainFrag.getRoot();
+        BindFav.RecyclerView.setLayoutManager(layoutManager);
+        return BindFav.getRoot();
     }
 }

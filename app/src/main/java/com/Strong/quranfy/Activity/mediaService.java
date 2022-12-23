@@ -1,6 +1,7 @@
-package com.Strong.quranfy;
+package com.Strong.quranfy.Activity;
 
-import static com.Strong.quranfy.playScreen.currentDuration;
+import static com.Strong.quranfy.Adaptor.surah_adaptor.getAudioFile;
+import static com.Strong.quranfy.Activity.playScreen.currentDuration;
 
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -43,8 +44,16 @@ public class mediaService {
         }
     }
 
-    public static void NextPlay(Context context) {
-        Toast.makeText(context, "Next", Toast.LENGTH_SHORT).show();
+    public static void NextPlay(String SurahNo, Context context) {
+        int nextSurah = Integer.parseInt(SurahNo) + 1;
+        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            mediaPlayer.release();
+            getAudioFile(String.valueOf(nextSurah));
+        } else
+            Toast.makeText(context, "Select A Surah For Listening", Toast.LENGTH_SHORT).show();
+
     }
 
     public static void CheckMediaPlaying() {

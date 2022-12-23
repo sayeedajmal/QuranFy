@@ -1,4 +1,4 @@
-package com.Strong.quranfy;
+package com.Strong.quranfy.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

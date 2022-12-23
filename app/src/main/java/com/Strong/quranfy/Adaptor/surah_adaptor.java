@@ -3,10 +3,11 @@ package com.Strong.quranfy.Adaptor;
 import static com.Strong.quranfy.Models.surahData.setSurahInform;
 import static com.Strong.quranfy.Models.surahData.setSurahName;
 import static com.Strong.quranfy.Models.surahData.setSurahNumber;
-import static com.Strong.quranfy.NotificationService.CHANNEL_ID;
+import static com.Strong.quranfy.Activity.NotificationService.CHANNEL_ID;
 import static com.Strong.quranfy.R.drawable.next;
 import static com.Strong.quranfy.R.drawable.play;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -28,13 +29,13 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Strong.quranfy.Dashboard;
+import com.Strong.quranfy.Activity.Dashboard;
 import com.Strong.quranfy.Models.SurahArabicGet;
 import com.Strong.quranfy.Models.surahInform;
 import com.Strong.quranfy.Models.surah_getter;
 import com.Strong.quranfy.R;
-import com.Strong.quranfy.mediaService;
-import com.Strong.quranfy.playScreen;
+import com.Strong.quranfy.Activity.mediaService;
+import com.Strong.quranfy.Activity.playScreen;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -45,7 +46,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
     ArrayList<surahInform> SurahInform;
     ArrayList<SurahArabicGet> SurahArabic;
     public static final int REQ_CODE = 100;
-    NotificationManagerCompat NotifiComp;
+    NotificationManagerCompat NotifyComp;
     static Context context;
 
     private final onClickSendData onClickSendData;
@@ -82,7 +83,6 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
 
         //Clicking The ItemView or Surah List
         holder.itemView.setOnClickListener(view -> {
-
             //Implementation of song download
             getAudioFile(surah_getter.getSurahNumber());
 
@@ -95,12 +95,15 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             intent.putExtra("SurahName", surah_getter.getSurahName());
             intent.putExtra("SurahInformation", surahInform.getSurahInformation());
 
-            PushNotification(surah_getter.getSurahNumber(), surah_getter.getSurahName(), surahInform.getSurahInformation());
-
             mediaService.CheckMediaPlaying();
 
             //Sending the Data to SharedPreference
             DataPref(surah_getter.getSurahNumber(), surah_getter.getSurahName(), ArabicGet.getSurahArabic(), surahInform.getSurahInformation());
+            setSurahNumber(surah_getter.getSurahNumber());
+            setSurahName(surah_getter.getSurahName());
+            setSurahInform(surahInform.getSurahInformation());
+
+            PushNotification(surah_getter.getSurahNumber(), surah_getter.getSurahName(), surahInform.getSurahInformation());
 
             onClickSendData.onReceiveData(intent);
             mediaService.setFlag(1);
@@ -109,30 +112,14 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
     }
 
     private void PushNotification(String SurahNumber, String SurahName, String SurahInform) {
-        setSurahNumber(SurahNumber);
-        setSurahName(SurahName);
-        setSurahInform(SurahInform);
-
         Intent intent = new Intent(context, Dashboard.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, REQ_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
 
-        NotifiComp = NotificationManagerCompat.from(context);
+        NotifyComp = NotificationManagerCompat.from(context);
         Bitmap image = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.quran);
-        Notification channel = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setLargeIcon(image)
-                .setSmallIcon(R.drawable.quran)
-                .setColor(Color.rgb(255, 255, 255))
-                .setContentTitle(SurahNumber + " - " + SurahName)
-                .setContentIntent(pendingIntent)
-                .setContentText(SurahInform)
-                .setSilent(true)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .addAction(play, "Previous", null)
-                .addAction(play, "Play", null)
-                .addAction(next, "Pause", null)
-                .setOnlyAlertOnce(true).setShowWhen(false).build();
-        NotifiComp.notify(1, channel);
+        Notification channel = new NotificationCompat.Builder(context, CHANNEL_ID).setLargeIcon(image).setSmallIcon(R.drawable.quran).setColor(Color.rgb(255, 255, 255)).setContentTitle(SurahNumber + " - " + SurahName).setContentIntent(pendingIntent).setContentText(SurahInform).setSilent(true).setPriority(NotificationCompat.PRIORITY_HIGH).addAction(play, "Previous", null).addAction(play, "Play", null).addAction(next, "Pause", null).setOnlyAlertOnce(true).setShowWhen(false).build();
+        NotifyComp.notify(1, channel);
 
     }
 
@@ -166,17 +153,20 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         prefEditor.putString("SurahNameArabic", SurahNameArabic);
         prefEditor.putString("SurahInform", SurahInform);
         prefEditor.apply();
-
-        setSurahNumber(SurahNumber);
-        setSurahName(SurahName);
-        setSurahInform(SurahInform);
     }
 
     //THIS IS USED FOR DOWNLOADING THE FILE WHICH YOU HAVE CLICKED ON ITEM_VIEW
+    @SuppressLint("DefaultLocale")
     public static void getAudioFile(String SurahNumber) {
-        // Getting AudioFile From FireStorage
-        StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
-        mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
+        if (Integer.parseInt(SurahNumber) < 10) {
+            int surah = Integer.parseInt(SurahNumber);
+            String number = String.format("%02d", surah);
+            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(number + ".mp3");
+            mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
+        } else {
+            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
+            mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
+        }
     }
 
     private static void AudioPlay(Uri uri) {

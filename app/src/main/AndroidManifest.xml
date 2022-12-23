@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".NotificationService"
+        android:name=".Activity.NotificationService"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,17 +16,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QuranFy">
         <activity
-            android:name=".splashScreen"
+            android:name=".Activity.splashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Dashboard" />
-        <activity android:name=".playScreen" />
+        <activity android:name=".Activity.Dashboard" />
+        <activity android:name=".Activity.playScreen" />
 
-        <service android:name=".notificationFirebase"
+        <service
+            android:name=".Activity.notificationFirebase"
             android:exported="true"
             android:permission="Message">
             <intent-filter>
