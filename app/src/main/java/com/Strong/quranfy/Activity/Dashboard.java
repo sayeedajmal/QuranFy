@@ -1,12 +1,12 @@
-package com.Strong.quranfy;
+package com.Strong.quranfy.Activity;
 
 import static com.Strong.quranfy.R.drawable.pause;
 import static com.Strong.quranfy.R.drawable.play;
-import static com.Strong.quranfy.mediaService.PlayPause;
-import static com.Strong.quranfy.mediaService.flag;
-import static com.Strong.quranfy.mediaService.mediaPlayer;
-import static com.Strong.quranfy.mediaService.setFlag;
-import static com.Strong.quranfy.playScreen.currentTime;
+import static com.Strong.quranfy.Activity.mediaService.PlayPause;
+import static com.Strong.quranfy.Activity.mediaService.flag;
+import static com.Strong.quranfy.Activity.mediaService.mediaPlayer;
+import static com.Strong.quranfy.Activity.mediaService.setFlag;
+import static com.Strong.quranfy.Activity.playScreen.currentTime;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -22,6 +22,7 @@ import com.Strong.quranfy.Adaptor.surah_adaptor;
 import com.Strong.quranfy.Fragment.favourite;
 import com.Strong.quranfy.Fragment.surah;
 import com.Strong.quranfy.databinding.ActivityDashboardBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData {
     ActivityDashboardBinding BindDash;
@@ -39,6 +40,13 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         viewPagerAdaptor.addFragment(favourite, "Favourite");
 
         SetData();
+
+       /* FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String s) {
+                System.out.println("<<<<<<<<<<" + s);
+            }
+        });*/
 
         BindDash.dashboardPager.setAdapter(viewPagerAdaptor);
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
@@ -73,24 +81,30 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
 
         //Next Track
-        BindDash.NextTrackButton.setOnClickListener(view -> mediaService.NextPlay(Dashboard.this));
+        BindDash.NextTrackButton.setOnClickListener(view -> {
+            // NextPlay(BindDash.PlaySurahNumber.getText().toString(), this);
+            Snackbar.make(BindDash.NextTrackButton, "Feature are on way..", Snackbar.LENGTH_SHORT).show();
+        });
 
         //PlayStrip At bottom
         BindDash.playStrip.setOnClickListener(view -> {
             if (mediaPlayer != null) startActivity(new Intent(this, playScreen.class));
         });
 
+        //SharedPreferences setting Data
         SharedPreferences preferences = getSharedPreferences("RecentPlay", Context.MODE_PRIVATE);
         BindDash.PlaySurahNumber.setText(preferences.getString("SurahNumber", ""));
         BindDash.PlaySurahName.setText(preferences.getString("SurahName", ""));
         BindDash.PlaySurahInform.setText(preferences.getString("SurahInform", ""));
+
+        /*GETTING CURRENT DATA OF MEDIA*/
+
         setContentView(BindDash.getRoot());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         if (flag == 0 | flag == 2) {
             BindDash.PlayPauseButton.setImageResource(play);
         } else {

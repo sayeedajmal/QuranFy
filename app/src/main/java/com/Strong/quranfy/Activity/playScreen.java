@@ -1,22 +1,24 @@
-package com.Strong.quranfy;
+package com.Strong.quranfy.Activity;
 
+import static com.Strong.quranfy.Activity.mediaService.createDuration;
+import static com.Strong.quranfy.Activity.mediaService.flag;
+import static com.Strong.quranfy.Activity.mediaService.getDuration;
+import static com.Strong.quranfy.Activity.mediaService.mediaPlayer;
+import static com.Strong.quranfy.Activity.mediaService.setFlag;
 import static com.Strong.quranfy.R.drawable.pause;
 import static com.Strong.quranfy.R.drawable.play;
-import static com.Strong.quranfy.mediaService.createDuration;
-import static com.Strong.quranfy.mediaService.flag;
-import static com.Strong.quranfy.mediaService.getDuration;
-import static com.Strong.quranfy.mediaService.mediaPlayer;
-import static com.Strong.quranfy.mediaService.setFlag;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.SeekBar;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.Strong.quranfy.Models.surahData;
+import com.Strong.quranfy.R;
 import com.Strong.quranfy.databinding.ActivityPlayScreenBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 
 public class playScreen extends AppCompatActivity {
@@ -80,7 +82,7 @@ public class playScreen extends AppCompatActivity {
         BindPlayScreen.NextTrackButton.setOnClickListener(view -> {
            /* int surahNumber = Integer.parseInt(currentSurahNumber) + 1;
             surah_adaptor.getAudioFile(String.valueOf(surahNumber));*/
-            Toast.makeText(this, "Feature is on Way. So go Back and Select Surah", Toast.LENGTH_SHORT).show();
+            Snackbar.make(BindPlayScreen.NextTrackButton, "Feature is on Way. So go Back and Select Surah", Snackbar.LENGTH_SHORT).show();
         });
     }
 
@@ -88,7 +90,7 @@ public class playScreen extends AppCompatActivity {
         BindPlayScreen.NextTrackButton.setOnClickListener(view -> {
            /* int surahNumber = Integer.parseInt(currentSurahNumber) - 1;
             surah_adaptor.getAudioFile(String.valueOf(surahNumber));*/
-            Toast.makeText(this, "Feature is on Way. So go Back and Select Surah", Toast.LENGTH_SHORT).show();
+            Snackbar.make(BindPlayScreen.NextTrackButton, "Feature is on Way. So go Back and Select Surah", Snackbar.LENGTH_SHORT).show();
         });
     }
 

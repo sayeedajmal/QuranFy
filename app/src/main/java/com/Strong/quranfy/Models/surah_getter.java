@@ -23,11 +23,4 @@ public class surah_getter {
         return SurahName;
     }
 
-    public String getURL() {
-        return URL;
-    }
-
-    public void setURL(String URL) {
-        this.URL = URL;
-    }
 }

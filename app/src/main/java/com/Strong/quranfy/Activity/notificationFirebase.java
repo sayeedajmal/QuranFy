@@ -1,4 +1,4 @@
-package com.Strong.quranfy;
+package com.Strong.quranfy.Activity;
 
 
 import android.app.NotificationChannel;
@@ -15,6 +15,7 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.Strong.quranfy.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
