@@ -6,4 +6,8 @@
         <item name="background">@drawable/curve_strip</item>
         <item name="backgroundTint">#437685</item>
     </style>
+
+    <style name="SplashScreen" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
 </resources>

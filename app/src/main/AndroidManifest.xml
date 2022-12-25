@@ -17,6 +17,7 @@
         android:theme="@style/Theme.QuranFy">
         <activity
             android:name=".Activity.splashScreen"
+            android:theme="@style/SplashScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +27,7 @@
         </activity>
         <activity android:name=".Activity.Dashboard" />
         <activity android:name=".Activity.playScreen" />
+        <activity android:name=".Activity.Setting"/>
 
         <service
             android:name=".Activity.notificationFirebase"
