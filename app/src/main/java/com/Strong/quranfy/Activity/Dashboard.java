@@ -1,12 +1,12 @@
 package com.Strong.quranfy.Activity;
 
-import static com.Strong.quranfy.R.drawable.pause;
-import static com.Strong.quranfy.R.drawable.play;
 import static com.Strong.quranfy.Activity.mediaService.PlayPause;
 import static com.Strong.quranfy.Activity.mediaService.flag;
 import static com.Strong.quranfy.Activity.mediaService.mediaPlayer;
 import static com.Strong.quranfy.Activity.mediaService.setFlag;
 import static com.Strong.quranfy.Activity.playScreen.currentTime;
+import static com.Strong.quranfy.R.drawable.pause;
+import static com.Strong.quranfy.R.drawable.play;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,6 +22,10 @@ import com.Strong.quranfy.Fragment.favourite;
 import com.Strong.quranfy.Fragment.surah;
 import com.Strong.quranfy.databinding.ActivityDashboardBinding;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData {
     ActivityDashboardBinding BindDash;
@@ -40,7 +43,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         viewPagerAdaptor.addFragment(favourite, "Favourite");
 
         SetData();
-
+        addDate();
        /* FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
             @Override
             public void onSuccess(String s) {
@@ -77,7 +80,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         });
 
         //Search Button
-        BindDash.Search.setOnClickListener(view -> BindDash.SearchText.setVisibility(View.VISIBLE));
+        // BindDash.Search.setOnClickListener(view -> BindDash.SearchText.setVisibility(View.VISIBLE));
 
 
         //Next Track
@@ -99,7 +102,17 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         /*GETTING CURRENT DATA OF MEDIA*/
 
+        BindDash.Setting.setOnClickListener(v -> startActivity(new Intent(this, Setting.class)));
         setContentView(BindDash.getRoot());
+    }
+
+    private void addDate() {
+        Calendar calendar = new GregorianCalendar();
+        String Day = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.MONTH, Locale.getDefault());
+        String Month = calendar.getDisplayName(Calendar.MONTH, Calendar.MONTH, Locale.getDefault());
+        int Date = calendar.get(Calendar.DATE);
+        BindDash.TodayDate.setText(Date + "-" + Month + " " + Day);
+
     }
 
     @Override

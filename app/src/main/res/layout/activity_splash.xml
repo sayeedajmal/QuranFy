@@ -4,29 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.QuranFy"
-    tools:context=".splashScreen">
+    android:backgroundTint="#292A2C"
+    tools:context=".Activity.splashScreen">
 
+<!--
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#488395"
+        android:background="#2F6F69"
         android:src="@drawable/quran"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="@font/senextrabold"
-        android:text="Developed By Sayeed Ajmal"
-        android:textSize="15sp"
-        android:textColor="@color/White"
+        android:layout_marginBottom="150dp"
         android:background="@color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:fontFamily="@font/allah_01"
+        android:text="وَلَقَدْ يَسَّرْنَا ٱلْقُرْءَانَ لِلذِّكْرِ فَهَلْ مِن مُّدَّكِرٍۢ"
+        android:textColor="@color/White"
+        android:textSize="23sp"
+        android:padding="5dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@color/transparent"
+        android:fontFamily="@font/mova"
+        android:text="Developed By Sayeed Ajmal"
+        android:textColor="@color/White"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

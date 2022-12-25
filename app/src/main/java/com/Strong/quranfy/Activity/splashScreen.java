@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.Strong.quranfy.databinding.ActivitySplashBinding;
 
-
 @SuppressLint("CustomSplashScreen")
 public class splashScreen extends AppCompatActivity {
     ActivitySplashBinding BindSplash;
@@ -18,12 +17,7 @@ public class splashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BindSplash = ActivitySplashBinding.inflate(getLayoutInflater());
-
-        new Handler().postDelayed(() -> {
-            startActivity(new Intent(this, Dashboard.class));
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            finish();
-        }, 80);
-        setContentView(BindSplash.getRoot());
+        startActivity(new Intent(this, Dashboard.class));
+        finish();
     }
 }
