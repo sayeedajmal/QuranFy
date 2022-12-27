@@ -124,11 +124,11 @@
 
     <SeekBar
         android:id="@+id/progressBar"
-        style="@style/Seekbar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="0dp"
         android:layout_height="12dp"
         android:progressBackgroundTint="@color/White"
-        android:progressTint="#437685"
+        android:progressDrawable="@drawable/progress_gredient"
         android:thumb="@color/transparent"
         android:thumbTint="#2F6677"
         app:layout_constraintBottom_toBottomOf="@+id/currentTime"
