@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -106,12 +107,13 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         setContentView(BindDash.getRoot());
     }
 
+    @SuppressLint("SetTextI18n")
     private void addDate() {
         Calendar calendar = new GregorianCalendar();
         String Day = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.MONTH, Locale.getDefault());
         String Month = calendar.getDisplayName(Calendar.MONTH, Calendar.MONTH, Locale.getDefault());
         int Date = calendar.get(Calendar.DATE);
-        BindDash.TodayDate.setText(Date + "-" + Month + " " + Day);
+        BindDash.TodayDate.setText(Date + " " + Month + ", " + Day);
 
     }
 

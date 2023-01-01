@@ -33,11 +33,11 @@ public class playScreen extends AppCompatActivity {
         BindPlayScreen = ActivityPlayScreenBinding.inflate(getLayoutInflater());
         setContentView(BindPlayScreen.getRoot());
 
-        // Setting Data Of List to PlayScreen by ItemViewClick
+      /* Setting Data Of List to PlayScreen by ItemViewClick
         BindPlayScreen.SurahNumber.setText(surahData.getSurahNumber());
         BindPlayScreen.surahName.setText(surahData.getSurahName());
         BindPlayScreen.ParticularSurahName.setText(surahData.getSurahName());
-        BindPlayScreen.SurahInformation.setText(surahData.getSurahInform());
+        BindPlayScreen.SurahInformation.setText(surahData.getSurahInform());*/
 
         //setting Favourite
         BindPlayScreen.backPlayScreen.setOnClickListener(view -> onBackPressed());

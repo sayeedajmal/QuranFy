@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style parent="Theme.MaterialComponents.DayNight.NoActionBar" name="Theme.QuranFy">
+
+    <style name="Theme.QuranFy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:background">#488395</item>
         <item name="android:textColor">@color/White</item>
         <item name="fontFamily">@font/senbold</item>
-        <item name="tabIndicatorColor">@color/White</item>
-        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabIndicatorColor">#8EE0F8</item>
         <item name="tabSelectedTextColor">#FFFFFF</item>
         <item name="tabTextColor">#949494</item>
         <item name="cardBackgroundColor">#011240</item>

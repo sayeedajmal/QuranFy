@@ -47,80 +47,45 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:id="@+id/constraintLayout"
-        android:layout_width="308dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/cardview"
-        app:cardCornerRadius="15dp"
-        app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/curve_strip"
+        android:fadeScrollbars="true"
+        android:padding="10dp"
+        android:scrollbarFadeDuration="@integer/material_motion_duration_short_1"
+        android:scrollbars="vertical"
+        android:verticalScrollbarPosition="left"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/surahName"
         tools:ignore="MissingConstraints">
 
-        <TextView
-            android:id="@+id/ParticularSurahName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:background="@color/transparent"
-            android:textColor="@color/White"
-            android:textSize="28sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/SurahNumber" />
 
         <TextView
-            android:id="@+id/SurahNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:background="@color/transparent"
-            android:textColor="@color/White"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/SurahInformation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@color/transparent"
-            android:textColor="@color/White"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ParticularSurahName" />
-
-        <ImageView
-            android:layout_width="195dp"
-            android:layout_height="179dp"
-            android:background="@color/transparent"
-            android:contentDescription="QuranImage"
-            android:padding="15dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/quran"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/SurahInformation"
-            tools:ignore="HardcodedText" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fontFamily="@font/allah_01"
+            android:text="@string/fatihah"
+            android:textSize="21sp" />
+    </ScrollView>
 
     <TextView
         android:id="@+id/currentTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@color/transparent"
         android:text="00:00"
         app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <SeekBar
         android:id="@+id/progressBar"
@@ -134,43 +99,58 @@
         app:layout_constraintBottom_toBottomOf="@+id/currentTime"
         app:layout_constraintEnd_toStartOf="@+id/TotalTime"
         app:layout_constraintStart_toEndOf="@+id/currentTime"
-        app:layout_constraintTop_toTopOf="@+id/currentTime" />
+        app:layout_constraintTop_toTopOf="@+id/TotalTime" />
 
     <TextView
         android:id="@+id/TotalTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:background="@color/transparent"
         android:text="00:00"
         app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/shuffleButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="24dp"
+        android:background="@drawable/button_round"
+        android:contentDescription="shuffle"
+        android:padding="8dp"
+        android:rotation="90"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_shuffle"
+        app:layout_constraintBottom_toBottomOf="@+id/PreviousTrackButton"
+        app:layout_constraintEnd_toStartOf="@+id/PreviousTrackButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/PreviousTrackButton" />
 
     <ImageButton
         android:id="@+id/PreviousTrackButton"
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
         android:background="@drawable/button_round"
         android:contentDescription="Next Track"
         android:padding="8dp"
         android:rotationY="180"
         android:scaleType="centerCrop"
         android:src="@drawable/next"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/PlayPauseButton"
         app:layout_constraintEnd_toStartOf="@+id/PlayPauseButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintStart_toEndOf="@+id/shuffleButton"
+        app:layout_constraintTop_toTopOf="@+id/PlayPauseButton" />
 
     <ImageButton
         android:id="@+id/PlayPauseButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="32dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/button_round"
         android:contentDescription="Play/Pause"
         android:padding="5dp"
@@ -179,7 +159,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/NextTrackButton"
         app:layout_constraintStart_toEndOf="@+id/PreviousTrackButton"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
         tools:ignore="MissingConstraints" />
 
     <ImageButton
@@ -187,15 +166,30 @@
         android:layout_width="45dp"
         android:layout_height="45dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="24dp"
         android:background="@drawable/button_round"
         android:contentDescription="Next Track"
         android:padding="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/next"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/PlayPauseButton"
+        app:layout_constraintEnd_toStartOf="@+id/repeatButton"
         app:layout_constraintStart_toEndOf="@+id/PlayPauseButton"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toTopOf="@+id/PlayPauseButton" />
+
+    <ImageButton
+        android:id="@+id/repeatButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/button_round"
+        android:contentDescription="repeat"
+        android:padding="8dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_repeat"
+        app:layout_constraintBottom_toBottomOf="@+id/NextTrackButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/NextTrackButton"
+        app:layout_constraintTop_toTopOf="@+id/NextTrackButton" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

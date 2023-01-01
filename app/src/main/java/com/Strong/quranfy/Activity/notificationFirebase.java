@@ -39,7 +39,7 @@ public class notificationFirebase extends FirebaseMessagingService {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         String channel_ID = "UPDATE";
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-        Bitmap bitmap = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.quran);
+        Bitmap bitmap = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.quran_img);
 
         //Notification Builder
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channel_ID)
@@ -47,7 +47,7 @@ public class notificationFirebase extends FirebaseMessagingService {
                 .setColor(Color.rgb(255, 255, 255))
                 .setLargeIcon(bitmap)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setSmallIcon(R.drawable.quran)
+                .setSmallIcon(R.drawable.quran_img)
                 .setColor(Color.rgb(255, 255, 255))
                 .setVibrate(new long[]{1000, 1000, 1000, 1000})
                 .setOnlyAlertOnce(false).setSilent(false)

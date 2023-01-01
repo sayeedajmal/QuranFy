@@ -122,7 +122,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="120dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="85dp"
                 android:layout_marginEnd="10dp"
@@ -138,7 +138,7 @@
                     android:background="@color/transparent"
                     android:rotationY="180"
                     android:scaleType="centerInside"
-                    android:src="@drawable/bookmark"
+                    android:src="@drawable/last_read"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -146,6 +146,7 @@
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:background="@color/transparent"
                     android:fontFamily="@font/senbold"
                     android:text="Last Read"
@@ -166,6 +167,7 @@
                     android:text="01"
                     android:textColor="@color/White"
                     android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -180,6 +182,7 @@
                     android:text="Al-Fatiah"
                     android:textColor="@color/White"
                     android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/LastReadSurahNum"
                     app:layout_constraintTop_toBottomOf="@+id/textView"
                     tools:ignore="MissingConstraints" />
@@ -194,22 +197,23 @@
                     android:textColor="@color/White"
                     android:textSize="25dp"
                     app:layout_constraintBottom_toBottomOf="@+id/LastReadSurah"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                    app:layout_constraintEnd_toStartOf="@+id/logo"
+                    app:layout_constraintStart_toEndOf="@+id/LastReadSurah"
                     app:layout_constraintTop_toTopOf="@+id/textView"
                     tools:ignore="MissingConstraints" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="2dp"
-            android:backgroundTint="@color/transparent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/quran"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+                <pl.droidsonroids.gif.GifImageView
+                    android:id="@+id/logo"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:backgroundTint="@color/transparent"
+                    android:padding="2dp"
+                    android:src="@drawable/quran"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -227,9 +231,10 @@
             android:layout_gravity="top|center"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            android:background="@color/transparent"
-            app:tabIndicatorColor="@color/White"
-            app:tabIndicatorHeight="3dp" />
+            app:tabBackground="@drawable/curve_strip"
+            app:tabIndicatorAnimationMode="fade">
+
+        </com.google.android.material.tabs.TabLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

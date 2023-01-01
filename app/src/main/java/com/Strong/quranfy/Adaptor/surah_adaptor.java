@@ -117,8 +117,8 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         PendingIntent pendingIntent = PendingIntent.getActivity(context, REQ_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
 
         NotifyComp = NotificationManagerCompat.from(context);
-        Bitmap image = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.quran);
-        Notification channel = new NotificationCompat.Builder(context, CHANNEL_ID).setLargeIcon(image).setSmallIcon(R.drawable.quran).setColor(Color.rgb(255, 255, 255)).setContentTitle(SurahNumber + " - " + SurahName).setContentIntent(pendingIntent).setContentText(SurahInform).setSilent(true).setPriority(NotificationCompat.PRIORITY_HIGH).addAction(play, "Previous", null).addAction(play, "Play", null).addAction(next, "Pause", null).setOnlyAlertOnce(true).setShowWhen(false).build();
+        Bitmap image = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.quran_img);
+        Notification channel = new NotificationCompat.Builder(context, CHANNEL_ID).setLargeIcon(image).setSmallIcon(R.drawable.quran_img).setColor(Color.rgb(255, 255, 255)).setContentTitle(SurahNumber + " - " + SurahName).setContentIntent(pendingIntent).setContentText(SurahInform).setSilent(true).setPriority(NotificationCompat.PRIORITY_HIGH).addAction(play, "Previous", null).addAction(play, "Play", null).addAction(next, "Pause", null).setOnlyAlertOnce(true).setShowWhen(false).build();
         NotifyComp.notify(1, channel);
 
     }
