@@ -121,7 +121,6 @@
         android:background="@drawable/button_round"
         android:contentDescription="shuffle"
         android:padding="8dp"
-        android:rotation="90"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_shuffle"
         app:layout_constraintBottom_toBottomOf="@+id/PreviousTrackButton"
