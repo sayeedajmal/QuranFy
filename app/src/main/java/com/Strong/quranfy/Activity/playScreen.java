@@ -8,7 +8,6 @@ import static com.Strong.quranfy.Activity.mediaService.setFlag;
 import static com.Strong.quranfy.R.drawable.pause;
 import static com.Strong.quranfy.R.drawable.play;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.widget.SeekBar;
@@ -19,6 +18,8 @@ import com.Strong.quranfy.Models.surahData;
 import com.Strong.quranfy.R;
 import com.Strong.quranfy.databinding.ActivityPlayScreenBinding;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.io.File;
 
 
 public class playScreen extends AppCompatActivity {
@@ -33,9 +34,9 @@ public class playScreen extends AppCompatActivity {
         BindPlayScreen = ActivityPlayScreenBinding.inflate(getLayoutInflater());
         setContentView(BindPlayScreen.getRoot());
 
-      /* Setting Data Of List to PlayScreen by ItemViewClick
-        BindPlayScreen.SurahNumber.setText(surahData.getSurahNumber());
+        //Setting Data Of List to PlayScreen by ItemViewClick
         BindPlayScreen.surahName.setText(surahData.getSurahName());
+       /* BindPlayScreen.SurahNumber.setText(surahData.getSurahNumber());
         BindPlayScreen.ParticularSurahName.setText(surahData.getSurahName());
         BindPlayScreen.SurahInformation.setText(surahData.getSurahInform());*/
 
@@ -47,6 +48,12 @@ public class playScreen extends AppCompatActivity {
         seekBar();
         NextTrack();
         PrevTrack();
+    }
+
+    private static void playLyrics(long progress) {
+        File file = new File(String.valueOf(R.raw._01));
+        BindPlayScreen.lyrics.setLyricFile(file);
+        BindPlayScreen.lyrics.setOnPlayerClickListener((progress1, content) -> BindPlayScreen.lyrics.setCurrentTimeMillis(progress1));
     }
 
     public static void currentDuration() {
@@ -62,8 +69,11 @@ public class playScreen extends AppCompatActivity {
                     //Setting the current duration from the media player
                     BindPlayScreen.progressBar.setMax(mediaPlayer.getDuration());
                     currentTime = createDuration(mediaPlayer.getCurrentPosition());
-                    BindPlayScreen.currentTime.setText(currentTime);
-
+                 /*   BindPlayScreen.currentTime.setText(currentTime);
+                    BindPlayScreen.lyrics.setCurrentTimeMillis(mediaPlayer.getCurrentPosition());*/
+/*
+                    BindPlayScreen.lyrics.setLyricFile(new File(String.valueOf(R.raw._01)));
+*/
                     if (currentTime.equals(TotalDuration)) {
                         BindPlayScreen.PlayPauseButton.setImageResource(play);
                         setFlag(0);
