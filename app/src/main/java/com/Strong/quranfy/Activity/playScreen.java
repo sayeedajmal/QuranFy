@@ -9,6 +9,7 @@ import static com.Strong.quranfy.R.drawable.pause;
 import static com.Strong.quranfy.R.drawable.play;
 
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -20,10 +21,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.Strong.quranfy.Models.surahData;
 import com.Strong.quranfy.databinding.ActivityPlayScreenBinding;
-import com.dirror.lyricviewx.LyricEntry;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class playScreen extends AppCompatActivity {
@@ -46,6 +48,9 @@ public class playScreen extends AppCompatActivity {
                     //Setting the current duration from the media player
                     Bind.progressBar.setMax(mediaPlayer.getDuration());
                     currentTime = createDuration(mediaPlayer.getCurrentPosition());
+//                    Updating the lyric Time with Music RealTime
+                    Bind.lyrics.updateTime(mediaPlayer.getCurrentPosition(), true);
+
                     Bind.currentTime.setText(currentTime);
                     if (currentTime.equals(TotalDuration)) {
                         Bind.PlayPauseButton.setImageResource(play);
@@ -68,38 +73,52 @@ public class playScreen extends AppCompatActivity {
         setContentView(Bind.getRoot());
 
         Bind.surahName.setText(surahData.getSurahName());
-
         PlayPause();
         seekBar();
         NextTrack();
         PrevTrack();
-        pdf();
+        Lyric(surahData.getSurahNumber());
     }
 
-    private void pdf() {
-        // Bind.lyrics.fromStream(getResources().openRawResource(R.raw._02)).enableSwipe(true).load();
-        ArrayList<LyricEntry> lyricEntries = new ArrayList<>();
-        lyricEntries.add(new LyricEntry(0, "بِسْمِ اللهِ الرَّحْمَٰنِ الرَّحِيمِ"));
-        lyricEntries.add(new LyricEntry(1, "الْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِين"));
-        lyricEntries.add(new LyricEntry(2, "الرَّحْمٰنِ الرَّحِيمِ"));
-        lyricEntries.add(new LyricEntry(3, "مٰلِكِ يَوْمِ الدِّينِِ"));
-        lyricEntries.add(new LyricEntry(4, "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُِِ"));
-        lyricEntries.add(new LyricEntry(5, "اهْدِنَا الصِّرٰطَ الْمُسْتَقِيمَ"));
-        lyricEntries.add(new LyricEntry(6, "صِرٰطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّآلِّين"));
-        Bind.lyrics.loadLyric(lyricEntries);
-        Bind.lyrics.setCurrentTextSize(100);
-        Bind.lyrics.setNormalTextSize(80);
-        Bind.lyrics.setTextGravity(Gravity.END);
-        Bind.lyrics.setTimelineTextColor(Color.rgb(9, 162, 189));
-        Bind.lyrics.setCurrentColor(Color.rgb(9, 162, 189));
-        Bind.lyrics.setDraggable(true, l -> {
-            Bind.lyrics.updateTime(l, true);
-            Toast.makeText(playScreen.this, "You Clicked on PlayButton", Toast.LENGTH_SHORT).show();
-            return false;
-        });
+    private void Lyric(String surahNumber) {
+        //  Getting Resource Id
+        int lyricId = this.getResources().getIdentifier("_" + surahNumber, "raw", getPackageName());
+        if (lyricId != 0) {
+            InputStream file = getResources().openRawResource(lyricId);
+            String lrcFile = readTextFile(file);
+            Bind.lyrics.loadLyric(lrcFile, null);
+            Bind.lyrics.setCurrentTextSize(100);
+            Bind.lyrics.setNormalTextSize(80);
+            Bind.lyrics.setTextGravity(Gravity.END);
+            Bind.lyrics.setTimelineTextColor(Color.rgb(9, 162, 189));
+            Bind.lyrics.setCurrentColor(Color.rgb(9, 162, 189));
+            Bind.lyrics.setDraggable(true, l -> {
+                Bind.lyrics.updateTime(l, true);
+                mediaPlayer.seekTo(l, MediaPlayer.SEEK_NEXT_SYNC);
+                mediaPlayer.start();
+                return false;
+            });
+            Bind.lyrics.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+            Bind.lyrics.setTimelineColor(Color.parseColor("green"));
+        } else Toast.makeText(this, "Lyric Can't Added.", Toast.LENGTH_SHORT).show();
 
-        Bind.lyrics.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-        Bind.lyrics.setTimelineColor(Color.parseColor("green"));
+    }
+
+    //Reading Lyric File by InputStream and return as String
+    private String readTextFile(InputStream file) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] buf = new byte[1024];
+        int len;
+        try {
+            while ((len = file.read(buf)) != -1) {
+                outputStream.write(buf, 0, len);
+            }
+            outputStream.close();
+            file.close();
+        } catch (IOException e) {
+            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+        }
+        return outputStream.toString();
     }
 
     private void NextTrack() {

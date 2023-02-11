@@ -37,6 +37,7 @@
 
 
     <com.dirror.lyricviewx.LyricViewX
+        android:theme="@style/Theme.QuranFy.lyricFont"
         android:id="@+id/lyrics"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -64,9 +65,11 @@
         android:layout_width="0dp"
         android:layout_height="12dp"
         android:progressBackgroundTint="@color/White"
+        android:progressBackgroundTintMode="add"
         android:progressDrawable="@drawable/progress_gredient"
-        android:thumb="@color/transparent"
-        android:thumbTint="@color/ThemeWhite"
+        android:thumbOffset="5dp"
+        android:thumbTint="#70A5DF"
+        android:thumbTintMode="src_atop"
         app:layout_constraintBottom_toBottomOf="@+id/NextTrackButton"
         app:layout_constraintEnd_toStartOf="@+id/TotalTime"
         app:layout_constraintHorizontal_bias="0.0"
