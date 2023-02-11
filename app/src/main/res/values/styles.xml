@@ -4,7 +4,7 @@
     <style name="Seekbar" parent="@android:style/Widget.SeekBar">
         <item name="android:indeterminateOnly">false</item>
         <item name="background">@drawable/curve_strip</item>
-        <item name="backgroundTint">#437685</item>
+        <item name="backgroundTint">@color/ThemeWhite</item>
     </style>
 
     <style name="SplashScreen" parent="Theme.AppCompat.NoActionBar">

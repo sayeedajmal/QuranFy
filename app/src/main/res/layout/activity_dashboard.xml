@@ -17,7 +17,7 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="#437685"
+            app:contentScrim="@color/ThemeWhite"
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed|snap">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +33,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="16dp"
-                    android:background="#00FFFFFF"
+                    android:background="@color/transparent"
                     android:contentDescription="Menu"
                     android:foreground="?android:selectableItemBackgroundBorderless"
                     android:scaleType="centerCrop"
@@ -62,7 +62,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginEnd="16dp"
-                    android:background="#00FFFFFF"
+                    android:background="@color/transparent"
                     android:contentDescription="Search"
                     android:foreground="?android:selectableItemBackgroundBorderless"
                     android:scaleType="centerCrop"
@@ -79,7 +79,7 @@
                     android:layout_height="20dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="50dp"
-                    android:background="#00FFFFFF"
+                    android:background="@color/transparent"
                     android:backgroundTint="@color/transparent"
                     android:contentDescription="Search"
                     android:foreground="?android:selectableItemBackgroundBorderless"

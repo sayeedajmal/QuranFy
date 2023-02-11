@@ -2,14 +2,13 @@
 <resources>
 
     <style name="Theme.QuranFy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:background">#488395</item>
+        <item name="android:background">@color/ThemeWhite</item>
         <item name="android:textColor">@color/White</item>
         <item name="fontFamily">@font/senbold</item>
         <item name="tabIndicatorHeight">3dp</item>
         <item name="tabIndicatorColor">#8EE0F8</item>
         <item name="tabSelectedTextColor">#FFFFFF</item>
         <item name="tabTextColor">#949494</item>
-        <item name="cardBackgroundColor">#011240</item>
         <item name="android:screenOrientation">portrait</item>
         <item name="android:statusBarColor">@color/transparent</item>
 
@@ -18,5 +17,13 @@
     <!-- This is for icons !-->
     <style name="Theme.QuranFy.icons">
         <item name="android:tint">@color/White</item>
+    </style>
+
+    <style name="Theme.QuranFy.FullScreen" parent="Theme.QuranFy">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 </resources>
