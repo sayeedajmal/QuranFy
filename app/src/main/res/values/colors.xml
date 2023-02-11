@@ -2,8 +2,5 @@
 <resources>
     <color name="transparent">#00FFFFFF</color>
     <color name="White">#FFFFFF</color>
-    <color name="text_color">#1E4175</color>
-    <color name="background_color">#ecf0f3</color>
-    <color name="highlight">#ffffff</color>
-    <color name="shadow_color">#d9dbde</color>
+    <color name="ThemeWhite">#29323C</color>
 </resources>

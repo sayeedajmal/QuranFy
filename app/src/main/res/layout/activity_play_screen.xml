@@ -4,90 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.QuranFy"
+    android:theme="@style/Theme.QuranFy.FullScreen"
     tools:context=".Activity.playScreen">
 
-    <ImageButton
-        android:id="@+id/backPlayScreen"
-        android:layout_width="35dp"
-        android:layout_height="30dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:background="#00FFFFFF"
-        android:contentDescription="Back"
-        android:scaleType="centerCrop"
-        android:src="@drawable/backbutton"
-        android:theme="@style/Theme.QuranFy.icons"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/backPlayScreen"-->
+    <!--        android:layout_width="35dp"-->
+    <!--        android:layout_height="30dp"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginTop="24dp"-->
+    <!--        android:background="@color/transparent"-->
+    <!--        android:contentDescription="Back"-->
+    <!--        android:scaleType="centerCrop"-->
+    <!--        android:src="@drawable/backbutton"-->
+    <!--        android:theme="@style/Theme.QuranFy.icons"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        tools:ignore="MissingConstraints" />-->
 
-    <TextView
-        android:id="@+id/surahName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/selectFavourite"-->
+    <!--        android:layout_width="35dp"-->
+    <!--        android:layout_height="35dp"-->
+    <!--        android:layout_marginTop="24dp"-->
+    <!--        android:layout_marginEnd="16dp"-->
+    <!--        android:background="@color/transparent"-->
+    <!--        android:scaleType="centerCrop"-->
+    <!--        android:src="@drawable/favouriteunfilled"-->
+    <!--        android:theme="@style/Theme.QuranFy.icons"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+    <com.dirror.lyricviewx.LyricViewX
+        android:id="@+id/lyrics"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:textAlignment="textEnd"
         android:background="@color/transparent"
-        android:textSize="25sp"
-        app:layout_constraintStart_toEndOf="@+id/backPlayScreen"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageButton
-        android:id="@+id/selectFavourite"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:background="#00FFFFFF"
-        android:scaleType="centerCrop"
-        android:src="@drawable/favouriteunfilled"
-        android:theme="@style/Theme.QuranFy.icons"
+        app:layout_constraintBottom_toTopOf="@+id/surahName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <ScrollView
-        android:id="@+id/constraintLayout"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/curve_strip"
-        android:fadeScrollbars="true"
-        android:padding="10dp"
-        android:scrollbarFadeDuration="@integer/material_motion_duration_short_1"
-        android:scrollbars="vertical"
-        android:verticalScrollbarPosition="left"
-        app:layout_constraintBottom_toTopOf="@+id/progressBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surahName"
-        app:layout_constraintVertical_bias="0.535"
-        tools:ignore="MissingConstraints">
-
-
-        <me.zhengken.lyricview.LyricView
-            android:id="@+id/lyrics"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:textSize="21sp"
-            app:textAlign="right" />
-    </ScrollView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/currentTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="8dp"
         android:background="@color/transparent"
         android:text="00:00"
-        app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+        app:layout_constraintStart_toEndOf="@+id/NextTrackButton"
+        app:layout_constraintTop_toTopOf="@+id/progressBar" />
 
     <SeekBar
         android:id="@+id/progressBar"
@@ -97,44 +66,57 @@
         android:progressBackgroundTint="@color/White"
         android:progressDrawable="@drawable/progress_gredient"
         android:thumb="@color/transparent"
-        android:thumbTint="#2F6677"
-        app:layout_constraintBottom_toBottomOf="@+id/currentTime"
+        android:thumbTint="@color/ThemeWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/NextTrackButton"
         app:layout_constraintEnd_toStartOf="@+id/TotalTime"
-        app:layout_constraintStart_toEndOf="@+id/currentTime"
-        app:layout_constraintTop_toTopOf="@+id/TotalTime" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/currentTime" />
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/shuffleButton"-->
+    <!--        android:layout_width="45dp"-->
+    <!--        android:layout_height="45dp"-->
+    <!--        android:layout_gravity="center_vertical"-->
+    <!--        android:layout_marginStart="24dp"-->
+    <!--        android:background="@drawable/button_round"-->
+    <!--        android:contentDescription="shuffle"-->
+    <!--        android:padding="8dp"-->
+    <!--        android:scaleType="centerCrop"-->
+    <!--        android:src="@drawable/ic_shuffle"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/PreviousTrackButton"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/PreviousTrackButton"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/PreviousTrackButton" />-->
+
+    <TextView
+        android:id="@+id/surahName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:background="@color/transparent"
+        android:text="Al-Fatihah"
+        android:textSize="25sp"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/NextTrackButton" />
 
     <TextView
         android:id="@+id/TotalTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/transparent"
         android:text="00:00"
-        app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <ImageButton
-        android:id="@+id/shuffleButton"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="24dp"
-        android:background="@drawable/button_round"
-        android:contentDescription="shuffle"
-        android:padding="8dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_shuffle"
-        app:layout_constraintBottom_toBottomOf="@+id/PreviousTrackButton"
-        app:layout_constraintEnd_toStartOf="@+id/PreviousTrackButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/PreviousTrackButton" />
+        app:layout_constraintBottom_toBottomOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/progressBar" />
 
     <ImageButton
         android:id="@+id/PreviousTrackButton"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
         android:background="@drawable/button_round"
         android:contentDescription="Next Track"
         android:padding="8dp"
@@ -143,15 +125,16 @@
         android:src="@drawable/next"
         app:layout_constraintBottom_toBottomOf="@+id/PlayPauseButton"
         app:layout_constraintEnd_toStartOf="@+id/PlayPauseButton"
-        app:layout_constraintStart_toEndOf="@+id/shuffleButton"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/PlayPauseButton" />
 
     <ImageButton
         android:id="@+id/PlayPauseButton"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/button_round"
         android:contentDescription="Play/Pause"
         android:padding="5dp"
@@ -164,33 +147,33 @@
 
     <ImageButton
         android:id="@+id/NextTrackButton"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_vertical"
+        android:layout_marginStart="5dp"
         android:background="@drawable/button_round"
         android:contentDescription="Next Track"
         android:padding="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/next"
         app:layout_constraintBottom_toBottomOf="@+id/PlayPauseButton"
-        app:layout_constraintEnd_toStartOf="@+id/repeatButton"
         app:layout_constraintStart_toEndOf="@+id/PlayPauseButton"
         app:layout_constraintTop_toTopOf="@+id/PlayPauseButton" />
 
-    <ImageButton
-        android:id="@+id/repeatButton"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="24dp"
-        android:background="@drawable/button_round"
-        android:contentDescription="repeat"
-        android:padding="8dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_repeat"
-        app:layout_constraintBottom_toBottomOf="@+id/NextTrackButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/NextTrackButton"
-        app:layout_constraintTop_toTopOf="@+id/NextTrackButton" />
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/repeatButton"-->
+    <!--        android:layout_width="45dp"-->
+    <!--        android:layout_height="45dp"-->
+    <!--        android:layout_gravity="center_vertical"-->
+    <!--        android:layout_marginEnd="24dp"-->
+    <!--        android:background="@drawable/button_round"-->
+    <!--        android:contentDescription="repeat"-->
+    <!--        android:padding="8dp"-->
+    <!--        android:scaleType="centerCrop"-->
+    <!--        android:src="@drawable/ic_repeat"-->
+    <!--        app:layout_constraintBottom_toBottomOf="@+id/NextTrackButton"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/NextTrackButton"-->
+    <!--        app:layout_constraintTop_toTopOf="@+id/NextTrackButton" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

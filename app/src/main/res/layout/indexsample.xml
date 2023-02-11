@@ -7,7 +7,7 @@
     android:clickable="true"
     android:theme="@style/Base.Theme.Neumorph.Light"
     app:neumorph_shadowColorDark="@color/transparent"
-    app:neumorph_shadowColorLight="#4B93A9"
+    app:neumorph_shadowColorLight="#394653"
     app:neumorph_shapeAppearance="@style/surah_cardView"
     app:neumorph_shapeType="basin">
 

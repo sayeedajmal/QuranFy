@@ -3,20 +3,23 @@
 
     <style name="Theme.QuranFy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:background">@color/White</item>
-        <item name="android:textColor">#488395</item>
+        <item name="android:textColor">@color/ThemeWhite</item>
         <item name="fontFamily">@font/senbold</item>
-        <item name="tabIndicatorColor">#488395</item>
-        <item name="tabIndicatorHeight">2dp</item>
-        <item name="tabSelectedTextColor">#488395</item>
-        <item name="tabTextColor">#545252</item>
+        <item name="tabIndicatorColor">@color/ThemeWhite</item>
+        <item name="tabSelectedTextColor">@color/ThemeWhite</item>
+        <item name="tabTextColor">#000000</item>
         <item name="android:screenOrientation">portrait</item>
         <item name="cardBackgroundColor">@color/White</item>
-        <item name="android:statusBarColor">#488395</item>
-
+        <item name="android:statusBarColor">@color/ThemeWhite</item>
     </style>
 
     <!-- This is for icons !-->
     <style name="Theme.QuranFy.icons">
-        <item name="android:tint">#488395</item>
+        <item name="android:tint">@color/ThemeWhite</item>
+    </style>
+
+    <style name="Theme.QuranFy.FullScreen" parent="Theme.QuranFy">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 </resources>
