@@ -22,4 +22,9 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+
+    <style name="Theme.QuranFy.lyricFont" parent="Theme.QuranFy.FullScreen">
+        <item name="fontFamily">@font/allah_01</item>
+        <item name="android:fontFamily">@font/allah_01</item>
+    </style>
 </resources>
