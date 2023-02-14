@@ -1,18 +1,18 @@
 # QURANFY QURAN AUDIO PLAYER (Lyrics)
 
- <img src="https://img.shields.io/badge/build-ED8B00?style=for-the-badge&logo=build&logoColor=white"/>
+<img src="quran.gif">
 
-## About
+# About
 
-    This is the Source code Repository of the QuranFy Quran Audio Player. The main Focus of this Project is to Create an Quran Audio Listening Player that is Optimized for Audio with Soothing Voices of Reciting Quran and to keep the UI as Simple as Possible.
+<h1>This is the Source Code Repository of the QuranFy (Quran Audio Player). The main Focus of this Project is to Create an Quran Audio Listening Player that is Optimized by Audio with Soothing Voices of Reciting Quran and to keep the UI as Simple as Possible.
 
-<a href="https://github.com/sayeedajmal/Quranfy"><img src="download.png" height="200px" width="500px"></a>
+<a href="https://github.com/sayeedajmal/Quranfy"><img src="download.png" height="300px" aspect-ratio="1"></a>
 
 # Screenshots
 
-<img src="Full_Front.png">
-<img src="Full_Surah.png">
-<img src="PlayScreen.png">
+<img src="Full_Front.png" width="300px">
+<img src="Full_Surah.png"width="300px">
+<img src="PlayScreen.png"width="300px">
 
 # Main Features
 
