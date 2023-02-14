@@ -6,7 +6,7 @@
 
 <h1>This is the Source Code Repository of the QuranFy (Quran Audio Player). The main Focus of this Project is to Create an Quran Audio Listening Player that is Optimized by Audio with Soothing Voices of Reciting Quran and to keep the UI as Simple as Possible.
 
-<a href="https://github.com/sayeedajmal/Quranfy"><img src="download.png" height="300px" aspect-ratio="1"></a>
+<a href="https://github.com/sayeedajmal/Applications/raw/master/QuranFy/app-release.apk"><img src="download.png" height="300px" aspect-ratio="1"></a>
 
 # Screenshots
 
