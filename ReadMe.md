@@ -31,11 +31,13 @@
 * Adding Functionalities.
 * Adding LandScape Mode for Reading Quran.
 * Adding Qirat in Another Tab.
+* Fixing Color Contrast.
 
 ## OpenSource API Used
 
     - LyricsView
-    - Neomorphism 
+    - Neomorphism
+    - Firebase 
 
 # License
 
