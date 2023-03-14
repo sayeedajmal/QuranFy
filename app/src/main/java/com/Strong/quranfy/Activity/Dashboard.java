@@ -18,7 +18,7 @@ import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.Strong.quranfy.Adaptor.surah_adaptor;
-import com.Strong.quranfy.Fragment.favourite;
+import com.Strong.quranfy.Fragment.Qiraat;
 import com.Strong.quranfy.Fragment.surah;
 import com.Strong.quranfy.databinding.ActivityDashboardBinding;
 import com.google.android.material.snackbar.Snackbar;
@@ -37,10 +37,10 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash = ActivityDashboardBinding.inflate(getLayoutInflater());
 
         surah surah = new surah();
-        favourite favourite = new favourite();
+        Qiraat qiraat = new Qiraat();
         viewPagerAdaptor = new viewPagerSelection(getSupportFragmentManager(), 0);
         viewPagerAdaptor.addFragment(surah, "surah");
-        viewPagerAdaptor.addFragment(favourite, "Favourite");
+        viewPagerAdaptor.addFragment(qiraat, "Qiraat");
 
         SetData();
         addDate();
@@ -101,8 +101,6 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.PlaySurahName.setText(preferences.getString("SurahName", ""));
         BindDash.PlaySurahInform.setText(preferences.getString("SurahInform", ""));
 
-        /*GETTING CURRENT DATA OF MEDIA*/
-
         BindDash.Setting.setOnClickListener(v -> startActivity(new Intent(this, Setting.class)));
         setContentView(BindDash.getRoot());
     }
@@ -149,10 +147,5 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.PlaySurahNumber.setText(intent.getStringExtra("SurahNumber"));
         BindDash.PlaySurahName.setText(intent.getStringExtra("SurahName"));
         BindDash.PlaySurahInform.setText(intent.getStringExtra("SurahInformation"));
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 }
