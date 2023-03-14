@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<soup.neumorphism.NeumorphCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
+    android:layout_height="70dp"
+    android:layout_margin="5dp"
     android:clickable="true"
-    android:theme="@style/Base.Theme.Neumorph.Light"
-    app:neumorph_shadowColorDark="@color/transparent"
-    app:neumorph_shadowColorLight="#394653"
-    app:neumorph_shapeAppearance="@style/surah_cardView"
+    android:foreground="?selectableItemBackgroundBorderless"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="0dp"
     app:neumorph_shapeType="basin">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,11 +49,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"
-            android:layout_marginTop="18dp"
             android:text="Al-Fatiah"
             android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/surahInformation"
             app:layout_constraintStart_toEndOf="@+id/surahIcon"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/surahIcon" />
 
         <TextView
             android:id="@+id/surahInformation"
@@ -62,6 +62,7 @@
             android:layout_marginStart="22dp"
             android:text="MECAAN - 7 VERSES"
             android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/surahIcon"
             app:layout_constraintStart_toEndOf="@+id/surahIcon"
             app:layout_constraintTop_toBottomOf="@+id/surahName" />
 
@@ -70,13 +71,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:fontFamily="@font/allah_name"
+            android:fontFamily="@font/allah_01"
             android:text="الفاتحة"
             android:textSize="23sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</soup.neumorphism.NeumorphCardView>
+</androidx.cardview.widget.CardView>

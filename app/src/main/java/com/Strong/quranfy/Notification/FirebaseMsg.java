@@ -34,7 +34,7 @@ public class FirebaseMsg extends FirebaseMessagingService {
 
     private void showNotification(String Title, String message) {
         //Get Apk url
-        Uri url = Uri.parse("https://firebasestorage.googleapis.com/v0/b/sayeedquranfy.appspot.com/o/app-release.apk?alt=media&token=367ebabd-4520-44e9-b165-68fd0528e4f5");
+        Uri url = Uri.parse("https://sayeedthedev.web.app");
         Intent intent = new Intent(Intent.ACTION_VIEW, url);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         String channel_ID = "UPDATE";
