@@ -1,4 +1,4 @@
-package com.Strong.quranfy.Activity;
+package com.Strong.quranfy.Notification;
 
 
 import android.app.NotificationChannel;
@@ -19,7 +19,7 @@ import com.Strong.quranfy.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-public class notificationFirebase extends FirebaseMessagingService {
+public class FirebaseMsg extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
@@ -45,9 +45,9 @@ public class notificationFirebase extends FirebaseMessagingService {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channel_ID)
                 .setColorized(true)
                 .setColor(Color.rgb(255, 255, 255))
+                .setSmallIcon(R.drawable.quran_img)
                 .setLargeIcon(bitmap)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setSmallIcon(R.drawable.quran_img)
                 .setColor(Color.rgb(255, 255, 255))
                 .setVibrate(new long[]{1000, 1000, 1000, 1000})
                 .setOnlyAlertOnce(false).setSilent(false)

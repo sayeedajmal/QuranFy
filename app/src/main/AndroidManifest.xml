@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".Activity.NotificationService"
+        android:name=".Notification.MediaPanel"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -33,13 +33,14 @@
         <activity android:name=".Activity.Setting" />
 
         <service
-            android:name=".Activity.notificationFirebase"
+            android:name=".Notification.FirebaseMsg"
             android:exported="true"
             android:permission="Message">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <receiver android:name=".Notification.BroadCastRec" />
     </application>
 
 </manifest>
