@@ -10,9 +10,9 @@ import android.widget.Toast;
 import java.io.IOException;
 
 public class mediaService {
-    static int flag;
+    public static int flag;
     static int duration;
-    static MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
 
     public static void MediaPlay(String uri) {
         mediaPlayer = new MediaPlayer();

@@ -12,7 +12,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -45,12 +44,6 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         SetData();
         addDate();
-       /* FirebaseMessaging.getInstance().getToken().addOnSuccessListener(new OnSuccessListener<String>() {
-            @Override
-            public void onSuccess(String s) {
-                System.out.println("<<<<<<<<<<" + s);
-            }
-        });*/
 
         BindDash.dashboardPager.setAdapter(viewPagerAdaptor);
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
@@ -63,6 +56,13 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
             public void run() {
                 try {
                     BindDash.surahCurrentTime.setText(currentTime);
+
+                    // Notification Action for Play Pause
+                    if (flag == 0 | flag == 2) {
+                        BindDash.PlayPauseButton.setImageResource(play);
+                    } else {
+                        BindDash.PlayPauseButton.setImageResource(pause);
+                    }
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }

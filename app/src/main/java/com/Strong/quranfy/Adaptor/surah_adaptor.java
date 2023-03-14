@@ -1,23 +1,13 @@
 package com.Strong.quranfy.Adaptor;
 
-import static com.Strong.quranfy.Activity.NotificationService.CHANNEL_ID;
-import static com.Strong.quranfy.Activity.NotificationService.CHANNEL_NAME;
 import static com.Strong.quranfy.Models.surahData.setSurahInform;
 import static com.Strong.quranfy.Models.surahData.setSurahName;
 import static com.Strong.quranfy.Models.surahData.setSurahNumber;
-import static com.Strong.quranfy.R.drawable.next;
-import static com.Strong.quranfy.R.drawable.play;
 
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,16 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.Strong.quranfy.Activity.Dashboard;
 import com.Strong.quranfy.Activity.mediaService;
 import com.Strong.quranfy.Activity.playScreen;
 import com.Strong.quranfy.Models.SurahArabicGet;
 import com.Strong.quranfy.Models.surahInform;
 import com.Strong.quranfy.Models.surah_getter;
+import com.Strong.quranfy.Notification.MediaPanel;
 import com.Strong.quranfy.R;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -120,31 +108,12 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             setSurahName(surah_getter.getSurahName());
             setSurahInform(surahInform.getSurahInformation());
 
-            PushNotification(surah_getter.getSurahNumber(), surah_getter.getSurahName(), surahInform.getSurahInformation());
+            MediaPanel.PushNotification(surah_getter.getSurahNumber(), surah_getter.getSurahName(), surahInform.getSurahInformation(), context, REQ_CODE);
 
             onClickSendData.onReceiveData(intent);
             mediaService.setFlag(1);
             context.startActivity(intent);
         });
-    }
-
-    private void PushNotification(String SurahNumber, String SurahName, String SurahInform) {
-        Intent intent = new Intent(context, Dashboard.class);
-        Bitmap image = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.quran_img);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, REQ_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID).setLargeIcon(image).setVisibility(NotificationCompat.VISIBILITY_PUBLIC).setSmallIcon(R.drawable.quran).setColorized(true).setBadgeIconType(NotificationCompat.BADGE_ICON_LARGE).setVibrate(new long[]{1000, 1000, 1000, 1000}).setContentTitle(SurahNumber + " - " + SurahName).setContentText(SurahInform).setAutoCancel(true).setDefaults(NotificationCompat.GROUP_ALERT_ALL).setPriority(NotificationCompat.PRIORITY_HIGH).setContentIntent(pendingIntent).addAction(play, "Previous", null).addAction(play, "Play", null).addAction(next, "Pause", null).setOnlyAlertOnce(true).setShowWhen(false);
-        builder.setOngoing(true);
-
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
-        channel.enableLights(true);
-        channel.setLockscreenVisibility(1);
-
-        NotificationManager manager = context.getSystemService(NotificationManager.class);
-        manager.createNotificationChannel(channel);
-        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(context);
-        managerCompat.notify(1, builder.build());
-
     }
 
     @Override
