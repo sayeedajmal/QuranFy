@@ -6,15 +6,13 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
+import com.Strong.quranfy.Activity.Dashboard;
 import com.Strong.quranfy.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -23,6 +21,7 @@ public class FirebaseMsg extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
+        Dashboard.getDeviceFCM();
     }
 
     @Override
@@ -39,16 +38,13 @@ public class FirebaseMsg extends FirebaseMessagingService {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         String channel_ID = "UPDATE";
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-        Bitmap bitmap = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.quran_img);
 
         //Notification Builder
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), channel_ID)
+                .setSmallIcon(R.drawable.quran_img)
                 .setColorized(true)
                 .setColor(Color.rgb(255, 255, 255))
-                .setSmallIcon(R.drawable.quran_img)
-                .setLargeIcon(bitmap)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setColor(Color.rgb(255, 255, 255))
                 .setVibrate(new long[]{1000, 1000, 1000, 1000})
                 .setOnlyAlertOnce(false).setSilent(false)
                 .setContentTitle(Title)
