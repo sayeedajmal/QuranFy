@@ -22,9 +22,13 @@ import com.Strong.quranfy.Fragment.Qiraat;
 import com.Strong.quranfy.Fragment.surah;
 import com.Strong.quranfy.databinding.ActivityDashboardBinding;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData {
@@ -42,6 +46,8 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         viewPagerAdaptor.addFragment(surah, "surah");
         viewPagerAdaptor.addFragment(qiraat, "Qiraat");
 
+        // Register Device FCM TO Push Notifications and Know Devices Numbers
+        getDeviceFCM();
         SetData();
         addDate();
 
@@ -147,5 +153,14 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.PlaySurahNumber.setText(intent.getStringExtra("SurahNumber"));
         BindDash.PlaySurahName.setText(intent.getStringExtra("SurahName"));
         BindDash.PlaySurahInform.setText(intent.getStringExtra("SurahInformation"));
+    }
+
+    public static void getDeviceFCM() {
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("Devices");
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(s -> {
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("Device ID", s);
+            database.setValue(hashMap);
+        }).addOnFailureListener(e -> System.out.println("Device FCM:  " + e.getLocalizedMessage()));
     }
 }
