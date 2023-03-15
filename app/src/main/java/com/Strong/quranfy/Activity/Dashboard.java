@@ -160,7 +160,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(s -> {
             HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("Device ID", s);
-            database.setValue(hashMap);
+            database.push().setValue(hashMap);
         }).addOnFailureListener(e -> System.out.println("Device FCM:  " + e.getLocalizedMessage()));
     }
 }
