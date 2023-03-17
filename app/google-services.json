@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:889494920568:android:e6d55fe9dcdac675837c8d",
+        "mobilesdk_app_id": "1:889494920568:android:7cceae95621fe754837c8d",
         "android_client_info": {
-          "package_name": "com.Strong.quranfy"
+          "package_name": "com.strong.quranfy"
         }
       },
       "oauth_client": [
         {
-          "client_id": "889494920568-lapvtfm8v8qiro2ghm7cj5ruhvbpfj46.apps.googleusercontent.com",
+          "client_id": "889494920568-432bcvhudktb3jgauc2jto4njdk5krdd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.Strong.quranfy",
+            "package_name": "com.strong.quranfy",
             "certificate_hash": "c82dabe86aba65e67e4eae7ebf2f946a24df7320"
           }
         },
