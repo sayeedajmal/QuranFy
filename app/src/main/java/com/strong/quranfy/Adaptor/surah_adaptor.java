@@ -5,7 +5,6 @@ import static com.strong.quranfy.Models.surahData.setSurahName;
 import static com.strong.quranfy.Models.surahData.setSurahNumber;
 
 import android.annotation.SuppressLint;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +18,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.strong.quranfy.Activity.mediaService;
 import com.strong.quranfy.Activity.playScreen;
 import com.strong.quranfy.Models.SurahArabicGet;
@@ -26,10 +27,7 @@ import com.strong.quranfy.Models.surahInform;
 import com.strong.quranfy.Models.surah_getter;
 import com.strong.quranfy.Notification.MediaPanel;
 import com.strong.quranfy.R;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.File;
 import java.util.ArrayList;
 
 public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder> {
@@ -61,18 +59,9 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(number + ".mp3");
             mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
         } else {
-            int Number = Integer.parseInt(SurahNumber);
-            if (Number == 70) {
-                AudioPlay(Uri.parse("android.resource://com.strong.quranfy/" + R.raw.__70));
-            } else {
-                StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
-                mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
-            }
+            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
+            mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
         }
-    }
-
-    public static Uri getRawUri(String filename) {
-        return Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + File.pathSeparator + File.separator + context.getPackageName() + "/raw/" + filename);
     }
 
     private static void AudioPlay(Uri uri) {
