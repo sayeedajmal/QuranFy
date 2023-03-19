@@ -8,20 +8,23 @@ import static com.strong.quranfy.Activity.mediaService.setFlag;
 import static com.strong.quranfy.R.drawable.pause;
 import static com.strong.quranfy.R.drawable.play;
 
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.strong.quranfy.Models.surahData;
 import com.strong.quranfy.databinding.ActivityPlayScreenBinding;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -32,6 +35,8 @@ public class playScreen extends AppCompatActivity {
     public static String currentSurahNumber;
     static ActivityPlayScreenBinding Bind;
     static String currentTime;
+    int orientation;
+
     int favouriteFlag = 0;
 
 
@@ -78,14 +83,32 @@ public class playScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bind = ActivityPlayScreenBinding.inflate(getLayoutInflater());
-        setContentView(Bind.getRoot());
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        orientation = getResources().getConfiguration().orientation;
         Bind.surahName.setText(surahData.getSurahName());
         PlayPause();
         seekBar();
         NextTrack();
         PrevTrack();
         Lyric(surahData.getSurahNumber());
+
+        Bind.rotate.setOnClickListener(view -> {
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            } else
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        });
+
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Bind.progressBar.setVisibility(View.GONE);
+            Bind.PreviousTrackButton.setVisibility(View.GONE);
+            Bind.NextTrackButton.setVisibility(View.GONE);
+            Bind.TotalTime.setVisibility(View.GONE);
+            Bind.currentTime.setVisibility(View.GONE);
+            Bind.surahName.setVisibility(View.GONE);
+        }
+        setContentView(Bind.getRoot());
     }
 
     private void Lyric(String surahNumber) {

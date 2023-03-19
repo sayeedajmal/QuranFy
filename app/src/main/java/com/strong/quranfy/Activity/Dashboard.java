@@ -17,14 +17,14 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.strong.quranfy.Adaptor.surah_adaptor;
-import com.strong.quranfy.Fragment.Qiraat;
-import com.strong.quranfy.Fragment.surah;
-import com.strong.quranfy.databinding.ActivityDashboardBinding;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.strong.quranfy.Adaptor.surah_adaptor;
+import com.strong.quranfy.Fragment.Qiraat;
+import com.strong.quranfy.Fragment.surah;
+import com.strong.quranfy.databinding.ActivityDashboardBinding;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -54,7 +54,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.dashboardPager.setAdapter(viewPagerAdaptor);
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
 
-
+        BindDash.Search.setEnabled(false);
         Handler current = new Handler();
         final int delay = 500;
         current.postDelayed(new Runnable() {

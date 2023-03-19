@@ -8,19 +8,18 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.strong.quranfy.Adaptor.surah_adaptor;
 import com.strong.quranfy.Models.SurahArabicGet;
 import com.strong.quranfy.Models.surahInform;
 import com.strong.quranfy.Models.surah_getter;
 import com.strong.quranfy.databinding.FragmentMainBinding;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -30,17 +29,6 @@ public class surah extends Fragment {
     ArrayList<surah_getter> SurahName = new ArrayList<>();
     ArrayList<surahInform> SurahInform = new ArrayList<>();
     ArrayList<SurahArabicGet> ArabicGet = new ArrayList<>();
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -19,7 +19,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginEnd="10dp"
         android:fontFamily="@font/allah_01"
-        android:text="We Are Developing This Feature! Kindly Keep Patient."
+        android:text="Developing This Feature! Kindly Keep Patient."
         android:textAlignment="center"
-        android:textSize="40sp" />
+        android:textSize="30sp" />
 </FrameLayout>

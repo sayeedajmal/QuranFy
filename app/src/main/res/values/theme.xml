@@ -5,6 +5,8 @@
         <item name="android:background">@color/White</item>
         <item name="android:textColor">@color/ThemeWhite</item>
         <item name="fontFamily">@font/senbold</item>
+        <item name="android:fontFamily">@font/senbold</item>
+        <item name="font">@font/senbold</item>
         <item name="tabIndicatorColor">@color/ThemeWhite</item>
         <item name="tabSelectedTextColor">@color/ThemeWhite</item>
         <item name="tabTextColor">#000000</item>
@@ -21,6 +23,10 @@
     <style name="Theme.QuranFy.FullScreen" parent="Theme.QuranFy">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="Theme.QuranFy.lyricFont" parent="Theme.QuranFy.FullScreen">
