@@ -5,6 +5,9 @@ import static com.strong.quranfy.Activity.mediaService.flag;
 import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
 import static com.strong.quranfy.Activity.mediaService.setFlag;
 import static com.strong.quranfy.Activity.playScreen.currentTime;
+import static com.strong.quranfy.Adaptor.surah_adaptor.UpdateInform;
+import static com.strong.quranfy.Adaptor.surah_adaptor.UpdateName;
+import static com.strong.quranfy.Adaptor.surah_adaptor.UpdateNumber;
 import static com.strong.quranfy.R.drawable.pause;
 import static com.strong.quranfy.R.drawable.play;
 
@@ -32,7 +35,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData {
-    ActivityDashboardBinding BindDash;
+    static ActivityDashboardBinding BindDash;
     viewPagerSelection viewPagerAdaptor;
 
     @Override
@@ -153,6 +156,12 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.PlaySurahNumber.setText(intent.getStringExtra("SurahNumber"));
         BindDash.PlaySurahName.setText(intent.getStringExtra("SurahName"));
         BindDash.PlaySurahInform.setText(intent.getStringExtra("SurahInformation"));
+    }
+
+    public static void updateList() {
+        BindDash.PlaySurahNumber.setText(UpdateNumber);
+        BindDash.PlaySurahName.setText(UpdateName);
+        BindDash.PlaySurahInform.setText(UpdateInform);
     }
 
     public static void getDeviceFCM() {
