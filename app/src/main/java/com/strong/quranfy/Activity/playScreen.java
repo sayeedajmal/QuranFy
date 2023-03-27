@@ -84,6 +84,7 @@ public class playScreen extends AppCompatActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         orientation = getResources().getConfiguration().orientation;
+
         Bind.surahName.setText(surahData.getSurahName());
         PlayPause();
         seekBar();
@@ -195,7 +196,6 @@ public class playScreen extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     protected void onResume() {
