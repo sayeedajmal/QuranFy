@@ -37,8 +37,6 @@ public class playScreen extends AppCompatActivity {
     static String currentTime;
     int orientation;
 
-    int favouriteFlag = 0;
-
 
     public static void currentDuration() {
         Handler current = new Handler();
