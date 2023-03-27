@@ -1,8 +1,10 @@
 package com.strong.quranfy.Notification;
 
+import static com.strong.quranfy.Activity.mediaService.NextPlay;
 import static com.strong.quranfy.Activity.mediaService.PlayPause;
-import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
+import static com.strong.quranfy.Activity.mediaService.PreviousPlay;
 import static com.strong.quranfy.Activity.mediaService.setFlag;
+import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,18 +15,19 @@ public class BroadCastRec extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getStringExtra("ACTION").equals("ACTION_PLAY")) {
-            setFlag(PlayPause());
-        } else if (intent.getStringExtra("ACTION").equals("ACTION_PAUSE")) {
-            setFlag(PlayPause());
+        String ACTION = intent.getAction();
+        switch (ACTION) {
+            case "PLAY":
+                setFlag(PlayPause());
+                break;
+            case "NEXT":
+                if (Integer.parseInt(PlaySurahNumber) < 114)
+                    NextPlay();
+                break;
+            case "PREVIOUS":
+                if (Integer.parseInt(PlaySurahNumber) > 1)
+                    PreviousPlay();
+                break;
         }
-    }
-
-    private static void Play() {
-        if (mediaPlayer != null && !mediaPlayer.isPlaying()) mediaPlayer.start();
-    }
-
-    private static void Pause() {
-        if (mediaPlayer.isPlaying()) mediaPlayer.pause();
     }
 }

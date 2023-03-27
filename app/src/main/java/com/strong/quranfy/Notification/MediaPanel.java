@@ -23,9 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class MediaPanel extends Application {
     public static final String CHANNEL_ID = "Channel_1";
     public static final String CHANNEL_NAME = "QURANFY";
-    public static final String ACT_PREVIOUS = "ACTION_PREVIOUS";
-    public static final String ACT_PLAY = "ACTION_PLAY";
-    public static final String ACT_NEXT = "ACTION_NEXT";
+    static String ACTION = "Hello";
 
 
     public static void PushNotification(String SurahNumber, String SurahName, String SurahInform, Context context, int REQ_CODE) {
@@ -33,9 +31,22 @@ public class MediaPanel extends Application {
         Bitmap image = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.quran_img);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, REQ_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
 
+        /*PlayPause Play ACTION*/
         Intent PlayPause = new Intent(context, BroadCastRec.class);
-        PlayPause.putExtra("ACTION", ACT_PLAY);
-        PendingIntent PlayPending = PendingIntent.getBroadcast(context, REQ_CODE, PlayPause, PendingIntent.FLAG_IMMUTABLE);
+        PlayPause.setAction("PLAY");
+        PendingIntent PlayPending = PendingIntent.getBroadcast(context, REQ_CODE, PlayPause, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        /*Next Play ACTION*/
+
+        Intent NextPlay = new Intent(context, BroadCastRec.class);
+        NextPlay.setAction("NEXT");
+        PendingIntent NextPending = PendingIntent.getBroadcast(context, REQ_CODE, NextPlay, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        /*Previous Play ACTION*/
+
+        Intent PrevPlay = new Intent(context, BroadCastRec.class);
+        PrevPlay.setAction("PREVIOUS");
+        PendingIntent PrevPending = PendingIntent.getBroadcast(context, REQ_CODE, PrevPlay, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setLargeIcon(image)
@@ -50,9 +61,9 @@ public class MediaPanel extends Application {
                 .setDefaults(NotificationCompat.GROUP_ALERT_ALL)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
-                .addAction(R.drawable.quran, "Previous", null)
+                .addAction(R.drawable.quran, "Previous", PrevPending)
                 .addAction(R.drawable.quran_img, "Play Pause", PlayPending)
-                .addAction(quran_img, "Next", null)
+                .addAction(quran_img, "Next", NextPending)
                 .setOnlyAlertOnce(true).setShowWhen(false);
         builder.setOngoing(true);
 

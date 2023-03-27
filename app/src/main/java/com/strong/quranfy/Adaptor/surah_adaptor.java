@@ -33,6 +33,7 @@ import java.util.ArrayList;
 public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder> {
     public static final int REQ_CODE = 100;
     static Context context;
+    public static String PlaySurahNumber;
     private final onClickSendData onClickSendData;
     ArrayList<surah_getter> surah_getters;
     ArrayList<surahInform> SurahInform;
@@ -89,6 +90,8 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         //Clicking The ItemView or Surah List
         holder.itemView.setOnClickListener(view -> {
             //Implementation of song download
+            PlaySurahNumber = surah_getter.getSurahNumber();
+
             getAudioFile(surah_getter.getSurahNumber());
 
             //Setting CurrentSurahNumber
