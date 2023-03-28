@@ -40,12 +40,11 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
     static ArrayList<surahInform> SurahInform;
     ArrayList<SurahArabicGet> SurahArabic;
     public static int POSITION;
-    public static String UpdateName, UpdateNumber, UpdateInform;
 
     public surah_adaptor(ArrayList<surah_getter> surah_getters, Context context, ArrayList<surahInform> surahInform, ArrayList<SurahArabicGet> surahArabic) {
         surah_adaptor.context = context;
-        this.surah_getters = surah_getters;
-        this.SurahInform = surahInform;
+        surah_adaptor.surah_getters = surah_getters;
+        SurahInform = surahInform;
         this.SurahArabic = surahArabic;
         try {
             this.onClickSendData = ((surah_adaptor.onClickSendData) context);
@@ -97,7 +96,6 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
 
             setPOSITION(position);
 
-
             getAudioFile(surah_getter.getSurahNumber());
 
             //Setting CurrentSurahNumber
@@ -121,22 +119,21 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             MediaPanel.PushNotification(surah_getter.getSurahNumber(), surah_getter.getSurahName(), surahInform.getSurahInformation(), context, REQ_CODE);
 
             onClickSendData.onReceiveData(intent);
+
             mediaService.setFlag(1);
+
             context.startActivity(intent);
         });
     }
 
+    //Update Data on Next or Previous Button
     public static void UpdateData() {
         surah_getter surah_getter = surah_getters.get(POSITION);
         surahInform surahInform = SurahInform.get(POSITION);
 
-        UpdateInform = surahInform.getSurahInformation();
-        UpdateName = surah_getter.getSurahName();
-        UpdateNumber = surah_getter.getSurahNumber();
-
-        setSurahNumber(UpdateNumber);
-        setSurahName(UpdateName);
-        setSurahInform(UpdateInform);
+        setSurahNumber(surah_getter.getSurahNumber());
+        setSurahName(surah_getter.getSurahName());
+        setSurahInform(surahInform.getSurahInformation());
 
         updateList();
 
@@ -178,6 +175,8 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         prefEditor.apply();
     }
 
+
+    /*This Interface is used for Dashboard strip*/
     public interface onClickSendData {
         void onReceiveData(Intent intent);
     }
