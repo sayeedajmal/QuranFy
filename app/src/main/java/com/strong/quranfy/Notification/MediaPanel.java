@@ -2,6 +2,7 @@ package com.strong.quranfy.Notification;
 
 import static com.strong.quranfy.R.drawable.quran_img;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -13,12 +14,13 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
 
+import com.google.firebase.database.FirebaseDatabase;
 import com.strong.quranfy.Activity.Dashboard;
 import com.strong.quranfy.R;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class MediaPanel extends Application {
     public static final String CHANNEL_ID = "Channel_1";
@@ -93,5 +95,10 @@ public class MediaPanel extends Application {
         }
         NotificationManager manager = getSystemService(NotificationManager.class);
         manager.createNotificationChannel(channel);
+    }
+
+    @SuppressLint("RemoteViewLayout")
+    private RemoteViews getView() {
+        return new RemoteViews(getPackageName(), R.layout.media_panel);
     }
 }
