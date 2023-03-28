@@ -1,5 +1,7 @@
 package com.strong.quranfy.Activity;
 
+import static com.strong.quranfy.Activity.mediaService.NextPlay;
+import static com.strong.quranfy.Activity.mediaService.PreviousPlay;
 import static com.strong.quranfy.Activity.mediaService.createDuration;
 import static com.strong.quranfy.Activity.mediaService.flag;
 import static com.strong.quranfy.Activity.mediaService.getDuration;
@@ -22,7 +24,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.strong.quranfy.Models.playList;
 import com.strong.quranfy.Models.surahData;
 import com.strong.quranfy.databinding.ActivityPlayScreenBinding;
 
@@ -153,17 +155,15 @@ public class playScreen extends AppCompatActivity {
 
     private void NextTrack() {
         Bind.NextTrackButton.setOnClickListener(view -> {
-           /* int surahNumber = Integer.parseInt(currentSurahNumber) + 1;
-            surah_adaptor.getAudioFile(String.valueOf(surahNumber));*/
-            Snackbar.make(Bind.NextTrackButton, "Feature is on Way. So go Back and Select Surah", Snackbar.LENGTH_SHORT).show();
+            playList.ACTION("NEXT");
+            NextPlay();
         });
     }
 
     private void PrevTrack() {
         Bind.PreviousTrackButton.setOnClickListener(view -> {
-           /* int surahNumber = Integer.parseInt(currentSurahNumber) - 1;
-            surah_adaptor.getAudioFile(String.valueOf(surahNumber));*/
-            Snackbar.make(Bind.NextTrackButton, "Feature is on Way. So go Back and Select Surah", Snackbar.LENGTH_SHORT).show();
+            playList.ACTION("PREVIOUS");
+            PreviousPlay();
         });
     }
 
