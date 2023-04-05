@@ -1,4 +1,4 @@
-# QURANFY QURAN AUDIO PLAYER (Lyrics)
+# QURANFY QURAN AUDIO PLAYER (Lyrics) with Media Session
 
 <img src="quran.gif">
 
