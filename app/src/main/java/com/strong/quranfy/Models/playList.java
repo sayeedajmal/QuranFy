@@ -7,13 +7,16 @@ import static com.strong.quranfy.Adaptor.surah_adaptor.setPOSITION;
 public class playList {
 
     public static void ACTION(String button) {
-        if (button.equals("NEXT")) {
-            setPOSITION(POSITION + 1);
-            UpdateData();
+        switch (button) {
+            case "NEXT":
+                setPOSITION(POSITION + 1);
+                UpdateData();
 
-        } else if (button.equals("PREVIOUS")) {
-            setPOSITION(POSITION - 1);
-            UpdateData();
+                break;
+            case "PREVIOUS":
+                setPOSITION(POSITION - 1);
+                UpdateData();
+                break;
         }
     }
 }

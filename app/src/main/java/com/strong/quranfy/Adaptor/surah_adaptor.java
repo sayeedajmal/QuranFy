@@ -1,11 +1,13 @@
 package com.strong.quranfy.Adaptor;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
 import static com.strong.quranfy.Activity.Dashboard.updateList;
 import static com.strong.quranfy.Models.surahData.setSurahInform;
 import static com.strong.quranfy.Models.surahData.setSurahName;
 import static com.strong.quranfy.Models.surahData.setSurahNumber;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -138,6 +140,11 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         updateList();
 
         MediaPanel.PushNotification(surah_getter.getSurahNumber(), surah_getter.getSurahName(), surahInform.getSurahInformation(), context, REQ_CODE);
+    }
+
+    public static void closeNotification() {
+        NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+        manager.cancel(1);
     }
 
     @Override
