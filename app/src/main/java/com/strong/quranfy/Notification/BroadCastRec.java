@@ -5,6 +5,7 @@ import static com.strong.quranfy.Activity.mediaService.PlayPause;
 import static com.strong.quranfy.Activity.mediaService.PreviousPlay;
 import static com.strong.quranfy.Activity.mediaService.setFlag;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
+import static com.strong.quranfy.Adaptor.surah_adaptor.closeNotification;
 import static com.strong.quranfy.Models.playList.ACTION;
 
 import android.content.BroadcastReceiver;
@@ -28,6 +29,9 @@ public class BroadCastRec extends BroadcastReceiver {
             case "PREVIOUS":
                 if (Integer.parseInt(PlaySurahNumber) > 1) PreviousPlay();
                 ACTION("PREVIOUS");
+                break;
+            case "CLOSE":
+                closeNotification();
                 break;
         }
     }
