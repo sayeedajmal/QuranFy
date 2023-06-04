@@ -45,6 +45,8 @@ public class mediaService {
 
     public static void NextPlay() {
         int nextSurah = Integer.parseInt(PlaySurahNumber) + 1;
+        PlaySurahNumber = String.valueOf(nextSurah);
+
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.reset();
@@ -55,6 +57,8 @@ public class mediaService {
 
     public static void PreviousPlay() {
         int PrevSurah = Integer.parseInt(PlaySurahNumber) - 1;
+        PlaySurahNumber = String.valueOf(PrevSurah);
+
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.reset();
@@ -72,17 +76,12 @@ public class mediaService {
     }
 
     public static String createDuration(int duration) {
-
         String time = "";
         int min = duration / 1000 / 60;
         int sec = duration / 1000 % 60;
-
         time = time + min + ":";
-
         if (sec < 10) {
-
             time += "0";
-
         }
         time += sec;
         return time;

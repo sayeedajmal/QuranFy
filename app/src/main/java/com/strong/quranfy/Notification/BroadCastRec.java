@@ -3,6 +3,7 @@ package com.strong.quranfy.Notification;
 import static com.strong.quranfy.Activity.mediaService.NextPlay;
 import static com.strong.quranfy.Activity.mediaService.PlayPause;
 import static com.strong.quranfy.Activity.mediaService.PreviousPlay;
+import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
 import static com.strong.quranfy.Activity.mediaService.setFlag;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
 import static com.strong.quranfy.Adaptor.surah_adaptor.closeNotification;
@@ -23,14 +24,20 @@ public class BroadCastRec extends BroadcastReceiver {
                 setFlag(PlayPause());
                 break;
             case "NEXT":
-                if (Integer.parseInt(PlaySurahNumber) < 114) NextPlay();
-                ACTION("NEXT");
+                if (Integer.parseInt(PlaySurahNumber) < 114) {
+                    NextPlay();
+                    ACTION("NEXT");
+                }
                 break;
             case "PREVIOUS":
-                if (Integer.parseInt(PlaySurahNumber) > 1) PreviousPlay();
-                ACTION("PREVIOUS");
+                if (Integer.parseInt(PlaySurahNumber) > 1) {
+                    PreviousPlay();
+                    ACTION("PREVIOUS");
+                }
                 break;
             case "CLOSE":
+                if (mediaPlayer.isPlaying()) mediaPlayer.pause();
+                setFlag(0);
                 closeNotification();
                 break;
         }
