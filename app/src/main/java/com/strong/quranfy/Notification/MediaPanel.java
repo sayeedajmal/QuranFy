@@ -1,10 +1,6 @@
 package com.strong.quranfy.Notification;
 
-import static com.strong.quranfy.Activity.mediaService.getDuration;
-
-import android.annotation.SuppressLint;
 import android.app.Application;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,9 +9,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
 
@@ -66,9 +60,8 @@ public class MediaPanel extends Application {
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
-                .setProgress(getDuration(), getDuration(), false)
                 .addAction(R.drawable.ic_previous, "Previous", PrevPending)
-                .addAction(R.drawable.play, "Play Pause", PlayPending)
+                .addAction(R.drawable.pause, "Play Pause", PlayPending)
                 .addAction(R.drawable.ic_next, "Next", NextPending)
                 .addAction(R.drawable.ic_close, "Close", ClosePending)
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
@@ -77,6 +70,9 @@ public class MediaPanel extends Application {
                         .setShowActionsInCompactView(1/* #1: pause Button */)
                         .setMediaSession(mediaSession.getSessionToken()));
         builder.setOngoing(true);
+
+        builder.setProgress(100, 50, true);
+
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
         channel.enableLights(true);
         channel.setLockscreenVisibility(1);
@@ -91,26 +87,5 @@ public class MediaPanel extends Application {
     public void onCreate() {
         super.onCreate();
         FirebaseDatabase.getInstance().setPersistenceEnabled(true);
-        createNotificationChannel();
-    }
-
-    public void createNotificationChannel() {
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
-        channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
-        channel.enableLights(true);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            channel.setAllowBubbles(false);
-        }
-        NotificationManager manager = getSystemService(NotificationManager.class);
-        manager.createNotificationChannel(channel);
-    }
-
-    @SuppressLint("RemoteViewLayout")
-    private RemoteViews getView() {
-         /*new androidx.media.app.NotificationCompat.MediaStyle()
-                        .setShowCancelButton(true)
-                        .setShowActionsInCompactView(1 *//* #1: pause Button *//*)
-                .setMediaSession(mediaSession.getSessionToken())*/
-        return new RemoteViews(getPackageName(), R.layout.media_panel);
     }
 }

@@ -232,8 +232,11 @@
             android:layout_gravity="top|center"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
-            app:tabBackground="@drawable/curve_strip"
-            app:tabIndicatorAnimationMode="fade">
+            app:tabBackground="@color/transparent"
+            app:tabIndicatorAnimationMode="elastic"
+            app:tabIndicatorColor="@color/White"
+            app:tabIconTint="#009688"
+            app:tabIndicatorHeight="3dp">
 
         </com.google.android.material.tabs.TabLayout>
 

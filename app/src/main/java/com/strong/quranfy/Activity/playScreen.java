@@ -7,10 +7,10 @@ import static com.strong.quranfy.Activity.mediaService.flag;
 import static com.strong.quranfy.Activity.mediaService.getDuration;
 import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
 import static com.strong.quranfy.Activity.mediaService.setFlag;
-import static com.strong.quranfy.Notification.MediaPanel.PushNotification;
 import static com.strong.quranfy.R.drawable.pause;
 import static com.strong.quranfy.R.drawable.play;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -44,7 +44,7 @@ public class playScreen extends AppCompatActivity {
     public static void currentDuration() {
         Handler current = new Handler();
         final int delay = 1000;
-        current.postDelayed(new Runnable() {
+        if (mediaPlayer != null) current.postDelayed(new Runnable() {
             @Override
             public void run() {
                 //Setting TotalTime of Surah
@@ -98,8 +98,7 @@ public class playScreen extends AppCompatActivity {
         Bind.rotate.setOnClickListener(view -> {
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            } else
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            } else setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         });
 
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -115,7 +114,7 @@ public class playScreen extends AppCompatActivity {
 
     private void Lyric(String surahNumber) {
         //  Getting Resource Id
-        int lyricId = this.getResources().getIdentifier("_" + surahNumber, "raw", getPackageName());
+        @SuppressLint("DiscouragedApi") int lyricId = this.getResources().getIdentifier("_" + surahNumber, "raw", getPackageName());
         if (lyricId != 0) {
             InputStream file = getResources().openRawResource(lyricId);
             String lrcFile = readTextFile(file);
@@ -125,10 +124,12 @@ public class playScreen extends AppCompatActivity {
             Bind.lyrics.setTextGravity(Gravity.END);
             Bind.lyrics.setTimelineTextColor(Color.rgb(9, 162, 189));
             Bind.lyrics.setCurrentColor(Color.rgb(9, 162, 189));
+
             Bind.lyrics.setDraggable(true, l -> {
                 Bind.lyrics.updateTime(l, true);
                 mediaPlayer.seekTo(l, MediaPlayer.SEEK_NEXT_SYNC);
                 mediaPlayer.start();
+                Bind.PlayPauseButton.setImageResource(pause);
                 return false;
             });
             Bind.lyrics.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
