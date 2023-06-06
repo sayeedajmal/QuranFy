@@ -10,6 +10,7 @@ import static com.strong.quranfy.R.drawable.pause;
 import static com.strong.quranfy.R.drawable.play;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,7 +44,8 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash = ActivityDashboardBinding.inflate(getLayoutInflater());
 
         BindDash.Search.setEnabled(false);
-
+        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        manager.cancel(1);
 
         surah surah = new surah();
         Qiraat qiraat = new Qiraat();
@@ -64,12 +66,16 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
             @Override
             public void run() {
                 try {
-                    BindDash.surahCurrentTime.setText(currentTime);
+                    if (mediaPlayer != null)
+                        BindDash.ProgressBar.setMax(mediaPlayer.getDuration());
 
                     // Notification Action for Play Pause
                     if (flag == 0 | flag == 2) {
                         BindDash.PlayPauseButton.setImageResource(play);
                     } else {
+                        BindDash.surahCurrentTime.setText(currentTime);
+                        if (mediaPlayer != null)
+                            BindDash.ProgressBar.setProgress(mediaPlayer.getCurrentPosition(), true);
                         BindDash.PlayPauseButton.setImageResource(pause);
                     }
                 } catch (IllegalStateException e) {
@@ -97,7 +103,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.NextTrackButton.setOnClickListener(view -> {
             playList.ACTION("NEXT");
             NextPlay();
-           });
+        });
 
         //PlayStrip At bottom
         BindDash.playStrip.setOnClickListener(view -> {

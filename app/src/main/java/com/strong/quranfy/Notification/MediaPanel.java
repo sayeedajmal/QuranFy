@@ -23,6 +23,8 @@ public class MediaPanel extends Application {
 
     public static void PushNotification(String SurahNumber, String SurahName, String SurahInform, Context context, int REQ_CODE) {
         Intent intent = new Intent(context, Dashboard.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         Bitmap image = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.quran_img);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, REQ_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
 
@@ -55,7 +57,8 @@ public class MediaPanel extends Application {
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setColorized(true)
                 .setContentTitle(SurahNumber + " - " + SurahName)
-                .setContentText(SurahInform).setAutoCancel(true)
+                .setContentText(SurahInform)
+                .setAutoCancel(true)
                 .setDefaults(NotificationCompat.GROUP_ALERT_ALL)
                 .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
@@ -70,8 +73,6 @@ public class MediaPanel extends Application {
                         .setShowActionsInCompactView(1/* #1: pause Button */)
                         .setMediaSession(mediaSession.getSessionToken()));
         builder.setOngoing(true);
-
-        builder.setProgress(100, 50, true);
 
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
         channel.enableLights(true);

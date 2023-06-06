@@ -67,11 +67,10 @@ public class playScreen extends AppCompatActivity {
                     if (flag == 0 | flag == 2) {
                         Bind.PlayPauseButton.setImageResource(play);
                     } else {
+                        //Setting progressBar of Slider
+                        Bind.progressBar.setProgress(mediaPlayer.getCurrentPosition(), true);
                         Bind.PlayPauseButton.setImageResource(pause);
                     }
-
-                    //Setting progressBar of Slider
-                    Bind.progressBar.setProgress(mediaPlayer.getCurrentPosition(), true);
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }
