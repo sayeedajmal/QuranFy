@@ -7,15 +7,8 @@
         <item name="backgroundTint">@color/ThemeWhite</item>
     </style>
 
-    <style name="SplashScreen" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_background</item>
+    <style name="SplashScreen" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/quran_icon</item>
     </style>
 
-    <style name="surah_cardView" parent="Base.Theme.Neumorph.Light">
-        <item name="neumorph_cornerSizeTopLeft">15dp</item>
-        <item name="neumorph_cornerSizeTopRight">15dp</item>
-        <item name="neumorph_cornerSizeBottomLeft">0dp</item>
-        <item name="cornerSizeBottomRight">0dp</item>
-        <item name="neumorph_shadowElevation">2dp</item>
-    </style>
 </resources>
