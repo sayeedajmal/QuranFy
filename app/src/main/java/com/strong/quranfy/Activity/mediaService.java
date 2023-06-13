@@ -68,7 +68,7 @@ public class mediaService {
     }
 
     public static void CheckMediaPlaying() {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+        if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.reset();
             mediaPlayer.release();

@@ -43,7 +43,7 @@ public class playScreen extends AppCompatActivity {
 
     public static void currentDuration() {
         Handler current = new Handler();
-        final int delay = 1000;
+        final int delay = 100;
         if (mediaPlayer != null) current.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -52,7 +52,8 @@ public class playScreen extends AppCompatActivity {
                 Bind.TotalTime.setText(TotalDuration);
                 try {
                     //Setting the current duration from the media player
-                    Bind.progressBar.setMax(mediaPlayer.getDuration());
+                    Bind.seekBar.setMax(mediaPlayer.getDuration());
+                    Bind.progress.setMax(mediaPlayer.getDuration() - 1000);
                     currentTime = createDuration(mediaPlayer.getCurrentPosition());
 //                    Updating the lyric Time with Music RealTime
                     Bind.lyrics.updateTime(mediaPlayer.getCurrentPosition(), true);
@@ -68,7 +69,9 @@ public class playScreen extends AppCompatActivity {
                         Bind.PlayPauseButton.setImageResource(play);
                     } else {
                         //Setting progressBar of Slider
-                        Bind.progressBar.setProgress(mediaPlayer.getCurrentPosition(), true);
+                        Bind.seekBar.setProgress(mediaPlayer.getCurrentPosition(), true);
+                        Bind.progress.setProgress(mediaPlayer.getCurrentPosition(), true);
+
                         Bind.PlayPauseButton.setImageResource(pause);
                     }
                 } catch (IllegalStateException e) {
@@ -101,7 +104,7 @@ public class playScreen extends AppCompatActivity {
         });
 
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Bind.progressBar.setVisibility(View.GONE);
+            Bind.seekBar.setVisibility(View.GONE);
             Bind.PreviousTrackButton.setVisibility(View.GONE);
             Bind.NextTrackButton.setVisibility(View.GONE);
             Bind.TotalTime.setVisibility(View.GONE);
@@ -115,25 +118,33 @@ public class playScreen extends AppCompatActivity {
         //  Getting Resource Id
         @SuppressLint("DiscouragedApi") int lyricId = this.getResources().getIdentifier("_" + surahNumber, "raw", getPackageName());
         if (lyricId != 0) {
+            Bind.progress.setVisibility(View.GONE);
+            Bind.quranIcon.setVisibility(View.GONE);
             InputStream file = getResources().openRawResource(lyricId);
             String lrcFile = readTextFile(file);
             Bind.lyrics.loadLyric(lrcFile, null);
-            Bind.lyrics.setCurrentTextSize(100);
-            Bind.lyrics.setNormalTextSize(80);
+            Bind.lyrics.setCurrentTextSize(90);
+            Bind.lyrics.setNormalTextSize(70);
             Bind.lyrics.setTextGravity(Gravity.END);
             Bind.lyrics.setTimelineTextColor(Color.rgb(9, 162, 189));
             Bind.lyrics.setCurrentColor(Color.rgb(9, 162, 189));
 
             Bind.lyrics.setDraggable(true, l -> {
                 Bind.lyrics.updateTime(l, true);
-                mediaPlayer.seekTo(l, MediaPlayer.SEEK_NEXT_SYNC);
-                mediaPlayer.start();
-                Bind.PlayPauseButton.setImageResource(pause);
+                if (mediaPlayer != null) {
+                    setFlag(1);
+                    mediaPlayer.seekTo(l, MediaPlayer.SEEK_NEXT_SYNC);
+                    mediaPlayer.start();
+                }
                 return false;
             });
             Bind.lyrics.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             Bind.lyrics.setTimelineColor(Color.parseColor("green"));
-        } else Toast.makeText(this, "Lyric Can't Added.", Toast.LENGTH_SHORT).show();
+        } else {
+            Bind.lyrics.setVisibility(View.GONE);
+            Bind.progress.setVisibility(View.VISIBLE);
+            Bind.quranIcon.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -169,7 +180,7 @@ public class playScreen extends AppCompatActivity {
     }
 
     private void seekBar() {
-        Bind.progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        Bind.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
@@ -182,7 +193,7 @@ public class playScreen extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mediaPlayer.seekTo(seekBar.getProgress());
+                if (mediaPlayer != null) mediaPlayer.seekTo(seekBar.getProgress());
             }
         });
     }
