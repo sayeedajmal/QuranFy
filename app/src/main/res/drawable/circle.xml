@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape
+            android:shape="ring"
+            android:thickness="5dp"
+            android:useLevel="true">
+            <solid android:color="@color/White" />
+        </shape>
+    </item>
+    <item>
+        <shape
+            android:dither="true"
+            android:shape="ring"
+            android:thickness="5dp"
+            android:tintMode="src_over"
+            android:useLevel="true">
+            <gradient
+                android:angle="@integer/material_motion_duration_long_1"
+                android:centerColor="#6389F3"
+                android:endColor="#ac52df"
+                android:gradientRadius="5dp"
+                android:startColor="#006EE6"
+                android:type="linear"
+                android:useLevel="true" />
+        </shape>
+    </item>
+</layer-list>

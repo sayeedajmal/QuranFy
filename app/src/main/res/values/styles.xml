@@ -8,7 +8,7 @@
     </style>
 
     <style name="SplashScreen" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:windowBackground">@drawable/quran_icon</item>
+        <item name="android:windowBackground">@drawable/splash</item>
     </style>
 
 </resources>

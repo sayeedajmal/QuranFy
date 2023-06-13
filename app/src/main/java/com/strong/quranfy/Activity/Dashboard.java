@@ -66,8 +66,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
             @Override
             public void run() {
                 try {
-                    if (mediaPlayer != null)
-                        BindDash.ProgressBar.setMax(mediaPlayer.getDuration());
+                    if (mediaPlayer != null) BindDash.ProgressBar.setMax(mediaPlayer.getDuration());
 
                     // Notification Action for Play Pause
                     if (flag == 0 | flag == 2) {
