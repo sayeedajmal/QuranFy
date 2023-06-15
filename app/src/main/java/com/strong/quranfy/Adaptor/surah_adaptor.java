@@ -33,6 +33,8 @@ import com.strong.quranfy.R;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder> {
     public static final int REQ_CODE = 100;
     static Context context;
@@ -40,6 +42,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
     private final onClickSendData onClickSendData;
     static ArrayList<surah_getter> surah_getters;
     static ArrayList<surahInform> SurahInform;
+    static int lyricId;
     ArrayList<SurahArabicGet> SurahArabic;
     public static int POSITION;
 
@@ -90,6 +93,14 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         holder.surahName.setText(surah_getter.getSurahName());
         holder.surahInformation.setText(surahInform.getSurahInformation());
         holder.surahNameArabic.setText(ArabicGet.getSurahArabic());
+
+        lyricId = context.getResources().getIdentifier("_" + surah_getter.getSurahNumber(), "raw", context.getPackageName());
+        for (int i = 1; i <= position; i++)
+            if (lyricId != 0) {
+                holder.ReadImage.setVisibility(View.VISIBLE);
+            } else
+                holder.ReadImage.setVisibility(View.INVISIBLE);
+
 
         //Clicking The ItemView or Surah List
         holder.itemView.setOnClickListener(view -> {
@@ -157,6 +168,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         public TextView surahName;
         public TextView surahInformation;
         public TextView surahNameArabic;
+        public CircleImageView ReadImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -164,6 +176,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             surahName = itemView.findViewById(R.id.surahName);
             surahInformation = itemView.findViewById(R.id.surahInformation);
             surahNameArabic = itemView.findViewById(R.id.surahNameArabic);
+            ReadImage = itemView.findViewById(R.id.surahRead);
         }
     }
 
