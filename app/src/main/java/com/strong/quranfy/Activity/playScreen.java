@@ -15,6 +15,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -24,9 +25,11 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.strong.quranfy.Models.playList;
 import com.strong.quranfy.Models.surahData;
+import com.strong.quranfy.R;
 import com.strong.quranfy.databinding.ActivityPlayScreenBinding;
 
 import java.io.ByteArrayOutputStream;
@@ -86,6 +89,9 @@ public class playScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bind = ActivityPlayScreenBinding.inflate(getLayoutInflater());
+
+        if (Build.VERSION.SDK_INT > 27)
+            Bind.progress.setProgressDrawable(AppCompatResources.getDrawable(this, R.drawable.circle));
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         orientation = getResources().getConfiguration().orientation;

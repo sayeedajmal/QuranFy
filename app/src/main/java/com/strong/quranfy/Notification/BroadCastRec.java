@@ -24,13 +24,13 @@ public class BroadCastRec extends BroadcastReceiver {
                 setFlag(PlayPause());
                 break;
             case "NEXT":
-                if (Integer.parseInt(PlaySurahNumber) < 114) {
+                if (Integer.parseInt(PlaySurahNumber) < 114 && mediaPlayer != null) {
                     NextPlay();
                     ACTION("NEXT");
                 }
                 break;
             case "PREVIOUS":
-                if (Integer.parseInt(PlaySurahNumber) > 1) {
+                if (Integer.parseInt(PlaySurahNumber) > 1 && mediaPlayer != null) {
                     PreviousPlay();
                     ACTION("PREVIOUS");
                 }
