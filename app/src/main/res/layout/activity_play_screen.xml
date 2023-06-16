@@ -20,8 +20,8 @@
         app:civ_circle_background_color="@color/transparent"
         app:layout_constraintBottom_toTopOf="@+id/surahName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/progress"
-        app:layout_constraintTop_toTopOf="@+id/progress" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ProgressBar
         android:id="@+id/progress"
@@ -31,7 +31,6 @@
         android:indeterminate="false"
         android:indeterminateOnly="false"
         android:progress="0"
-        android:progressDrawable="@drawable/circle"
         android:rotation="270"
         android:visibility="gone"
         app:chainUseRtl="true"
