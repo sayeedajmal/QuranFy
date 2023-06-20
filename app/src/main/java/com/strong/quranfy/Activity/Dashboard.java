@@ -16,9 +16,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -37,12 +46,14 @@ import java.util.Locale;
 public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData {
     static ActivityDashboardBinding BindDash;
     viewPagerSelection viewPagerAdaptor;
+    private InterstitialAd interstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BindDash = ActivityDashboardBinding.inflate(getLayoutInflater());
 
+        LoadAdsSetting();
         BindDash.Search.setEnabled(false);
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(1);
@@ -115,8 +126,58 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.PlaySurahName.setText(preferences.getString("SurahName", ""));
         BindDash.PlaySurahInform.setText(preferences.getString("SurahInform", ""));
 
-        BindDash.Setting.setOnClickListener(v -> startActivity(new Intent(this, Setting.class)));
+        BindDash.Setting.setOnClickListener(v -> {
+            if (interstitialAd != null) {
+                interstitialAd.show(Dashboard.this);
+                interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                    @Override
+                    public void onAdDismissedFullScreenContent() {
+                        super.onAdDismissedFullScreenContent();
+                        startSetting();
+                    }
+
+                    @Override
+                    public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                        super.onAdFailedToShowFullScreenContent(adError);
+                        startSetting();
+                    }
+
+                    @Override
+                    public void onAdShowedFullScreenContent() {
+                        super.onAdShowedFullScreenContent();
+                    }
+                });
+
+            } else {
+                Toast.makeText(this, "Ad not ready Yet", Toast.LENGTH_SHORT).show();
+                startSetting();
+            }
+        });
         setContentView(BindDash.getRoot());
+    }
+
+    private void startSetting() {
+        startActivity(new Intent(this, Setting.class));
+    }
+
+    private void LoadAdsSetting() {
+        MobileAds.initialize(this, initializationStatus -> {
+        });
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this, "ca-app-pub-1810690891944292/5007737644", adRequest, new InterstitialAdLoadCallback() {
+            @Override
+            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                Dashboard.this.interstitialAd = interstitialAd;
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                Toast.makeText(Dashboard.this, loadAdError.getMessage(), Toast.LENGTH_SHORT).show();
+                interstitialAd = null;
+            }
+        });
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -132,6 +193,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
     @Override
     protected void onResume() {
         super.onResume();
+        LoadAdsSetting();
         if (flag == 0 | flag == 2) {
             BindDash.PlayPauseButton.setImageResource(play);
         } else {
