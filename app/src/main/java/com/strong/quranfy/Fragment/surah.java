@@ -26,7 +26,6 @@ import java.util.ArrayList;
 public class surah extends Fragment {
     FragmentMainBinding BindMain;
     FirebaseDatabase database;
-    private int scrollPosition = 0;
     ArrayList<surah_getter> SurahName = new ArrayList<>();
     ArrayList<surahInform> SurahInform = new ArrayList<>();
     ArrayList<SurahArabicGet> ArabicGet = new ArrayList<>();

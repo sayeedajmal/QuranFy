@@ -27,14 +27,17 @@ public class Setting extends AppCompatActivity {
         });
 
         MobileAds.initialize(this, initializationStatus -> {
+            AdRequest request = new AdRequest.Builder().build();
+            Bind.firstAd.loadAd(request);
+            Bind.secondAd.loadAd(request);
+            Bind.thirdAd.loadAd(request);
+            Bind.fourthAd.loadAd(request);
+
+            AdRequest request5 = new AdRequest.Builder().build();
+            Bind.fifthAd.loadAd(request5);
+            Bind.sixthAd.loadAd(request5);
         });
 
-        AdRequest request = new AdRequest.Builder().build();
-        Bind.firstAd.loadAd(request);
-        Bind.secondAd.loadAd(request);
-        Bind.thirdAd.loadAd(request);
-        Bind.fourthAd.loadAd(request);
-        Bind.fifthAd.loadAd(request);
 
         Bind.Version.setText(BuildConfig.VERSION_NAME);
         setContentView(Bind.getRoot());
