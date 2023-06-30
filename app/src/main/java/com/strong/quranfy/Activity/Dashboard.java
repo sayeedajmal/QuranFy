@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,7 +47,7 @@ import java.util.Locale;
 public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData {
     static ActivityDashboardBinding BindDash;
     viewPagerSelection viewPagerAdaptor;
-    private InterstitialAd interstitialAd;
+    private InterstitialAd interstitialAd, backInterStitial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash = ActivityDashboardBinding.inflate(getLayoutInflater());
 
         LoadAdsSetting();
-        BindDash.Search.setEnabled(false);
+        LoadAdsBack();
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(1);
 
@@ -105,10 +106,6 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
             }
         });
 
-        //Search Button
-        // BindDash.Search.setOnClickListener(view -> BindDash.SearchText.setVisibility(View.VISIBLE));
-
-
         //Next Track
         BindDash.NextTrackButton.setOnClickListener(view -> {
             playList.ACTION("NEXT");
@@ -139,6 +136,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
                     @Override
                     public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
                         super.onAdFailedToShowFullScreenContent(adError);
+                        Toast.makeText(Dashboard.this, adError.getMessage(), Toast.LENGTH_SHORT).show();
                         startSetting();
                     }
 
@@ -153,7 +151,17 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
                 startSetting();
             }
         });
+
+        BindDash.Search.setOnClickListener(v -> this.startActivity(new Intent(this, SearchActivity.class)));
         setContentView(BindDash.getRoot());
+    }
+
+    private void SearchData(Editable editable) {
+        String SearchData = editable.toString();
+        if (!SearchData.isEmpty()) {
+
+        }
+
     }
 
     private void startSetting() {
@@ -165,7 +173,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
-        InterstitialAd.load(this, "ca-app-pub-1810690891944292/5007737644", adRequest, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(this, "ca-app-pub-1810690891944292/7822383498", adRequest, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 Dashboard.this.interstitialAd = interstitialAd;
@@ -203,8 +211,51 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        finishAffinity();
+        if (backInterStitial != null) {
+            backInterStitial.show(Dashboard.this);
+            backInterStitial.setFullScreenContentCallback(new FullScreenContentCallback() {
+                @Override
+                public void onAdDismissedFullScreenContent() {
+                    super.onAdDismissedFullScreenContent();
+                    Dashboard.super.onBackPressed();
+                }
+
+                @Override
+                public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                    super.onAdFailedToShowFullScreenContent(adError);
+                    Dashboard.super.onBackPressed();
+                }
+
+                @Override
+                public void onAdShowedFullScreenContent() {
+                    super.onAdShowedFullScreenContent();
+                }
+
+            });
+        } else {
+            Dashboard.super.onBackPressed();
+        }
+
+    }
+
+    private void LoadAdsBack() {
+        MobileAds.initialize(this, initializationStatus -> {
+
+            AdRequest adRequest2 = new AdRequest.Builder().build();
+
+            InterstitialAd.load(this, "ca-app-pub-1810690891944292/6927726920", adRequest2, new InterstitialAdLoadCallback() {
+                @Override
+                public void onAdLoaded(@NonNull InterstitialAd backInterStitial) {
+                    Dashboard.this.backInterStitial = backInterStitial;
+                }
+
+                @Override
+                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                    Toast.makeText(Dashboard.this, loadAdError.getMessage(), Toast.LENGTH_SHORT).show();
+                    backInterStitial = null;
+                }
+            });
+        });
     }
 
     // SETTING DATA FROM SHARED PREFERENCES TO ...LAST READ...
