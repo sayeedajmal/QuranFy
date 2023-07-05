@@ -79,8 +79,7 @@ public class SearchActivity extends AppCompatActivity {
             Integer.parseInt(Text);
             return true;
         } catch (NumberFormatException e) {
-            System.out.println("<<<<<<<<<<<<<<<<<<<, " + e.getLocalizedMessage());
+            return false;
         }
-        return false;
     }
 }
