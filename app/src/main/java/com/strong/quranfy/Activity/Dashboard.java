@@ -41,21 +41,21 @@ import com.strong.quranfy.databinding.ActivityDashboardBinding;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Locale;
 
 public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData {
     static ActivityDashboardBinding BindDash;
     viewPagerSelection viewPagerAdaptor;
-    private InterstitialAd interstitialAd, backInterStitial;
+    private InterstitialAd interstitialAd, BackInterstitial, interPlayScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BindDash = ActivityDashboardBinding.inflate(getLayoutInflater());
 
-        LoadAdsSetting();
         LoadAdsBack();
+        LoadAdsPlayScreen();
+
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(1);
 
@@ -67,8 +67,6 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.dashboardPager.setAdapter(viewPagerAdaptor);
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
 
-        // Register Device FCM TO Push Notifications and Know Devices Numbers
-        getDeviceFCM();
         SetData();
         addDate();
 
@@ -114,7 +112,29 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         //PlayStrip At bottom
         BindDash.playStrip.setOnClickListener(view -> {
-            if (mediaPlayer != null) startActivity(new Intent(this, playScreen.class));
+            Intent intent = new Intent(this, playScreen.class);
+            if (mediaPlayer != null)
+                if (interPlayScreen != null)
+                    interPlayScreen.show(Dashboard.this);
+            assert interPlayScreen != null;
+            interPlayScreen.setFullScreenContentCallback(new FullScreenContentCallback() {
+                @Override
+                public void onAdDismissedFullScreenContent() {
+                    super.onAdDismissedFullScreenContent();
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                    super.onAdFailedToShowFullScreenContent(adError);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onAdShowedFullScreenContent() {
+                    super.onAdShowedFullScreenContent();
+                }
+            });
         });
 
         //SharedPreferences setting Data
@@ -124,6 +144,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.PlaySurahInform.setText(preferences.getString("SurahInform", ""));
 
         BindDash.Setting.setOnClickListener(v -> {
+            LoadAdsSetting();
             if (interstitialAd != null) {
                 interstitialAd.show(Dashboard.this);
                 interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
@@ -173,7 +194,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         });
         AdRequest adRequest = new AdRequest.Builder().build();
 
-        InterstitialAd.load(this, "ca-app-pub-1810690891944292/7822383498", adRequest, new InterstitialAdLoadCallback() {
+        InterstitialAd.load(this, "ca-app-pub-8883319358533025/6675443468", adRequest, new InterstitialAdLoadCallback() {
             @Override
             public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
                 Dashboard.this.interstitialAd = interstitialAd;
@@ -185,7 +206,25 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
                 interstitialAd = null;
             }
         });
+    }
 
+    private void LoadAdsPlayScreen() {
+        MobileAds.initialize(this, initializationStatus -> {
+        });
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this, "ca-app-pub-8883319358533025/9092641673", adRequest, new InterstitialAdLoadCallback() {
+            @Override
+            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+                Dashboard.this.interPlayScreen = interstitialAd;
+            }
+
+            @Override
+            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                Toast.makeText(Dashboard.this, loadAdError.getMessage(), Toast.LENGTH_SHORT).show();
+                interPlayScreen = null;
+            }
+        });
     }
 
     @SuppressLint("SetTextI18n")
@@ -211,9 +250,9 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
     @Override
     public void onBackPressed() {
-        if (backInterStitial != null) {
-            backInterStitial.show(Dashboard.this);
-            backInterStitial.setFullScreenContentCallback(new FullScreenContentCallback() {
+        if (BackInterstitial != null) {
+            BackInterstitial.show(Dashboard.this);
+            BackInterstitial.setFullScreenContentCallback(new FullScreenContentCallback() {
                 @Override
                 public void onAdDismissedFullScreenContent() {
                     super.onAdDismissedFullScreenContent();
@@ -229,6 +268,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
                 @Override
                 public void onAdShowedFullScreenContent() {
                     super.onAdShowedFullScreenContent();
+                    Dashboard.super.onBackPressed();
                 }
 
             });
@@ -243,16 +283,16 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
             AdRequest adRequest2 = new AdRequest.Builder().build();
 
-            InterstitialAd.load(this, "ca-app-pub-1810690891944292/6927726920", adRequest2, new InterstitialAdLoadCallback() {
+            InterstitialAd.load(this, "ca-app-pub-8883319358533025/9301606800", adRequest2, new InterstitialAdLoadCallback() {
                 @Override
                 public void onAdLoaded(@NonNull InterstitialAd backInterStitial) {
-                    Dashboard.this.backInterStitial = backInterStitial;
+                    Dashboard.this.BackInterstitial = backInterStitial;
                 }
 
                 @Override
                 public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
                     Toast.makeText(Dashboard.this, loadAdError.getMessage(), Toast.LENGTH_SHORT).show();
-                    backInterStitial = null;
+                    BackInterstitial = null;
                 }
             });
         });
@@ -283,10 +323,6 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
     public static void getDeviceFCM() {
         DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("Devices");
-        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(s -> {
-            HashMap<String, Object> hashMap = new HashMap<>();
-            hashMap.put("Device ID", s);
-            database.push().setValue(hashMap);
-        }).addOnFailureListener(e -> System.out.println("Device FCM:  " + e.getLocalizedMessage()));
+        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(s -> database.push().setValue(s)).addOnFailureListener(e -> System.out.println("Device FCM:  " + e.getLocalizedMessage()));
     }
 }
