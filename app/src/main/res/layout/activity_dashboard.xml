@@ -57,42 +57,19 @@
                     app:layout_constraintStart_toEndOf="@+id/Setting"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.google.android.material.search.SearchBar
+                <SearchView
                     android:id="@+id/Search"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@color/transparent"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginEnd="5dp"
+                    android:animateLayoutChanges="true"
+                    android:queryHint="Surah Name or Number"
+                    android:searchIcon="@drawable/search"
+                    android:inputType="textCapWords"
                     android:theme="@style/Theme.QuranFy.icons"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
-                    android:id="@+id/SearchInput"
-                    android:layout_width="0dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="16dp"
-                    android:autofillHints="Mulk | Luqman | Furqan"
-                    android:background="@drawable/circle"
-                    android:contentDescription="Search"
-                    android:focusable="true"
-                    android:foreground="?android:selectableItemBackgroundBorderless"
-                    android:hint="Search Surah"
-                    android:lines="1"
-                    android:visibility="gone"
-                    android:paddingStart="3dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/search"
-                    android:textAlignment="textStart"
-                    android:textSize="18sp"
-                    android:theme="@style/Theme.QuranFy.icons"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView2"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="MissingConstraints,RtlSymmetry" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView

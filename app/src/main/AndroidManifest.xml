@@ -17,13 +17,6 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuranFy">
-        <activity
-            android:name=".Activity.SearchActivity"
-            android:exported="false" />
-
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-8883319358533025~7091210580" />
 
         <activity
             android:name=".Activity.splashScreen"

@@ -6,6 +6,7 @@ import static com.strong.quranfy.Activity.mediaService.flag;
 import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
 import static com.strong.quranfy.Activity.mediaService.setFlag;
 import static com.strong.quranfy.Activity.playScreen.currentTime;
+import static com.strong.quranfy.Fragment.Surah_Frag.SearchSurah;
 import static com.strong.quranfy.R.drawable.pause;
 import static com.strong.quranfy.R.drawable.play;
 
@@ -16,24 +17,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.Toast;
+import android.widget.SearchView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.ads.AdError;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.FullScreenContentCallback;
-import com.google.android.gms.ads.LoadAdError;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.interstitial.InterstitialAd;
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.strong.quranfy.Adaptor.surah_adaptor;
-import com.strong.quranfy.Fragment.Qiraat;
-import com.strong.quranfy.Fragment.surah;
+import com.strong.quranfy.Fragment.Qirat_Frag;
+import com.strong.quranfy.Fragment.Surah_Frag;
 import com.strong.quranfy.Models.playList;
 import com.strong.quranfy.Models.surahData;
 import com.strong.quranfy.databinding.ActivityDashboardBinding;
@@ -45,26 +38,22 @@ import java.util.Locale;
 public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData {
     static ActivityDashboardBinding BindDash;
     viewPagerSelection viewPagerAdaptor;
-    private InterstitialAd interstitialAd, BackInterstitial, interPlayScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         BindDash = ActivityDashboardBinding.inflate(getLayoutInflater());
 
-        LoadAdsBack();
-        LoadAdsPlayScreen();
-
         if (mediaPlayer == null) {
             NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             manager.cancel(1);
         }
 
-        surah surah = new surah();
-        Qiraat qiraat = new Qiraat();
+        Surah_Frag Surah_Frag = new Surah_Frag();
+        Qirat_Frag qiratFrag = new Qirat_Frag();
         viewPagerAdaptor = new viewPagerSelection(getSupportFragmentManager(), 0);
-        viewPagerAdaptor.addFragment(surah, "surah");
-        viewPagerAdaptor.addFragment(qiraat, "Qirat");
+        viewPagerAdaptor.addFragment(Surah_Frag, "Surah");
+        viewPagerAdaptor.addFragment(qiratFrag, "Qirat");
         BindDash.dashboardPager.setAdapter(viewPagerAdaptor);
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
 
@@ -112,33 +101,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         });
 
         //PlayStrip At bottom
-        BindDash.playStrip.setOnClickListener(view -> {
-            Intent intent = new Intent(this, playScreen.class);
-            if (mediaPlayer != null)
-                if (interPlayScreen != null) {
-                    interPlayScreen.show(Dashboard.this);
-
-                    interPlayScreen.setFullScreenContentCallback(new FullScreenContentCallback() {
-                        @Override
-                        public void onAdDismissedFullScreenContent() {
-                            super.onAdDismissedFullScreenContent();
-                            startActivity(intent);
-                        }
-
-                        @Override
-                        public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                            super.onAdFailedToShowFullScreenContent(adError);
-                            startActivity(intent);
-                        }
-
-                        @Override
-                        public void onAdShowedFullScreenContent() {
-                            super.onAdShowedFullScreenContent();
-                        }
-                    });
-                } else
-                    startActivity(intent);
-        });
+        BindDash.playStrip.setOnClickListener(view -> startActivity(new Intent(this, playScreen.class)));
 
         //SharedPreferences setting Data
         SharedPreferences preferences = getSharedPreferences("RecentPlay", Context.MODE_PRIVATE);
@@ -146,81 +109,27 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.PlaySurahName.setText(preferences.getString("SurahName", ""));
         BindDash.PlaySurahInform.setText(preferences.getString("SurahInform", ""));
 
-        BindDash.Setting.setOnClickListener(v -> {
-            LoadAdsSetting();
-            if (interstitialAd != null) {
-                interstitialAd.show(Dashboard.this);
-                interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                    @Override
-                    public void onAdDismissedFullScreenContent() {
-                        super.onAdDismissedFullScreenContent();
-                        startSetting();
-                    }
+        BindDash.Setting.setOnClickListener(v -> startActivity(new Intent(this, Setting.class)));
 
-                    @Override
-                    public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                        super.onAdFailedToShowFullScreenContent(adError);
-                        Toast.makeText(Dashboard.this, adError.getMessage(), Toast.LENGTH_SHORT).show();
-                        startSetting();
-                    }
 
-                    @Override
-                    public void onAdShowedFullScreenContent() {
-                        super.onAdShowedFullScreenContent();
-                    }
-                });
+        BindDash.Search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
 
-            } else {
-                Toast.makeText(this, "Ad not ready Yet", Toast.LENGTH_SHORT).show();
-                startSetting();
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (!s.isEmpty()) {
+                    SearchSurah(s);
+                } else com.strong.quranfy.Fragment.Surah_Frag.GetSurah();
+
+                return false;
             }
         });
-
-        BindDash.Search.setOnClickListener(v -> this.startActivity(new Intent(this, SearchActivity.class)));
         setContentView(BindDash.getRoot());
     }
 
-    private void startSetting() {
-        startActivity(new Intent(this, Setting.class));
-    }
-
-    private void LoadAdsSetting() {
-        MobileAds.initialize(this, initializationStatus -> {
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        InterstitialAd.load(this, "ca-app-pub-8883319358533025/6675443468", adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                Dashboard.this.interstitialAd = interstitialAd;
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                Toast.makeText(Dashboard.this, loadAdError.getMessage(), Toast.LENGTH_SHORT).show();
-                interstitialAd = null;
-            }
-        });
-    }
-
-    private void LoadAdsPlayScreen() {
-        MobileAds.initialize(this, initializationStatus -> {
-        });
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        InterstitialAd.load(this, "ca-app-pub-8883319358533025/9092641673", adRequest, new InterstitialAdLoadCallback() {
-            @Override
-            public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-                Dashboard.this.interPlayScreen = interstitialAd;
-            }
-
-            @Override
-            public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                Toast.makeText(Dashboard.this, loadAdError.getMessage(), Toast.LENGTH_SHORT).show();
-                interPlayScreen = null;
-            }
-        });
-    }
 
     @SuppressLint("SetTextI18n")
     private void addDate() {
@@ -235,62 +144,11 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
     @Override
     protected void onResume() {
         super.onResume();
-        LoadAdsSetting();
         if (flag == 0 | flag == 2) {
             BindDash.PlayPauseButton.setImageResource(play);
         } else {
             BindDash.PlayPauseButton.setImageResource(pause);
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (BackInterstitial != null) {
-            BackInterstitial.show(Dashboard.this);
-            BackInterstitial.setFullScreenContentCallback(new FullScreenContentCallback() {
-                @Override
-                public void onAdDismissedFullScreenContent() {
-                    super.onAdDismissedFullScreenContent();
-                    Dashboard.super.onBackPressed();
-                }
-
-                @Override
-                public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                    super.onAdFailedToShowFullScreenContent(adError);
-                    Dashboard.super.onBackPressed();
-                }
-
-                @Override
-                public void onAdShowedFullScreenContent() {
-                    super.onAdShowedFullScreenContent();
-                    Dashboard.super.onBackPressed();
-                }
-
-            });
-        } else {
-            Dashboard.super.onBackPressed();
-        }
-
-    }
-
-    private void LoadAdsBack() {
-        MobileAds.initialize(this, initializationStatus -> {
-
-            AdRequest adRequest2 = new AdRequest.Builder().build();
-
-            InterstitialAd.load(this, "ca-app-pub-8883319358533025/9301606800", adRequest2, new InterstitialAdLoadCallback() {
-                @Override
-                public void onAdLoaded(@NonNull InterstitialAd backInterInitial) {
-                    Dashboard.this.BackInterstitial = backInterInitial;
-                }
-
-                @Override
-                public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-                    Toast.makeText(Dashboard.this, loadAdError.getMessage(), Toast.LENGTH_SHORT).show();
-                    BackInterstitial = null;
-                }
-            });
-        });
     }
 
     // SETTING DATA FROM SHARED PREFERENCES TO ...LAST READ...
