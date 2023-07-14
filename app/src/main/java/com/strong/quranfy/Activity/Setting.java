@@ -6,8 +6,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.MobileAds;
 import com.strong.quranfy.BuildConfig;
 import com.strong.quranfy.databinding.ActivitySettingBinding;
 
@@ -25,19 +23,6 @@ public class Setting extends AppCompatActivity {
             Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             startActivity(intent);
         });
-
-        MobileAds.initialize(this, initializationStatus -> {
-            AdRequest request = new AdRequest.Builder().build();
-            Bind.firstAd.loadAd(request);
-            Bind.secondAd.loadAd(request);
-            Bind.thirdAd.loadAd(request);
-            Bind.fourthAd.loadAd(request);
-
-            AdRequest request5 = new AdRequest.Builder().build();
-            Bind.fifthAd.loadAd(request5);
-            Bind.sixthAd.loadAd(request5);
-        });
-
 
         Bind.Version.setText(BuildConfig.VERSION_NAME);
         setContentView(Bind.getRoot());
