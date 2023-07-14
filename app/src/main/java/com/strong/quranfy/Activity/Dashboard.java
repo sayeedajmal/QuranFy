@@ -16,7 +16,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -56,14 +55,16 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         LoadAdsBack();
         LoadAdsPlayScreen();
 
-        NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        manager.cancel(1);
+        if (mediaPlayer == null) {
+            NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            manager.cancel(1);
+        }
 
         surah surah = new surah();
         Qiraat qiraat = new Qiraat();
         viewPagerAdaptor = new viewPagerSelection(getSupportFragmentManager(), 0);
         viewPagerAdaptor.addFragment(surah, "surah");
-        viewPagerAdaptor.addFragment(qiraat, "Qiraat");
+        viewPagerAdaptor.addFragment(qiraat, "Qirat");
         BindDash.dashboardPager.setAdapter(viewPagerAdaptor);
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
 
@@ -114,27 +115,29 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.playStrip.setOnClickListener(view -> {
             Intent intent = new Intent(this, playScreen.class);
             if (mediaPlayer != null)
-                if (interPlayScreen != null)
+                if (interPlayScreen != null) {
                     interPlayScreen.show(Dashboard.this);
-            assert interPlayScreen != null;
-            interPlayScreen.setFullScreenContentCallback(new FullScreenContentCallback() {
-                @Override
-                public void onAdDismissedFullScreenContent() {
-                    super.onAdDismissedFullScreenContent();
-                    startActivity(intent);
-                }
 
-                @Override
-                public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                    super.onAdFailedToShowFullScreenContent(adError);
-                    startActivity(intent);
-                }
+                    interPlayScreen.setFullScreenContentCallback(new FullScreenContentCallback() {
+                        @Override
+                        public void onAdDismissedFullScreenContent() {
+                            super.onAdDismissedFullScreenContent();
+                            startActivity(intent);
+                        }
 
-                @Override
-                public void onAdShowedFullScreenContent() {
-                    super.onAdShowedFullScreenContent();
-                }
-            });
+                        @Override
+                        public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                            super.onAdFailedToShowFullScreenContent(adError);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onAdShowedFullScreenContent() {
+                            super.onAdShowedFullScreenContent();
+                        }
+                    });
+                } else
+                    startActivity(intent);
         });
 
         //SharedPreferences setting Data
@@ -175,14 +178,6 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         BindDash.Search.setOnClickListener(v -> this.startActivity(new Intent(this, SearchActivity.class)));
         setContentView(BindDash.getRoot());
-    }
-
-    private void SearchData(Editable editable) {
-        String SearchData = editable.toString();
-        if (!SearchData.isEmpty()) {
-
-        }
-
     }
 
     private void startSetting() {
@@ -285,8 +280,8 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
             InterstitialAd.load(this, "ca-app-pub-8883319358533025/9301606800", adRequest2, new InterstitialAdLoadCallback() {
                 @Override
-                public void onAdLoaded(@NonNull InterstitialAd backInterStitial) {
-                    Dashboard.this.BackInterstitial = backInterStitial;
+                public void onAdLoaded(@NonNull InterstitialAd backInterInitial) {
+                    Dashboard.this.BackInterstitial = backInterInitial;
                 }
 
                 @Override

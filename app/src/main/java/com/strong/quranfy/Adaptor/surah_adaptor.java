@@ -58,24 +58,6 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         }
     }
 
-    //THIS IS USED FOR DOWNLOADING THE FILE WHICH YOU HAVE CLICKED ON ITEM_VIEW
-    @SuppressLint("DefaultLocale")
-    public static void getAudioFile(String SurahNumber) {
-        if (Integer.parseInt(SurahNumber) < 10) {
-            int surah = Integer.parseInt(SurahNumber);
-            String number = String.format("%02d", surah);
-            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(number + ".mp3");
-            mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
-        } else {
-            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
-            mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
-        }
-    }
-
-    private static void AudioPlay(Uri uri) {
-        mediaService.MediaPlay(uri.toString());
-    }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -137,6 +119,24 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
 
             context.startActivity(intent);
         });
+    }
+
+    //THIS IS USED FOR DOWNLOADING THE FILE WHICH YOU HAVE CLICKED ON ITEM_VIEW
+    @SuppressLint("DefaultLocale")
+    public static void getAudioFile(String SurahNumber) {
+        if (Integer.parseInt(SurahNumber) < 10) {
+            int surah = Integer.parseInt(SurahNumber);
+            String number = String.format("%02d", surah);
+            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(number + ".mp3");
+            mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
+        } else {
+            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
+            mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
+        }
+    }
+
+    private static void AudioPlay(Uri uri) {
+        mediaService.MediaPlay(uri.toString());
     }
 
     //Update Data on Next or Previous Button

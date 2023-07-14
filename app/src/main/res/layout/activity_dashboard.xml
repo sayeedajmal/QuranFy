@@ -68,8 +68,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <!--<EditText
-                    android:id="@+id/Search_text"
+                <EditText
+                    android:id="@+id/SearchInput"
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:layout_marginStart="8dp"
@@ -81,6 +81,7 @@
                     android:foreground="?android:selectableItemBackgroundBorderless"
                     android:hint="Search Surah"
                     android:lines="1"
+                    android:visibility="gone"
                     android:paddingStart="3dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/search"
@@ -91,7 +92,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView2"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="MissingConstraints,RtlSymmetry" />-->
+                    tools:ignore="MissingConstraints,RtlSymmetry" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
