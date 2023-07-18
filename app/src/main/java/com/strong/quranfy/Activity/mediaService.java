@@ -4,6 +4,7 @@ import static com.strong.quranfy.Activity.playScreen.currentDuration;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
 import static com.strong.quranfy.Adaptor.surah_adaptor.getAudioFile;
 
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 
 import java.io.IOException;
@@ -15,15 +16,21 @@ public class mediaService {
 
     public static void MediaPlay(String uri) {
         mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().
+                setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .setUsage(AudioAttributes.USAGE_MEDIA).build());
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
         } else try {
             mediaPlayer.setDataSource(uri);
-            mediaPlayer.prepare();
-            mediaPlayer.setOnPreparedListener(mediaPlayer -> currentDuration());
-            mediaPlayer.start();
-            setDuration(mediaPlayer.getDuration());
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setOnPreparedListener(mediaPlayer -> {
+                currentDuration();
+                mediaPlayer.start();
+                setDuration(mediaPlayer.getDuration());
+            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }

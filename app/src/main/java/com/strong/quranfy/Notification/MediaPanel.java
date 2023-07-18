@@ -1,7 +1,6 @@
 package com.strong.quranfy.Notification;
 
 import android.app.Application;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -19,13 +18,12 @@ import com.strong.quranfy.R;
 
 public class MediaPanel extends Application {
     public static final String CHANNEL_ID = "Channel_1";
-    public static final String CHANNEL_NAME = "QURANFY";
 
     public static void PushNotification(String SurahNumber, String SurahName, String SurahInform, Context context, int REQ_CODE) {
         Intent intent = new Intent(context, Dashboard.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        Bitmap image = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.quran_img);
+        Bitmap image = BitmapFactory.decodeResource(Resources.getSystem(), R.mipmap.ic_launcher_foreground);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, REQ_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
 
         /*PlayPause Play ACTION*/
@@ -49,22 +47,24 @@ public class MediaPanel extends Application {
 
         MediaSessionCompat mediaSession = new MediaSessionCompat(context, "QuranFy");
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+        mediaSession.setActive(true);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setLargeIcon(image)
-                .setSmallIcon(R.drawable.quran)
+                .setSmallIcon(R.mipmap.ic_launcher_foreground)
                 .setSilent(true)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setColorized(true)
                 .setContentTitle(SurahNumber + " - " + SurahName)
                 .setContentText(SurahInform)
                 .setAutoCancel(true)
-                .setDefaults(NotificationCompat.GROUP_ALERT_ALL)
-                .setCategory(NotificationCompat.CATEGORY_TRANSPORT)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setDefaults(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.EXTRA_MEDIA_SESSION)
+                .setAllowSystemGeneratedContextualActions(true)
+                .setChronometerCountDown(true)
                 .setContentIntent(pendingIntent)
                 .addAction(R.drawable.ic_previous, "Previous", PrevPending)
-                .addAction(R.drawable.pause, "Play Pause", PlayPending)
+                .addAction(R.drawable.pause, "Play/Pause", PlayPending)
                 .addAction(R.drawable.ic_next, "Next", NextPending)
                 .addAction(R.drawable.ic_close, "Close", ClosePending)
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
@@ -74,12 +74,8 @@ public class MediaPanel extends Application {
                         .setMediaSession(mediaSession.getSessionToken()));
         builder.setOngoing(true);
 
-        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
-        channel.enableLights(true);
-        channel.setLockscreenVisibility(1);
 
         NotificationManager manager = context.getSystemService(NotificationManager.class);
-        manager.createNotificationChannel(channel);
         manager.notify(1, builder.build());
     }
 
