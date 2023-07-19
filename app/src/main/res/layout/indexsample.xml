@@ -8,8 +8,7 @@
     android:clickable="true"
     android:foreground="?selectableItemBackgroundBorderless"
     app:cardCornerRadius="10dp"
-    app:cardElevation="0dp"
-    app:neumorph_shapeType="basin">
+    app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -65,6 +64,17 @@
             app:layout_constraintBottom_toBottomOf="@+id/surahIcon"
             app:layout_constraintStart_toEndOf="@+id/surahIcon"
             app:layout_constraintTop_toBottomOf="@+id/surahName" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/surahRead"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_read"
+            android:tint="@color/White"
+            app:layout_constraintBottom_toBottomOf="@+id/surahNameArabic"
+            app:layout_constraintEnd_toStartOf="@+id/surahNameArabic"
+            app:layout_constraintTop_toTopOf="@+id/surahNameArabic" />
 
         <TextView
             android:id="@+id/surahNameArabic"

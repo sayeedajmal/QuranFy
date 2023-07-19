@@ -10,10 +10,12 @@ import static com.strong.quranfy.Activity.mediaService.setFlag;
 import static com.strong.quranfy.R.drawable.pause;
 import static com.strong.quranfy.R.drawable.play;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
@@ -23,9 +25,11 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
 
 import com.strong.quranfy.Models.playList;
 import com.strong.quranfy.Models.surahData;
+import com.strong.quranfy.R;
 import com.strong.quranfy.databinding.ActivityPlayScreenBinding;
 
 import java.io.ByteArrayOutputStream;
@@ -42,8 +46,8 @@ public class playScreen extends AppCompatActivity {
 
     public static void currentDuration() {
         Handler current = new Handler();
-        final int delay = 1000;
-        current.postDelayed(new Runnable() {
+        final int delay = 100;
+        if (mediaPlayer != null) current.postDelayed(new Runnable() {
             @Override
             public void run() {
                 //Setting TotalTime of Surah
@@ -51,7 +55,8 @@ public class playScreen extends AppCompatActivity {
                 Bind.TotalTime.setText(TotalDuration);
                 try {
                     //Setting the current duration from the media player
-                    Bind.progressBar.setMax(mediaPlayer.getDuration());
+                    Bind.seekBar.setMax(mediaPlayer.getDuration());
+                    Bind.progress.setMax(mediaPlayer.getDuration() - 1000);
                     currentTime = createDuration(mediaPlayer.getCurrentPosition());
 //                    Updating the lyric Time with Music RealTime
                     Bind.lyrics.updateTime(mediaPlayer.getCurrentPosition(), true);
@@ -66,11 +71,12 @@ public class playScreen extends AppCompatActivity {
                     if (flag == 0 | flag == 2) {
                         Bind.PlayPauseButton.setImageResource(play);
                     } else {
+                        //Setting progressBar of Slider
+                        Bind.seekBar.setProgress(mediaPlayer.getCurrentPosition(), true);
+                        Bind.progress.setProgress(mediaPlayer.getCurrentPosition(), true);
+
                         Bind.PlayPauseButton.setImageResource(pause);
                     }
-
-                    //Setting progressBar of Slider
-                    Bind.progressBar.setProgress(mediaPlayer.getCurrentPosition(), true);
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
                 }
@@ -83,6 +89,9 @@ public class playScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bind = ActivityPlayScreenBinding.inflate(getLayoutInflater());
+
+        if (Build.VERSION.SDK_INT > 27)
+            Bind.progress.setProgressDrawable(AppCompatResources.getDrawable(this, R.drawable.circle));
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         orientation = getResources().getConfiguration().orientation;
@@ -97,12 +106,11 @@ public class playScreen extends AppCompatActivity {
         Bind.rotate.setOnClickListener(view -> {
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            } else
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+            } else setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         });
 
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Bind.progressBar.setVisibility(View.GONE);
+            Bind.seekBar.setVisibility(View.GONE);
             Bind.PreviousTrackButton.setVisibility(View.GONE);
             Bind.NextTrackButton.setVisibility(View.GONE);
             Bind.TotalTime.setVisibility(View.GONE);
@@ -114,25 +122,35 @@ public class playScreen extends AppCompatActivity {
 
     private void Lyric(String surahNumber) {
         //  Getting Resource Id
-        int lyricId = this.getResources().getIdentifier("_" + surahNumber, "raw", getPackageName());
+        @SuppressLint("DiscouragedApi") int lyricId = this.getResources().getIdentifier("_" + surahNumber, "raw", getPackageName());
         if (lyricId != 0) {
+            Bind.progress.setVisibility(View.GONE);
+            Bind.quranIcon.setVisibility(View.GONE);
             InputStream file = getResources().openRawResource(lyricId);
             String lrcFile = readTextFile(file);
             Bind.lyrics.loadLyric(lrcFile, null);
-            Bind.lyrics.setCurrentTextSize(100);
-            Bind.lyrics.setNormalTextSize(80);
+            Bind.lyrics.setCurrentTextSize(90);
+            Bind.lyrics.setNormalTextSize(70);
             Bind.lyrics.setTextGravity(Gravity.END);
             Bind.lyrics.setTimelineTextColor(Color.rgb(9, 162, 189));
             Bind.lyrics.setCurrentColor(Color.rgb(9, 162, 189));
+
             Bind.lyrics.setDraggable(true, l -> {
                 Bind.lyrics.updateTime(l, true);
-                mediaPlayer.seekTo(l, MediaPlayer.SEEK_NEXT_SYNC);
-                mediaPlayer.start();
+                if (mediaPlayer != null) {
+                    setFlag(1);
+                    mediaPlayer.seekTo(l, MediaPlayer.SEEK_NEXT_SYNC);
+                    mediaPlayer.start();
+                }
                 return false;
             });
             Bind.lyrics.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             Bind.lyrics.setTimelineColor(Color.parseColor("green"));
-        } else Toast.makeText(this, "Lyric Can't Added.", Toast.LENGTH_SHORT).show();
+        } else {
+            Bind.lyrics.setVisibility(View.GONE);
+            Bind.progress.setVisibility(View.VISIBLE);
+            Bind.quranIcon.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -168,7 +186,7 @@ public class playScreen extends AppCompatActivity {
     }
 
     private void seekBar() {
-        Bind.progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        Bind.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
@@ -181,7 +199,7 @@ public class playScreen extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                mediaPlayer.seekTo(seekBar.getProgress());
+                if (mediaPlayer != null) mediaPlayer.seekTo(seekBar.getProgress());
             }
         });
     }

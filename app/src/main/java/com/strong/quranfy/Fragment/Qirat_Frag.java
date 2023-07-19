@@ -15,7 +15,7 @@ import com.strong.quranfy.databinding.FragmentQiratBinding;
 
 import java.util.ArrayList;
 
-public class Qiraat extends Fragment {
+public class Qirat_Frag extends Fragment {
     FragmentQiratBinding Bind;
     ArrayList<qirat_getter> qirat_getters = new ArrayList<>();
 

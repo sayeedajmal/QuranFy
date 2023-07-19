@@ -4,6 +4,7 @@ import static com.strong.quranfy.Activity.playScreen.currentDuration;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
 import static com.strong.quranfy.Adaptor.surah_adaptor.getAudioFile;
 
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 
 import java.io.IOException;
@@ -15,15 +16,21 @@ public class mediaService {
 
     public static void MediaPlay(String uri) {
         mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().
+                setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .setUsage(AudioAttributes.USAGE_MEDIA).build());
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
         } else try {
             mediaPlayer.setDataSource(uri);
-            mediaPlayer.prepare();
-            mediaPlayer.setOnPreparedListener(mediaPlayer -> currentDuration());
-            mediaPlayer.start();
-            setDuration(mediaPlayer.getDuration());
+            mediaPlayer.prepareAsync();
+            mediaPlayer.setOnPreparedListener(mediaPlayer -> {
+                currentDuration();
+                mediaPlayer.start();
+                setDuration(mediaPlayer.getDuration());
+            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,6 +52,8 @@ public class mediaService {
 
     public static void NextPlay() {
         int nextSurah = Integer.parseInt(PlaySurahNumber) + 1;
+        PlaySurahNumber = String.valueOf(nextSurah);
+
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.reset();
@@ -55,6 +64,8 @@ public class mediaService {
 
     public static void PreviousPlay() {
         int PrevSurah = Integer.parseInt(PlaySurahNumber) - 1;
+        PlaySurahNumber = String.valueOf(PrevSurah);
+
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.reset();
@@ -64,7 +75,7 @@ public class mediaService {
     }
 
     public static void CheckMediaPlaying() {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+        if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.reset();
             mediaPlayer.release();
@@ -72,17 +83,12 @@ public class mediaService {
     }
 
     public static String createDuration(int duration) {
-
         String time = "";
         int min = duration / 1000 / 60;
         int sec = duration / 1000 % 60;
-
         time = time + min + ":";
-
         if (sec < 10) {
-
             time += "0";
-
         }
         time += sec;
         return time;
