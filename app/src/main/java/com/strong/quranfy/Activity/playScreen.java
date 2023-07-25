@@ -3,8 +3,8 @@ package com.strong.quranfy.Activity;
 import static com.strong.quranfy.Activity.mediaService.NextPlay;
 import static com.strong.quranfy.Activity.mediaService.PreviousPlay;
 import static com.strong.quranfy.Activity.mediaService.createDuration;
-import static com.strong.quranfy.Activity.mediaService.flag;
 import static com.strong.quranfy.Activity.mediaService.getDuration;
+import static com.strong.quranfy.Activity.mediaService.isPlaying;
 import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
 import static com.strong.quranfy.Activity.mediaService.setFlag;
 import static com.strong.quranfy.R.drawable.pause;
@@ -64,17 +64,16 @@ public class playScreen extends AppCompatActivity {
                     Bind.currentTime.setText(currentTime);
                     if (currentTime.equals(TotalDuration)) {
                         Bind.PlayPauseButton.setImageResource(play);
-                        setFlag(0);
+                        setFlag(false);
                     }
 
                     // Notification Action  for Play Pause
-                    if (flag == 0 | flag == 2) {
+                    if (!isPlaying) {
                         Bind.PlayPauseButton.setImageResource(play);
                     } else {
                         //Setting progressBar of Slider
                         Bind.seekBar.setProgress(mediaPlayer.getCurrentPosition(), true);
                         Bind.progress.setProgress(mediaPlayer.getCurrentPosition(), true);
-
                         Bind.PlayPauseButton.setImageResource(pause);
                     }
                 } catch (IllegalStateException e) {
@@ -138,7 +137,7 @@ public class playScreen extends AppCompatActivity {
             Bind.lyrics.setDraggable(true, l -> {
                 Bind.lyrics.updateTime(l, true);
                 if (mediaPlayer != null) {
-                    setFlag(1);
+                    setFlag(true);
                     mediaPlayer.seekTo(l, MediaPlayer.SEEK_NEXT_SYNC);
                     mediaPlayer.start();
                 }
@@ -207,7 +206,7 @@ public class playScreen extends AppCompatActivity {
     private void PlayPause() {
         Bind.PlayPauseButton.setOnClickListener(view -> {
             setFlag(mediaService.PlayPause());
-            if (flag == 0 | flag == 2) {
+            if (!isPlaying) {
                 Bind.PlayPauseButton.setImageResource(play);
             } else {
                 Bind.PlayPauseButton.setImageResource(pause);
@@ -218,7 +217,7 @@ public class playScreen extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (flag == 0 | flag == 2) {
+        if (!isPlaying) {
             Bind.PlayPauseButton.setImageResource(play);
         } else {
             Bind.PlayPauseButton.setImageResource(pause);

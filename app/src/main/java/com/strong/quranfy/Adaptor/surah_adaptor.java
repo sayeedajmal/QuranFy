@@ -115,7 +115,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
 
             onClickSendData.onReceiveData(intent);
 
-            mediaService.setFlag(1);
+            mediaService.setFlag(true);
 
             context.startActivity(intent);
         });

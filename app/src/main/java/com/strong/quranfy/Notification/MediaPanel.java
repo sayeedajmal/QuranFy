@@ -1,6 +1,7 @@
 package com.strong.quranfy.Notification;
 
 import android.app.Application;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -18,6 +19,8 @@ import com.strong.quranfy.R;
 
 public class MediaPanel extends Application {
     public static final String CHANNEL_ID = "Channel_1";
+    public static final String CHANNEL_NAME = "QURANFY";
+
 
     public static void PushNotification(String SurahNumber, String SurahName, String SurahInform, Context context, int REQ_CODE) {
         Intent intent = new Intent(context, Dashboard.class);
@@ -74,11 +77,14 @@ public class MediaPanel extends Application {
                         .setMediaSession(mediaSession.getSessionToken()));
         builder.setOngoing(true);
 
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
+        channel.enableLights(true);
+        channel.setLockscreenVisibility(1);
 
         NotificationManager manager = context.getSystemService(NotificationManager.class);
+        manager.createNotificationChannel(channel);
         manager.notify(1, builder.build());
     }
-
 
     @Override
     public void onCreate() {

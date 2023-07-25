@@ -10,15 +10,14 @@ import android.media.MediaPlayer;
 import java.io.IOException;
 
 public class mediaService {
-    public static int flag;
+    public static boolean isPlaying = false;
     static int duration;
     public static MediaPlayer mediaPlayer;
 
     public static void MediaPlay(String uri) {
         mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().
-                setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .setUsage(AudioAttributes.USAGE_MEDIA).build());
+        mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).setUsage(AudioAttributes.USAGE_MEDIA).build());
+
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -26,9 +25,9 @@ public class mediaService {
             mediaPlayer.setDataSource(uri);
             mediaPlayer.prepareAsync();
             mediaPlayer.setOnPreparedListener(mediaPlayer -> {
-                currentDuration();
                 mediaPlayer.start();
                 setDuration(mediaPlayer.getDuration());
+                currentDuration();
             });
 
         } catch (IOException e) {
@@ -36,39 +35,33 @@ public class mediaService {
         }
     }
 
-    public static int PlayPause() {
+    public static boolean PlayPause() {
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.pause();
-                return 0;
-            } else {
-                mediaPlayer.start();
-                return 1;
+                return false;
             }
-        } else {
-            return 0;
+            mediaPlayer.start();
+            return true;
         }
+        return false;
     }
 
     public static void NextPlay() {
-        int nextSurah = Integer.parseInt(PlaySurahNumber) + 1;
-        PlaySurahNumber = String.valueOf(nextSurah);
-
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            int nextSurah = Integer.parseInt(PlaySurahNumber) + 1;
+            PlaySurahNumber = String.valueOf(nextSurah);
             mediaPlayer.stop();
-            mediaPlayer.reset();
             mediaPlayer.release();
             getAudioFile(String.valueOf(nextSurah));
         }
     }
 
     public static void PreviousPlay() {
-        int PrevSurah = Integer.parseInt(PlaySurahNumber) - 1;
-        PlaySurahNumber = String.valueOf(PrevSurah);
-
         if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+            int PrevSurah = Integer.parseInt(PlaySurahNumber) - 1;
+            PlaySurahNumber = String.valueOf(PrevSurah);
             mediaPlayer.stop();
-            mediaPlayer.reset();
             mediaPlayer.release();
             getAudioFile(String.valueOf(PrevSurah));
         }
@@ -102,7 +95,7 @@ public class mediaService {
         mediaService.duration = duration;
     }
 
-    public static void setFlag(int flag) {
-        mediaService.flag = flag;
+    public static void setFlag(boolean isPlaying) {
+        mediaService.isPlaying = isPlaying;
     }
 }

@@ -37,7 +37,7 @@ public class BroadCastRec extends BroadcastReceiver {
                 break;
             case "CLOSE":
                 if (mediaPlayer.isPlaying()) mediaPlayer.pause();
-                setFlag(0);
+                setFlag(false);
                 closeNotification();
                 break;
         }

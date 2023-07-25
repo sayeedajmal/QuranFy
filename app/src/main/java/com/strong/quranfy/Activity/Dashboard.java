@@ -2,7 +2,7 @@ package com.strong.quranfy.Activity;
 
 import static com.strong.quranfy.Activity.mediaService.NextPlay;
 import static com.strong.quranfy.Activity.mediaService.PlayPause;
-import static com.strong.quranfy.Activity.mediaService.flag;
+import static com.strong.quranfy.Activity.mediaService.isPlaying;
 import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
 import static com.strong.quranfy.Activity.mediaService.setFlag;
 import static com.strong.quranfy.Activity.playScreen.currentTime;
@@ -69,7 +69,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
                     if (mediaPlayer != null) BindDash.ProgressBar.setMax(mediaPlayer.getDuration());
 
                     // Notification Action for Play Pause
-                    if (flag == 0 | flag == 2) {
+                    if (!isPlaying) {
                         BindDash.PlayPauseButton.setImageResource(play);
                     } else {
                         BindDash.surahCurrentTime.setText(currentTime);
@@ -87,7 +87,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         //PlayButton
         BindDash.PlayPauseButton.setOnClickListener(view -> {
             setFlag(PlayPause());
-            if (flag == 0 | flag == 2) {
+            if (!isPlaying) {
                 BindDash.PlayPauseButton.setImageResource(play);
             } else {
                 BindDash.PlayPauseButton.setImageResource(pause);
@@ -144,7 +144,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
     @Override
     protected void onResume() {
         super.onResume();
-        if (flag == 0 | flag == 2) {
+        if (!isPlaying) {
             BindDash.PlayPauseButton.setImageResource(play);
         } else {
             BindDash.PlayPauseButton.setImageResource(pause);
