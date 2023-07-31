@@ -89,7 +89,7 @@ public class playScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Bind = ActivityPlayScreenBinding.inflate(getLayoutInflater());
 
-        if (Build.VERSION.SDK_INT > 27)
+        if (Build.VERSION.SDK_INT > 28)
             Bind.progress.setProgressDrawable(AppCompatResources.getDrawable(this, R.drawable.circle));
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -205,7 +205,7 @@ public class playScreen extends AppCompatActivity {
 
     private void PlayPause() {
         Bind.PlayPauseButton.setOnClickListener(view -> {
-            setFlag(mediaService.PlayPause());
+            setFlag(mediaService.PlayPause(this));
             if (!isPlaying) {
                 Bind.PlayPauseButton.setImageResource(play);
             } else {

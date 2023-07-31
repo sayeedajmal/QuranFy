@@ -6,7 +6,9 @@ import static com.strong.quranfy.Activity.mediaService.isPlaying;
 import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
 import static com.strong.quranfy.Activity.mediaService.setFlag;
 import static com.strong.quranfy.Activity.playScreen.currentTime;
+import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
 import static com.strong.quranfy.Fragment.Surah_Frag.SearchSurah;
+import static com.strong.quranfy.Models.playList.ACTION;
 import static com.strong.quranfy.R.drawable.pause;
 import static com.strong.quranfy.R.drawable.play;
 
@@ -27,7 +29,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.strong.quranfy.Adaptor.surah_adaptor;
 import com.strong.quranfy.Fragment.Qirat_Frag;
 import com.strong.quranfy.Fragment.Surah_Frag;
-import com.strong.quranfy.Models.playList;
 import com.strong.quranfy.Models.surahData;
 import com.strong.quranfy.databinding.ActivityDashboardBinding;
 
@@ -86,7 +87,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         //PlayButton
         BindDash.PlayPauseButton.setOnClickListener(view -> {
-            setFlag(PlayPause());
+            setFlag(PlayPause(this));
             if (!isPlaying) {
                 BindDash.PlayPauseButton.setImageResource(play);
             } else {
@@ -96,12 +97,16 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         //Next Track
         BindDash.NextTrackButton.setOnClickListener(view -> {
-            playList.ACTION("NEXT");
-            NextPlay();
+            if (PlaySurahNumber != null && Integer.parseInt(PlaySurahNumber) < 114 && mediaPlayer != null) {
+                NextPlay();
+                ACTION("NEXT");
+            }
         });
 
         //PlayStrip At bottom
-        BindDash.playStrip.setOnClickListener(view -> startActivity(new Intent(this, playScreen.class)));
+        BindDash.playStrip.setOnClickListener(view -> {
+            if (mediaPlayer != null) startActivity(new Intent(this, playScreen.class));
+        });
 
         //SharedPreferences setting Data
         SharedPreferences preferences = getSharedPreferences("RecentPlay", Context.MODE_PRIVATE);

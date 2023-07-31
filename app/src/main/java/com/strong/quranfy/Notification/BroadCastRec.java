@@ -21,7 +21,11 @@ public class BroadCastRec extends BroadcastReceiver {
         String ACTION = intent.getAction();
         switch (ACTION) {
             case "PLAY":
-                setFlag(PlayPause());
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                    setFlag(PlayPause(context));
+                } else if (mediaPlayer != null) {
+                    setFlag(PlayPause(context));
+                }
                 break;
             case "NEXT":
                 if (Integer.parseInt(PlaySurahNumber) < 114 && mediaPlayer != null) {
@@ -36,7 +40,7 @@ public class BroadCastRec extends BroadcastReceiver {
                 }
                 break;
             case "CLOSE":
-                if (mediaPlayer.isPlaying()) mediaPlayer.pause();
+                if (mediaPlayer != null && mediaPlayer.isPlaying()) mediaPlayer.pause();
                 setFlag(false);
                 closeNotification();
                 break;

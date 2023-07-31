@@ -3,9 +3,13 @@ package com.strong.quranfy.Activity;
 import static com.strong.quranfy.Activity.playScreen.currentDuration;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
 import static com.strong.quranfy.Adaptor.surah_adaptor.getAudioFile;
+import static com.strong.quranfy.Notification.MediaPanel.PushNotification;
 
+import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+
+import com.strong.quranfy.R;
 
 import java.io.IOException;
 
@@ -35,20 +39,22 @@ public class mediaService {
         }
     }
 
-    public static boolean PlayPause() {
+    public static boolean PlayPause(Context context) {
         if (mediaPlayer != null) {
             if (mediaPlayer.isPlaying()) {
                 mediaPlayer.pause();
+                PushNotification(context, 100, R.drawable.play, "Play");
                 return false;
             }
             mediaPlayer.start();
+            PushNotification(context, 100, R.drawable.pause, "Pause");
             return true;
         }
         return false;
     }
 
     public static void NextPlay() {
-        if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+        if (mediaPlayer != null) {
             int nextSurah = Integer.parseInt(PlaySurahNumber) + 1;
             PlaySurahNumber = String.valueOf(nextSurah);
             mediaPlayer.stop();

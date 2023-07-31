@@ -1,5 +1,9 @@
 package com.strong.quranfy.Notification;
 
+import static com.strong.quranfy.Models.surahData.SurahInform;
+import static com.strong.quranfy.Models.surahData.SurahName;
+import static com.strong.quranfy.Models.surahData.SurahNumber;
+
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -20,9 +24,10 @@ import com.strong.quranfy.R;
 public class MediaPanel extends Application {
     public static final String CHANNEL_ID = "Channel_1";
     public static final String CHANNEL_NAME = "QURANFY";
+    static NotificationCompat.Builder builder;
 
 
-    public static void PushNotification(String SurahNumber, String SurahName, String SurahInform, Context context, int REQ_CODE) {
+    public static void PushNotification(Context context, int REQ_CODE, int PlayPauseCode, String textPlay) {
         Intent intent = new Intent(context, Dashboard.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -52,7 +57,7 @@ public class MediaPanel extends Application {
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         mediaSession.setActive(true);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
+        builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setLargeIcon(image)
                 .setSmallIcon(R.mipmap.ic_launcher_foreground)
                 .setSilent(true)
@@ -63,24 +68,22 @@ public class MediaPanel extends Application {
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.EXTRA_MEDIA_SESSION)
-                .setAllowSystemGeneratedContextualActions(true)
-                .setChronometerCountDown(true)
                 .setContentIntent(pendingIntent)
                 .addAction(R.drawable.ic_previous, "Previous", PrevPending)
-                .addAction(R.drawable.pause, "Play/Pause", PlayPending)
+                .addAction(PlayPauseCode, textPlay, PlayPending)
+                // .addAction(!isPlaying ? R.drawable.play : R.drawable.ic_pause, isPlaying ? "Pause" : "Play", PlayPending)
                 .addAction(R.drawable.ic_next, "Next", NextPending)
                 .addAction(R.drawable.ic_close, "Close", ClosePending)
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                         .setShowCancelButton(true)
                         .setCancelButtonIntent(ClosePending)
-                        .setShowActionsInCompactView(1/* #1: pause Button */)
-                        .setMediaSession(mediaSession.getSessionToken()));
-        builder.setOngoing(true);
+                        .setShowActionsInCompactView(0, 1, 2)
+                        .setMediaSession(mediaSession.getSessionToken()))
+                .setOngoing(true);
 
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
         channel.enableLights(true);
         channel.setLockscreenVisibility(1);
-
         NotificationManager manager = context.getSystemService(NotificationManager.class);
         manager.createNotificationChannel(channel);
         manager.notify(1, builder.build());

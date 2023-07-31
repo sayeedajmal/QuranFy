@@ -111,7 +111,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             setSurahName(surah_getter.getSurahName());
             setSurahInform(surahInform.getSurahInformation());
 
-            MediaPanel.PushNotification(surah_getter.getSurahNumber(), surah_getter.getSurahName(), surahInform.getSurahInformation(), context, REQ_CODE);
+            MediaPanel.PushNotification(context, REQ_CODE, R.drawable.pause, "Pause");
 
             onClickSendData.onReceiveData(intent);
 
@@ -149,8 +149,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         setSurahInform(surahInform.getSurahInformation());
 
         updateList();
-
-        MediaPanel.PushNotification(surah_getter.getSurahNumber(), surah_getter.getSurahName(), surahInform.getSurahInformation(), context, REQ_CODE);
+        MediaPanel.PushNotification(context, REQ_CODE, R.drawable.pause, "Pause");
     }
 
     public static void closeNotification() {
