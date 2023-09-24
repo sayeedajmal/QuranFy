@@ -6,7 +6,7 @@ import static com.strong.quranfy.Activity.mediaService.createDuration;
 import static com.strong.quranfy.Activity.mediaService.getDuration;
 import static com.strong.quranfy.Activity.mediaService.isPlaying;
 import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
-import static com.strong.quranfy.Activity.mediaService.setFlag;
+import static com.strong.quranfy.Activity.mediaService.setFlagPlay;
 import static com.strong.quranfy.R.drawable.pause;
 import static com.strong.quranfy.R.drawable.play;
 
@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 
@@ -39,10 +40,50 @@ import java.io.InputStream;
 
 public class playScreen extends AppCompatActivity {
     public static String currentSurahNumber;
-    static ActivityPlayScreenBinding Bind;
+    static ActivityPlayScreenBinding BindPlayScreen;
     static String currentTime;
     int orientation;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        BindPlayScreen = ActivityPlayScreenBinding.inflate(getLayoutInflater());
+
+        if (Build.VERSION.SDK_INT > 28)
+            BindPlayScreen.progress.setProgressDrawable(AppCompatResources.getDrawable(this, R.drawable.circle));
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        orientation = getResources().getConfiguration().orientation;
+
+        BindPlayScreen.surahName.setText(surahData.getSurahName());
+        PlayPause();
+        seekBar();
+        NextTrack();
+        PrevTrack();
+        seekBackForward();
+        Lyric(surahData.getSurahNumber());
+
+        BindPlayScreen.rotate.setOnClickListener(view -> {
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            } else setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        });
+
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            BindPlayScreen.seekBar.setVisibility(View.GONE);
+            BindPlayScreen.PreviousTrackButton.setVisibility(View.GONE);
+            BindPlayScreen.NextTrackButton.setVisibility(View.GONE);
+            BindPlayScreen.TotalTime.setVisibility(View.GONE);
+            BindPlayScreen.currentTime.setVisibility(View.GONE);
+            BindPlayScreen.surahName.setVisibility(View.GONE);
+        }
+        setContentView(BindPlayScreen.getRoot());
+    }
+
+    private void seekBackForward() {
+        BindPlayScreen.seekBack.setOnClickListener(view -> mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 5000, MediaPlayer.SEEK_PREVIOUS_SYNC));
+        BindPlayScreen.seekForward.setOnClickListener(view -> mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 5000, MediaPlayer.SEEK_NEXT_SYNC));
+    }
 
     public static void currentDuration() {
         Handler current = new Handler();
@@ -52,29 +93,32 @@ public class playScreen extends AppCompatActivity {
             public void run() {
                 //Setting TotalTime of Surah
                 String TotalDuration = createDuration(getDuration());
-                Bind.TotalTime.setText(TotalDuration);
+                BindPlayScreen.TotalTime.setText(TotalDuration);
                 try {
                     //Setting the current duration from the media player
-                    Bind.seekBar.setMax(mediaPlayer.getDuration());
-                    Bind.progress.setMax(mediaPlayer.getDuration() - 1000);
+                    BindPlayScreen.seekBar.setMax(mediaPlayer.getDuration());
+                    BindPlayScreen.progress.setMax(mediaPlayer.getDuration() - 1000);
                     currentTime = createDuration(mediaPlayer.getCurrentPosition());
-//                    Updating the lyric Time with Music RealTime
-                    Bind.lyrics.updateTime(mediaPlayer.getCurrentPosition(), true);
 
-                    Bind.currentTime.setText(currentTime);
+//                    Updating the lyric Time with Music RealTime
+                    BindPlayScreen.lyrics.updateTime(mediaPlayer.getCurrentPosition(), true);
+
+                    BindPlayScreen.currentTime.setText(currentTime);
+
+                    //Finished Button
                     if (currentTime.equals(TotalDuration)) {
-                        Bind.PlayPauseButton.setImageResource(play);
-                        setFlag(false);
+                        BindPlayScreen.PlayPauseButton.setImageResource(play);
+                        setFlagPlay(false);
                     }
 
                     // Notification Action  for Play Pause
                     if (!isPlaying) {
-                        Bind.PlayPauseButton.setImageResource(play);
+                        BindPlayScreen.PlayPauseButton.setImageResource(play);
                     } else {
                         //Setting progressBar of Slider
-                        Bind.seekBar.setProgress(mediaPlayer.getCurrentPosition(), true);
-                        Bind.progress.setProgress(mediaPlayer.getCurrentPosition(), true);
-                        Bind.PlayPauseButton.setImageResource(pause);
+                        BindPlayScreen.seekBar.setProgress(mediaPlayer.getCurrentPosition(), true);
+                        BindPlayScreen.progress.setProgress(mediaPlayer.getCurrentPosition(), true);
+                        BindPlayScreen.PlayPauseButton.setImageResource(pause);
                     }
                 } catch (IllegalStateException e) {
                     e.printStackTrace();
@@ -84,77 +128,43 @@ public class playScreen extends AppCompatActivity {
         }, delay);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Bind = ActivityPlayScreenBinding.inflate(getLayoutInflater());
-
-        if (Build.VERSION.SDK_INT > 28)
-            Bind.progress.setProgressDrawable(AppCompatResources.getDrawable(this, R.drawable.circle));
-
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        orientation = getResources().getConfiguration().orientation;
-
-        Bind.surahName.setText(surahData.getSurahName());
-        PlayPause();
-        seekBar();
-        NextTrack();
-        PrevTrack();
-        Lyric(surahData.getSurahNumber());
-
-        Bind.rotate.setOnClickListener(view -> {
-            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-            } else setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
-        });
-
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Bind.seekBar.setVisibility(View.GONE);
-            Bind.PreviousTrackButton.setVisibility(View.GONE);
-            Bind.NextTrackButton.setVisibility(View.GONE);
-            Bind.TotalTime.setVisibility(View.GONE);
-            Bind.currentTime.setVisibility(View.GONE);
-            Bind.surahName.setVisibility(View.GONE);
-        }
-        setContentView(Bind.getRoot());
-    }
-
     private void Lyric(String surahNumber) {
         //  Getting Resource Id
         @SuppressLint("DiscouragedApi") int lyricId = this.getResources().getIdentifier("_" + surahNumber, "raw", getPackageName());
         if (lyricId != 0) {
-            Bind.progress.setVisibility(View.GONE);
-            Bind.quranIcon.setVisibility(View.GONE);
+            BindPlayScreen.progress.setVisibility(View.GONE);
+            BindPlayScreen.quranIcon.setVisibility(View.GONE);
             InputStream file = getResources().openRawResource(lyricId);
             String lrcFile = readTextFile(file);
-            Bind.lyrics.loadLyric(lrcFile, null);
-            Bind.lyrics.setCurrentTextSize(90);
-            Bind.lyrics.setNormalTextSize(70);
-            Bind.lyrics.setTextGravity(Gravity.END);
-            Bind.lyrics.setTimelineTextColor(Color.rgb(9, 162, 189));
-            Bind.lyrics.setCurrentColor(Color.rgb(9, 162, 189));
+            BindPlayScreen.lyrics.loadLyric(lrcFile, null);
+            BindPlayScreen.lyrics.setCurrentTextSize(90);
+            BindPlayScreen.lyrics.setNormalTextSize(70);
+            BindPlayScreen.lyrics.setTextGravity(Gravity.END);
+            BindPlayScreen.lyrics.setTimelineTextColor(Color.rgb(9, 162, 189));
+            BindPlayScreen.lyrics.setCurrentColor(Color.rgb(9, 162, 189));
 
-            Bind.lyrics.setDraggable(true, l -> {
-                Bind.lyrics.updateTime(l, true);
+            BindPlayScreen.lyrics.setDraggable(true, l -> {
+                BindPlayScreen.lyrics.updateTime(l, true);
                 if (mediaPlayer != null) {
-                    setFlag(true);
+                    setFlagPlay(true);
                     mediaPlayer.seekTo(l, MediaPlayer.SEEK_NEXT_SYNC);
                     mediaPlayer.start();
                 }
                 return false;
             });
-            Bind.lyrics.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
-            Bind.lyrics.setTimelineColor(Color.parseColor("green"));
+            BindPlayScreen.lyrics.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+            BindPlayScreen.lyrics.setTimelineColor(Color.parseColor("green"));
         } else {
-            Bind.lyrics.setVisibility(View.GONE);
-            Bind.progress.setVisibility(View.VISIBLE);
-            Bind.quranIcon.setVisibility(View.VISIBLE);
+            BindPlayScreen.lyrics.setVisibility(View.GONE);
+            BindPlayScreen.progress.setVisibility(View.VISIBLE);
+            BindPlayScreen.quranIcon.setVisibility(View.VISIBLE);
         }
 
     }
 
     //Reading Lyric File by InputStream and return as String
-    private String readTextFile(InputStream file) {
+    @NonNull
+    private String readTextFile(@NonNull InputStream file) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         byte[] buf = new byte[1024];
         int len;
@@ -171,21 +181,21 @@ public class playScreen extends AppCompatActivity {
     }
 
     private void NextTrack() {
-        Bind.NextTrackButton.setOnClickListener(view -> {
+        BindPlayScreen.NextTrackButton.setOnClickListener(view -> {
             playList.ACTION("NEXT");
             NextPlay();
         });
     }
 
     private void PrevTrack() {
-        Bind.PreviousTrackButton.setOnClickListener(view -> {
+        BindPlayScreen.PreviousTrackButton.setOnClickListener(view -> {
             playList.ACTION("PREVIOUS");
             PreviousPlay();
         });
     }
 
     private void seekBar() {
-        Bind.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        BindPlayScreen.seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
@@ -204,12 +214,12 @@ public class playScreen extends AppCompatActivity {
     }
 
     private void PlayPause() {
-        Bind.PlayPauseButton.setOnClickListener(view -> {
-            setFlag(mediaService.PlayPause(this));
+        BindPlayScreen.PlayPauseButton.setOnClickListener(view -> {
+            setFlagPlay(mediaService.PlayPause(this));
             if (!isPlaying) {
-                Bind.PlayPauseButton.setImageResource(play);
+                BindPlayScreen.PlayPauseButton.setImageResource(play);
             } else {
-                Bind.PlayPauseButton.setImageResource(pause);
+                BindPlayScreen.PlayPauseButton.setImageResource(pause);
             }
         });
     }
@@ -218,9 +228,9 @@ public class playScreen extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (!isPlaying) {
-            Bind.PlayPauseButton.setImageResource(play);
+            BindPlayScreen.PlayPauseButton.setImageResource(play);
         } else {
-            Bind.PlayPauseButton.setImageResource(pause);
+            BindPlayScreen.PlayPauseButton.setImageResource(pause);
         }
     }
 }

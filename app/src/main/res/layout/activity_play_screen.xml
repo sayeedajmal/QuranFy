@@ -90,22 +90,23 @@
         android:thumbOffset="5dp"
         android:thumbTint="#70A5DF"
         android:thumbTintMode="src_atop"
-        app:layout_constraintBottom_toBottomOf="@+id/NextTrackButton"
+        app:layout_constraintBottom_toBottomOf="@+id/PlayPauseButton"
         app:layout_constraintEnd_toStartOf="@+id/TotalTime"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/currentTime" />
+        app:layout_constraintStart_toEndOf="@+id/currentTime"
+        app:layout_constraintTop_toBottomOf="@+id/seekBack" />
 
     <TextView
         android:id="@+id/surahName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
         android:background="@color/transparent"
         android:text="Al-Fatihah"
         android:textSize="25sp"
         app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/NextTrackButton" />
+        app:layout_constraintEnd_toStartOf="@+id/seekForward"
+        app:layout_constraintStart_toEndOf="@+id/seekBack"
+        app:layout_constraintTop_toTopOf="@+id/PlayPauseButton" />
 
     <TextView
         android:id="@+id/TotalTime"
@@ -164,10 +165,41 @@
         android:padding="8dp"
         android:scaleType="centerCrop"
         android:src="@drawable/next"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/PlayPauseButton"
         app:layout_constraintStart_toEndOf="@+id/PlayPauseButton"
         app:layout_constraintTop_toTopOf="@+id/PlayPauseButton" />
+
+    <ImageButton
+        android:id="@+id/seekBack"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/button_round"
+        android:contentDescription="Next Track"
+        android:scaleType="centerCrop"
+        android:src="@drawable/seekback"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintEnd_toStartOf="@+id/surahName"
+        app:layout_constraintStart_toEndOf="@+id/NextTrackButton"
+        app:layout_constraintTop_toTopOf="@+id/surahName" />
+
+    <ImageButton
+        android:id="@+id/seekForward"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginBottom="3dp"
+        android:background="@drawable/button_round"
+        android:contentDescription="Next Track"
+        android:scaleType="centerCrop"
+        android:src="@drawable/seeforward"
+        app:layout_constraintBottom_toTopOf="@+id/seekBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/surahName"
+        app:layout_constraintTop_toTopOf="@+id/surahName" />
+
 
     <!--    <ImageButton-->
     <!--        android:id="@+id/repeatButton"-->

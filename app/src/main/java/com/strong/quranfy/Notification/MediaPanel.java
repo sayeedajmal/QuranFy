@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 
 import androidx.core.app.NotificationCompat;
@@ -23,15 +24,14 @@ import com.strong.quranfy.R;
 
 public class MediaPanel extends Application {
     public static final String CHANNEL_ID = "Channel_1";
-    public static final String CHANNEL_NAME = "QURANFY";
-    static NotificationCompat.Builder builder;
+    public static final String CHANNEL_NAME = "QURAN_FY";
 
 
     public static void PushNotification(Context context, int REQ_CODE, int PlayPauseCode, String textPlay) {
         Intent intent = new Intent(context, Dashboard.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        Bitmap image = BitmapFactory.decodeResource(Resources.getSystem(), R.mipmap.ic_launcher_foreground);
+        Bitmap image = BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.quran_icon);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, REQ_CODE, intent, PendingIntent.FLAG_IMMUTABLE);
 
         /*PlayPause Play ACTION*/
@@ -57,29 +57,13 @@ public class MediaPanel extends Application {
         mediaSession.setFlags(MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS | MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
         mediaSession.setActive(true);
 
-        builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setLargeIcon(image)
-                .setSmallIcon(R.mipmap.ic_launcher_foreground)
-                .setSilent(true)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .setColorized(true)
-                .setContentTitle(SurahNumber + " - " + SurahName)
-                .setContentText(SurahInform)
-                .setAutoCancel(true)
-                .setDefaults(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.EXTRA_MEDIA_SESSION)
-                .setContentIntent(pendingIntent)
-                .addAction(R.drawable.ic_previous, "Previous", PrevPending)
-                .addAction(PlayPauseCode, textPlay, PlayPending)
+        // Set media metadata (e.g., title, artist, album art)
+        MediaMetadataCompat.Builder metadataBuilder = new MediaMetadataCompat.Builder().putString(MediaMetadataCompat.METADATA_KEY_TITLE, SurahNumber + " - " + SurahName).putString(MediaMetadataCompat.METADATA_KEY_ARTIST, SurahInform).putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, BitmapFactory.decodeResource(context.getResources(), R.drawable.quran_icon));
+        mediaSession.setMetadata(metadataBuilder.build());
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID).setLargeIcon(image).setSmallIcon(R.drawable.quran_icon).setSilent(true).setVisibility(NotificationCompat.VISIBILITY_PUBLIC).setAutoCancel(true).setDefaults(NotificationCompat.PRIORITY_HIGH).setCategory(NotificationCompat.EXTRA_MEDIA_SESSION).setContentIntent(pendingIntent).addAction(R.drawable.ic_previous, "Previous", PrevPending).addAction(PlayPauseCode, textPlay, PlayPending)
                 // .addAction(!isPlaying ? R.drawable.play : R.drawable.ic_pause, isPlaying ? "Pause" : "Play", PlayPending)
-                .addAction(R.drawable.ic_next, "Next", NextPending)
-                .addAction(R.drawable.ic_close, "Close", ClosePending)
-                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
-                        .setShowCancelButton(true)
-                        .setCancelButtonIntent(ClosePending)
-                        .setShowActionsInCompactView(0, 1, 2)
-                        .setMediaSession(mediaSession.getSessionToken()))
-                .setOngoing(true);
+                .addAction(R.drawable.ic_next, "Next", NextPending).addAction(R.drawable.ic_close, "Close", ClosePending).setStyle(new androidx.media.app.NotificationCompat.MediaStyle().setShowCancelButton(true).setCancelButtonIntent(ClosePending).setShowActionsInCompactView(0, 1, 2).setMediaSession(mediaSession.getSessionToken())).setOngoing(true);
 
         NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
         channel.enableLights(true);

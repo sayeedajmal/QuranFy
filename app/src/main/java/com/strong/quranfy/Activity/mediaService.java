@@ -101,7 +101,7 @@ public class mediaService {
         mediaService.duration = duration;
     }
 
-    public static void setFlag(boolean isPlaying) {
+    public static void setFlagPlay(boolean isPlaying) {
         mediaService.isPlaying = isPlaying;
     }
 }

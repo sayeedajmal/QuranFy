@@ -37,7 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder> {
     public static final int REQ_CODE = 100;
-    static Context context;
+    public static Context context;
     public static String PlaySurahNumber;
     private final onClickSendData onClickSendData;
     static ArrayList<surah_getter> surah_getters;
@@ -115,7 +115,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
 
             onClickSendData.onReceiveData(intent);
 
-            mediaService.setFlag(true);
+            mediaService.setFlagPlay(true);
 
             context.startActivity(intent);
         });

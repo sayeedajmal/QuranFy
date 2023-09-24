@@ -4,7 +4,7 @@ import static com.strong.quranfy.Activity.mediaService.NextPlay;
 import static com.strong.quranfy.Activity.mediaService.PlayPause;
 import static com.strong.quranfy.Activity.mediaService.PreviousPlay;
 import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
-import static com.strong.quranfy.Activity.mediaService.setFlag;
+import static com.strong.quranfy.Activity.mediaService.setFlagPlay;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
 import static com.strong.quranfy.Adaptor.surah_adaptor.closeNotification;
 import static com.strong.quranfy.Models.playList.ACTION;
@@ -22,9 +22,9 @@ public class BroadCastRec extends BroadcastReceiver {
         switch (ACTION) {
             case "PLAY":
                 if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                    setFlag(PlayPause(context));
+                    setFlagPlay(PlayPause(context));
                 } else if (mediaPlayer != null) {
-                    setFlag(PlayPause(context));
+                    setFlagPlay(PlayPause(context));
                 }
                 break;
             case "NEXT":
@@ -41,7 +41,7 @@ public class BroadCastRec extends BroadcastReceiver {
                 break;
             case "CLOSE":
                 if (mediaPlayer != null && mediaPlayer.isPlaying()) mediaPlayer.pause();
-                setFlag(false);
+                setFlagPlay(false);
                 closeNotification();
                 break;
         }

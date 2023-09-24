@@ -14,14 +14,12 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.strong.quranfy.Activity.Dashboard;
 import com.strong.quranfy.R;
 
 public class FirebaseMsg extends FirebaseMessagingService {
     @Override
     public void onNewToken(@NonNull String token) {
         super.onNewToken(token);
-        Dashboard.getDeviceFCM();
     }
 
     @Override

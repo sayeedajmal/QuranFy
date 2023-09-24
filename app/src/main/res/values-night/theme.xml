@@ -7,9 +7,13 @@
         <item name="fontFamily">@font/senbold</item>
         <item name="android:fontFamily">@font/senbold</item>
         <item name="font">@font/senbold</item>
-        <item name="tabIndicatorHeight">3dp</item>
         <item name="tabIndicatorColor">#8EE0F8</item>
-        <item name="tabSelectedTextColor">#FFFFFF</item>
+        <item name="tabIndicatorGravity">bottom</item>
+        <item name="tabIndicatorAnimationMode">linear</item>
+        <item name="tabIndicatorAnimationDuration">@integer/material_motion_duration_medium_2</item>
+        <item name="tabSelectedTextColor">@color/Green</item>
+        <item name="tabInlineLabel">true</item>
+        <item name="tabIndicatorHeight">10dp</item>
         <item name="tabTextColor">#2F2C2C</item>
         <item name="android:screenOrientation">portrait</item>
         <item name="android:statusBarColor">@color/transparent</item>

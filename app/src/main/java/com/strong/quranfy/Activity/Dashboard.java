@@ -4,7 +4,7 @@ import static com.strong.quranfy.Activity.mediaService.NextPlay;
 import static com.strong.quranfy.Activity.mediaService.PlayPause;
 import static com.strong.quranfy.Activity.mediaService.isPlaying;
 import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
-import static com.strong.quranfy.Activity.mediaService.setFlag;
+import static com.strong.quranfy.Activity.mediaService.setFlagPlay;
 import static com.strong.quranfy.Activity.playScreen.currentTime;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
 import static com.strong.quranfy.Fragment.Surah_Frag.SearchSurah;
@@ -23,18 +23,17 @@ import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.strong.quranfy.Adaptor.surah_adaptor;
 import com.strong.quranfy.Fragment.Qirat_Frag;
 import com.strong.quranfy.Fragment.Surah_Frag;
 import com.strong.quranfy.Models.surahData;
+import com.strong.quranfy.R;
 import com.strong.quranfy.databinding.ActivityDashboardBinding;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.Objects;
 
 public class Dashboard extends AppCompatActivity implements surah_adaptor.onClickSendData {
     static ActivityDashboardBinding BindDash;
@@ -51,12 +50,14 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         }
 
         Surah_Frag Surah_Frag = new Surah_Frag();
-        Qirat_Frag qiratFrag = new Qirat_Frag();
+        Qirat_Frag QiratFrag = new Qirat_Frag();
         viewPagerAdaptor = new viewPagerSelection(getSupportFragmentManager(), 0);
-        viewPagerAdaptor.addFragment(Surah_Frag, "Surah");
-        viewPagerAdaptor.addFragment(qiratFrag, "Qirat");
+        viewPagerAdaptor.addFragment(Surah_Frag, "SURAH");
+        viewPagerAdaptor.addFragment(QiratFrag, "QIRAT");
         BindDash.dashboardPager.setAdapter(viewPagerAdaptor);
         BindDash.tabLayout.setupWithViewPager(BindDash.dashboardPager);
+        Objects.requireNonNull(BindDash.tabLayout.getTabAt(0)).setIcon(R.drawable.quran_icon);
+        Objects.requireNonNull(BindDash.tabLayout.getTabAt(1)).setIcon(R.drawable.quran_icon);
 
         SetData();
         addDate();
@@ -87,7 +88,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         //PlayButton
         BindDash.PlayPauseButton.setOnClickListener(view -> {
-            setFlag(PlayPause(this));
+            setFlagPlay(PlayPause(this));
             if (!isPlaying) {
                 BindDash.PlayPauseButton.setImageResource(play);
             } else {
@@ -177,10 +178,5 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.PlaySurahNumber.setText(surahData.getSurahNumber());
         BindDash.PlaySurahName.setText(surahData.getSurahName());
         BindDash.PlaySurahInform.setText(surahData.getSurahInform());
-    }
-
-    public static void getDeviceFCM() {
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference().child("Devices");
-        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(s -> database.push().setValue(s)).addOnFailureListener(e -> System.out.println("Device FCM:  " + e.getLocalizedMessage()));
     }
 }
