@@ -105,12 +105,6 @@ public class playScreen extends AppCompatActivity {
 
                     BindPlayScreen.currentTime.setText(currentTime);
 
-                    //Finished Button
-                    if (currentTime.equals(TotalDuration)) {
-                        BindPlayScreen.PlayPauseButton.setImageResource(play);
-                        setFlagPlay(false);
-                    }
-
                     // Notification Action  for Play Pause
                     if (!isPlaying) {
                         BindPlayScreen.PlayPauseButton.setImageResource(play);
