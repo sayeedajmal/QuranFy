@@ -10,7 +10,7 @@
         <item name="tabIndicatorColor">#8EE0F8</item>
         <item name="tabIndicatorGravity">bottom</item>
         <item name="tabIndicatorAnimationMode">linear</item>
-        <item name="tabIndicatorAnimationDuration">@integer/material_motion_duration_medium_2</item>
+        <item name="tabStyle">@style/Widget.Design.TabLayout</item>
         <item name="tabSelectedTextColor">@color/Green</item>
         <item name="tabInlineLabel">true</item>
         <item name="tabIndicatorHeight">10dp</item>
