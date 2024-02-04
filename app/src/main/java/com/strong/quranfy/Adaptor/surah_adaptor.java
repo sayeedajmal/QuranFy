@@ -28,7 +28,7 @@ import com.strong.quranfy.Activity.playScreen;
 import com.strong.quranfy.Models.SurahArabicGet;
 import com.strong.quranfy.Models.surahInform;
 import com.strong.quranfy.Models.surah_getter;
-import com.strong.quranfy.Notification.MediaPanel;
+import com.strong.quranfy.Utils.MediaPanel;
 import com.strong.quranfy.R;
 
 import java.util.ArrayList;

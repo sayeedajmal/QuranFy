@@ -1,4 +1,4 @@
-package com.strong.quranfy.Notification;
+package com.strong.quranfy.Utils;
 
 import static com.strong.quranfy.Models.surahData.SurahInform;
 import static com.strong.quranfy.Models.surahData.SurahName;

@@ -5,8 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:orientation="horizontal"
     tools:context=".Activity.Setting">
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Checkout My Portfolio for latest update 👇"
+        app:layout_constraintBottom_toTopOf="@+id/link"
+        app:layout_constraintStart_toStartOf="@+id/link" />
 
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/gifImageView"
@@ -24,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="https://sayeedthedev.web.app"
-        android:textStyle="italic"
+        android:textStyle="italic|bold"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintStart_toStartOf="@+id/textView3" />
 
@@ -33,10 +41,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:layout_marginStart="36dp"
+        android:layout_marginStart="108dp"
         android:text="App Version:"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/link"
+        app:layout_constraintBottom_toTopOf="@+id/textView5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView

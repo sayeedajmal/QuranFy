@@ -3,7 +3,7 @@ package com.strong.quranfy.Activity;
 import static com.strong.quranfy.Activity.playScreen.currentDuration;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
 import static com.strong.quranfy.Adaptor.surah_adaptor.getAudioFile;
-import static com.strong.quranfy.Notification.MediaPanel.PushNotification;
+import static com.strong.quranfy.Utils.MediaPanel.PushNotification;
 
 import android.content.Context;
 import android.media.AudioAttributes;

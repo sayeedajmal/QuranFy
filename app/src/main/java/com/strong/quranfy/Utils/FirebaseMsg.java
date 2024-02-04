@@ -1,4 +1,4 @@
-package com.strong.quranfy.Notification;
+package com.strong.quranfy.Utils;
 
 
 import android.app.NotificationChannel;

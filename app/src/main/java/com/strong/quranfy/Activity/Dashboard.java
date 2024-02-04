@@ -19,7 +19,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -91,6 +93,7 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
             setFlagPlay(PlayPause(this));
             if (!isPlaying) {
                 BindDash.PlayPauseButton.setImageResource(play);
+                Toast.makeText(this, "select surah to listen", Toast.LENGTH_SHORT).show();
             } else {
                 BindDash.PlayPauseButton.setImageResource(pause);
             }
@@ -101,12 +104,15 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
             if (PlaySurahNumber != null && Integer.parseInt(PlaySurahNumber) < 114 && mediaPlayer != null) {
                 NextPlay();
                 ACTION("NEXT");
-            }
+            } else Toast.makeText(this, "select surah to listen", Toast.LENGTH_SHORT).show();
+
         });
 
         //PlayStrip At bottom
         BindDash.playStrip.setOnClickListener(view -> {
-            if (mediaPlayer != null) startActivity(new Intent(this, playScreen.class));
+            if (mediaPlayer != null) {
+                startActivity(new Intent(this, playScreen.class));
+            } else Toast.makeText(this, "select surah to listen", Toast.LENGTH_SHORT).show();
         });
 
         //SharedPreferences setting Data
@@ -118,6 +124,12 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
         BindDash.Setting.setOnClickListener(v -> startActivity(new Intent(this, Setting.class)));
 
 
+        BindDash.SearchButton.setOnClickListener(view -> {
+            BindDash.AppBarLayout.setExpanded(true, true);
+            BindDash.Search.setVisibility(View.VISIBLE);
+            BindDash.Search.setIconified(false);
+            BindDash.Search.requestFocus();
+        });
         BindDash.Search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {

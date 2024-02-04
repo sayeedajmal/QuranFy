@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission
-        android:name="android.permission.MEDIA_CONTENT_CONTROL"
-        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
 
     <application
-        android:name=".Notification.MediaPanel"
+        android:name=".Utils.MediaPanel"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
@@ -32,7 +31,7 @@
         <activity android:name=".Activity.Setting" />
 
         <service
-            android:name=".Notification.FirebaseMsg"
+            android:name=".Utils.FirebaseMsg"
             android:exported="true"
             android:permission="Message">
             <intent-filter>
@@ -40,7 +39,15 @@
             </intent-filter>
         </service>
 
-        <receiver android:name=".Notification.BroadCastRec" />
+
+        <receiver
+            android:name=".Utils.BroadCastRec"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PHONE_STATE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

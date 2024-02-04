@@ -10,6 +10,7 @@
     tools:context=".Activity.Dashboard">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/AppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/Theme.QuranFy">
@@ -109,12 +110,12 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="16dp"
                     android:background="@color/transparent"
+                    android:contentDescription="Icon"
                     android:rotationY="180"
                     android:scaleType="centerInside"
                     android:src="@drawable/last_read"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="Icon" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/textView"
@@ -239,6 +240,20 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0"
                 tools:ignore="MissingConstraints" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/SearchButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="5dp"
+                android:backgroundTint="#EDEDED"
+                android:src="@drawable/search"
+                android:tintMode="multiply"
+                app:fabCustomSize="45dp"
+                app:layout_constraintBottom_toBottomOf="@+id/dashboardPager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:rippleColor="@color/ThemeWhite" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/playStrip"
