@@ -14,15 +14,11 @@ QuranFy is a Quran listening application designed to provide users with an immer
 
 ## Screenshots
 
-![QuranFy](dash.jpg)
-![QuranFy](surah.jpg)
-![QuranFy](play.jpg)
-![QuranFy](dark.jpg)
-![QuranFy](notif.jpg)
-
-
-
-
+<img src="dash.jpg" alt="QuranFy" width="200">
+<img src="surah.jpg" alt="QuranFy" width="200">
+<img src="play.jpg" alt="QuranFy" width="200">
+<img src="dark.jpg" alt="QuranFy" width="200">
+<img src="notif.jpg" alt="QuranFy" width="200">
 
 ## Installation
 
