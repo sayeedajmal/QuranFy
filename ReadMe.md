@@ -1,44 +1,51 @@
-# QURANFY QURAN AUDIO PLAYER (Lyrics) with Media Session
+# QuranFy
+![QuranFy](quran.gif)
 
-<img src="quran.gif">
+QuranFy is a Quran listening application designed to provide users with an immersive and enriching experience while listening to the Quranic recitations. With a wide range of features, QuranFy aims to facilitate a deeper connection with the Quran and foster spiritual growth among its users.
 
-# About
+## Features
 
-<h1>This is the Source Code Repository of the QuranFy (Quran Audio Player). The main Focus of this Project is to Create an Quran Audio Listening Player that is Optimized by Audio with Soothing Voices of Reciting Quran and to keep the UI as Simple as Possible.
+- **Immersive Audio Experience:** Listen to high-quality Quranic recitations by renowned Qaris from around the world.
+- **Verse Sync & Translations:** Follow along with synchronized translations in multiple languages to enhance understanding.
+- **Easy Navigation:** Intuitive search functionality for quick access to specific surahs or verses.
+- **Customizable Experience:** Customize themes, fonts, and playback options according to personal preferences.
+- **Personalized Playlists:** Create playlists of favorite recitations and bookmark meaningful verses for quick access.
+- **Community Engagement:** Join a global community of Quran enthusiasts to share insights, engage in discussions, and connect with like-minded individuals.
 
-<a href="https://github.com/sayeedajmal/Applications/raw/master/QuranFy/app-release.apk"><img src="download.png" height="300px" aspect-ratio="1"></a>
+## Screenshots
 
-# Screenshots
+![QuranFy](dash.jpg)
+![QuranFy](surah.jpg)
+![QuranFy](play.jpg)
+![QuranFy](dark.jpg)
+![QuranFy](notif.jpg)
 
-<img src="Full_Front.png" width="300px">
-<img src="Full_Surah.png"width="300px">
-<img src="PlayScreen.png"width="300px">
 
-# Main Features
 
-    1. Intuitive UI
-    2. Beautiful visualizer
-    3. Surah with Arabic
-    4. DarkMode and LightMode Theme
-    5. Lyrics are in Arabic
-    6. Lyrics Scroll with PlayButton 
 
-    - A basic favoirite Management functionality is alos part of this Player. Uses Firebase Cloud Messaging to send Special Notification.
 
-# DEVELOPING MODE
+## Installation
 
-* Adding Lyric Files.
-* Adding Functionalities.
-* Adding LandScape Mode for Reading Quran.
-* Adding Qirat in Another Tab.
-* Fixing Color Contrast.
+To install QuranFy, follow these steps:
 
-## OpenSource API Used
+1. Clone the repository: `git clone https://github.com/sayeedajmal/quranfy.git`
+2. Open the project in Android Studio.
+3. Build and run the application on an emulator or a physical device.
 
-    - LyricsView
-    - Neomorphism
-    - Firebase 
+## Usage
 
-# License
+1. Launch the QuranFy application on your Android device.
+2. Explore the available Quranic recitations and translations.
+3. Customize the app settings according to your preferences.
+4. Create playlists and bookmark favorite verses for quick access.
+5. Engage with the community by sharing insights and participating in discussions.
 
- GNU General Public License v3.0
+## Contributing
+
+Contributions are welcome! Please follow these steps to contribute to QuranFy:
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature/new-feature`
+3. Make your changes and commit them: `git commit -m 'Add new feature'`
+4. Push to the branch: `git push origin feature/new-feature`
+5. Submit a pull request.
