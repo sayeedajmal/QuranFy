@@ -77,6 +77,19 @@
             app:layout_constraintEnd_toStartOf="@+id/surahNameArabic"
             app:layout_constraintTop_toTopOf="@+id/surahNameArabic" />
 
+        <ImageButton
+            android:id="@+id/download"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/transparent"
+            android:foreground="?selectableItemBackgroundBorderless"
+            android:src="@drawable/download"
+            android:theme="@style/Theme.QuranFy.icons"
+            app:layout_constraintBottom_toBottomOf="@+id/surahRead"
+            app:layout_constraintEnd_toStartOf="@+id/surahRead"
+            app:layout_constraintTop_toTopOf="@+id/surahRead" />
+
         <TextView
             android:id="@+id/surahNameArabic"
             android:layout_width="wrap_content"

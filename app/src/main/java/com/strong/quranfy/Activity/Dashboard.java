@@ -1,16 +1,16 @@
 package com.strong.quranfy.Activity;
 
-import static com.strong.quranfy.Activity.mediaService.NextPlay;
-import static com.strong.quranfy.Activity.mediaService.PlayPause;
-import static com.strong.quranfy.Activity.mediaService.isPlaying;
-import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
-import static com.strong.quranfy.Activity.mediaService.setFlagPlay;
 import static com.strong.quranfy.Activity.playScreen.currentTime;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
 import static com.strong.quranfy.Fragment.Surah_Frag.SearchSurah;
 import static com.strong.quranfy.Models.playList.ACTION;
 import static com.strong.quranfy.R.drawable.pause;
 import static com.strong.quranfy.R.drawable.play;
+import static com.strong.quranfy.Utils.mediaService.NextPlay;
+import static com.strong.quranfy.Utils.mediaService.PlayPause;
+import static com.strong.quranfy.Utils.mediaService.isPlaying;
+import static com.strong.quranfy.Utils.mediaService.mediaPlayer;
+import static com.strong.quranfy.Utils.mediaService.setFlagPlay;
 
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
@@ -93,7 +93,6 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
             setFlagPlay(PlayPause(this));
             if (!isPlaying) {
                 BindDash.PlayPauseButton.setImageResource(play);
-                Toast.makeText(this, "select surah to listen", Toast.LENGTH_SHORT).show();
             } else {
                 BindDash.PlayPauseButton.setImageResource(pause);
             }

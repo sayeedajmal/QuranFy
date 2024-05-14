@@ -12,26 +12,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.strong.quranfy.Activity.mediaService;
 import com.strong.quranfy.Activity.playScreen;
 import com.strong.quranfy.Models.SurahArabicGet;
 import com.strong.quranfy.Models.surahInform;
 import com.strong.quranfy.Models.surah_getter;
-import com.strong.quranfy.Utils.MediaPanel;
 import com.strong.quranfy.R;
+import com.strong.quranfy.Utils.MediaPanel;
+import com.strong.quranfy.Utils.mediaService;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -80,8 +85,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         for (int i = 1; i <= position; i++)
             if (lyricId != 0) {
                 holder.ReadImage.setVisibility(View.VISIBLE);
-            } else
-                holder.ReadImage.setVisibility(View.INVISIBLE);
+            } else holder.ReadImage.setVisibility(View.GONE);
 
 
         //Clicking The ItemView or Surah List
@@ -119,24 +123,78 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
 
             context.startActivity(intent);
         });
+
+        //        Check Already File is Stored or Not
+        holder.DownloadButton.setVisibility(!checkFile(surah_getter.getSurahNumber()) ? View.VISIBLE : View.INVISIBLE);
+
+        //Download Button Getting The Surah And Store to the App's Storage
+        holder.DownloadButton.setOnClickListener(v -> {
+            String surahNumber = surah_getter.getSurahNumber();
+
+            StorageReference mStorageRef;
+            if (Integer.parseInt(surahNumber) < 10) {
+                int surah = Integer.parseInt(surahNumber);
+                @SuppressLint("DefaultLocale") String number = String.format("%02d", surah);
+                mStorageRef = FirebaseStorage.getInstance().getReference().child(number + ".mp3");
+            } else {
+                mStorageRef = FirebaseStorage.getInstance().getReference().child(surahNumber + ".mp3");
+            }
+
+            File[] directory = context.getExternalFilesDirs(Environment.DIRECTORY_MUSIC);
+            File file = new File(directory[0], mStorageRef.getName());
+
+            mStorageRef.getFile(file).addOnSuccessListener(taskSnapshot -> {
+                Toast.makeText(context, "Surah Saved", Toast.LENGTH_SHORT).show();
+            }).addOnFailureListener(e -> Snackbar.make(v, Objects.requireNonNull(e.getLocalizedMessage()), Snackbar.LENGTH_SHORT).show());
+
+        });
+
+    }
+
+    private boolean checkFile(String surahNumber) {
+        File[] directory = context.getExternalFilesDirs(Environment.DIRECTORY_MUSIC);
+        File fileUri;
+        if (Integer.parseInt(surahNumber) < 10) {
+            @SuppressLint("DefaultLocale") String number = String.format("%02d", Integer.parseInt(surahNumber));
+            fileUri = new File(directory[0], number + ".mp3");
+        } else {
+            fileUri = new File(directory[0], surahNumber + ".mp3");
+        }
+        return fileUri.exists();
     }
 
     //THIS IS USED FOR DOWNLOADING THE FILE WHICH YOU HAVE CLICKED ON ITEM_VIEW
     @SuppressLint("DefaultLocale")
     public static void getAudioFile(String SurahNumber) {
+        StorageReference mStorageRef;
+        File[] directory = context.getExternalFilesDirs(Environment.DIRECTORY_MUSIC);
+        File file;
+
         if (Integer.parseInt(SurahNumber) < 10) {
             int surah = Integer.parseInt(SurahNumber);
             String number = String.format("%02d", surah);
-            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(number + ".mp3");
-            mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
+            file = new File(directory[0], number + ".mp3");
         } else {
-            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
+            file = new File(directory[0], SurahNumber + ".mp3");
+        }
+        if (file.exists()) {
+            mediaService.localSurah(Uri.fromFile(file));
+        } else {
+            if (Integer.parseInt(SurahNumber) < 10) {
+                int surah = Integer.parseInt(SurahNumber);
+                String number = String.format("%02d", surah);
+                mStorageRef = FirebaseStorage.getInstance().getReference().child(number + ".mp3");
+            } else {
+                mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
+            }
+
             mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
         }
     }
 
+
     private static void AudioPlay(Uri uri) {
-        mediaService.MediaPlay(uri.toString());
+        mediaService.MediaPlay(uri, context);
     }
 
     //Update Data on Next or Previous Button
@@ -168,6 +226,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         public TextView surahInformation;
         public TextView surahNameArabic;
         public CircleImageView ReadImage;
+        public ImageButton DownloadButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -176,6 +235,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             surahInformation = itemView.findViewById(R.id.surahInformation);
             surahNameArabic = itemView.findViewById(R.id.surahNameArabic);
             ReadImage = itemView.findViewById(R.id.surahRead);
+            DownloadButton = itemView.findViewById(R.id.download);
         }
     }
 

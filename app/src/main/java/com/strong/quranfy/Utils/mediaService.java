@@ -1,4 +1,4 @@
-package com.strong.quranfy.Activity;
+package com.strong.quranfy.Utils;
 
 import static com.strong.quranfy.Activity.playScreen.currentDuration;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
@@ -8,17 +8,20 @@ import static com.strong.quranfy.Utils.MediaPanel.PushNotification;
 import android.content.Context;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
+import android.net.Uri;
+import android.util.Log;
 
 import com.strong.quranfy.R;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class mediaService {
     public static boolean isPlaying = false;
     static int duration;
     public static MediaPlayer mediaPlayer;
 
-    public static void MediaPlay(String uri) {
+    public static void MediaPlay(Uri FileUri, Context context) {
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).setUsage(AudioAttributes.USAGE_MEDIA).build());
 
@@ -26,16 +29,35 @@ public class mediaService {
             mediaPlayer.stop();
             mediaPlayer.release();
         } else try {
-            mediaPlayer.setDataSource(uri);
-            mediaPlayer.prepareAsync();
-            mediaPlayer.setOnPreparedListener(mediaPlayer -> {
-                mediaPlayer.start();
-                setDuration(mediaPlayer.getDuration());
+            mediaPlayer.setDataSource(context, FileUri);
+            mediaPlayer.setOnPreparedListener(mp -> {
+                mp.start();
+                setDuration(mp.getDuration());
                 currentDuration();
             });
-
+            mediaPlayer.prepareAsync();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("MEDIA SERVICE ERROR : ", Objects.requireNonNull(e.getLocalizedMessage()));
+        }
+    }
+
+    public static void localSurah(Uri path) {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).setUsage(AudioAttributes.USAGE_MEDIA).build());
+
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+        } else try {
+            mediaPlayer.setDataSource(path.getPath());
+            mediaPlayer.setOnPreparedListener(mp -> {
+                mp.start();
+                setDuration(mp.getDuration());
+                currentDuration();
+            });
+            mediaPlayer.prepareAsync();
+        } catch (IOException e) {
+            Log.e("MEDIA SERVICE ERROR : ", Objects.requireNonNull(e.getLocalizedMessage()));
         }
     }
 

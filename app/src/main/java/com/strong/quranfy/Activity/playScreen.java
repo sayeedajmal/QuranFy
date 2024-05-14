@@ -1,14 +1,14 @@
 package com.strong.quranfy.Activity;
 
-import static com.strong.quranfy.Activity.mediaService.NextPlay;
-import static com.strong.quranfy.Activity.mediaService.PreviousPlay;
-import static com.strong.quranfy.Activity.mediaService.createDuration;
-import static com.strong.quranfy.Activity.mediaService.getDuration;
-import static com.strong.quranfy.Activity.mediaService.isPlaying;
-import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
-import static com.strong.quranfy.Activity.mediaService.setFlagPlay;
 import static com.strong.quranfy.R.drawable.pause;
 import static com.strong.quranfy.R.drawable.play;
+import static com.strong.quranfy.Utils.mediaService.NextPlay;
+import static com.strong.quranfy.Utils.mediaService.PreviousPlay;
+import static com.strong.quranfy.Utils.mediaService.createDuration;
+import static com.strong.quranfy.Utils.mediaService.getDuration;
+import static com.strong.quranfy.Utils.mediaService.isPlaying;
+import static com.strong.quranfy.Utils.mediaService.mediaPlayer;
+import static com.strong.quranfy.Utils.mediaService.setFlagPlay;
 
 import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
@@ -31,6 +31,7 @@ import androidx.appcompat.content.res.AppCompatResources;
 import com.strong.quranfy.Models.playList;
 import com.strong.quranfy.Models.surahData;
 import com.strong.quranfy.R;
+import com.strong.quranfy.Utils.mediaService;
 import com.strong.quranfy.databinding.ActivityPlayScreenBinding;
 
 import java.io.ByteArrayOutputStream;

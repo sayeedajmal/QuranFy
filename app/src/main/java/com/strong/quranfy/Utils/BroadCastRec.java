@@ -1,10 +1,10 @@
 package com.strong.quranfy.Utils;
 
-import static com.strong.quranfy.Activity.mediaService.NextPlay;
-import static com.strong.quranfy.Activity.mediaService.PlayPause;
-import static com.strong.quranfy.Activity.mediaService.PreviousPlay;
-import static com.strong.quranfy.Activity.mediaService.mediaPlayer;
-import static com.strong.quranfy.Activity.mediaService.setFlagPlay;
+import static com.strong.quranfy.Utils.mediaService.NextPlay;
+import static com.strong.quranfy.Utils.mediaService.PlayPause;
+import static com.strong.quranfy.Utils.mediaService.PreviousPlay;
+import static com.strong.quranfy.Utils.mediaService.mediaPlayer;
+import static com.strong.quranfy.Utils.mediaService.setFlagPlay;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
 import static com.strong.quranfy.Adaptor.surah_adaptor.closeNotification;
 import static com.strong.quranfy.Models.playList.ACTION;
