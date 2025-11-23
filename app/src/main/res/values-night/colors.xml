@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Theme-aware colors for dark mode -->
+    <color name="TextPrimary">#FFFFFF</color>
+    <color name="TextSecondary">#B0B0B0</color>
+    <color name="CardBackground">#3A3A3A</color>
+    <color name="SurfaceBackground">#3A3A3A</color>
+    <color name="BorderColor">#B0B0B0</color>
+</resources>

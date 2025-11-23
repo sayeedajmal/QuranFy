@@ -4,4 +4,11 @@
     <color name="White">#FFFFFF</color>
     <color name="ThemeWhite">#29323C</color>
     <color name="Green">#009688</color>
+    
+    <!-- Theme-aware colors for light mode -->
+    <color name="TextPrimary">#1A1A1A</color>
+    <color name="TextSecondary">#666666</color>
+    <color name="CardBackground">#FFFFFF</color>
+    <color name="SurfaceBackground">#F5F5F5</color>
+    <color name="BorderColor">#E0E0E0</color>
 </resources>

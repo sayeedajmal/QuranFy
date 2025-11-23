@@ -4,25 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.QuranFy.FullScreen"
+    android:fitsSystemWindows="true"
     tools:context=".Activity.playScreen">
 
+    <!-- Lyrics Display -->
+    <com.dirror.lyricviewx.LyricViewX
+        android:id="@+id/lyrics"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        android:background="@color/transparent"
+        android:padding="0dp"
+        android:textDirection="rtl"
+        android:theme="@style/Theme.QuranFy.lyricFont"
+        app:layout_constraintBottom_toTopOf="@+id/controlsContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingClass" />
+
+    <!-- Quran Icon (for non-lyric mode) -->
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/quranIcon"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="50dp"
+        android:padding="60dp"
         android:scaleType="centerCrop"
         android:src="@drawable/quran_img"
         android:visibility="gone"
-        app:civ_border_color="@color/transparent"
-        app:civ_border_width="3dp"
         app:civ_circle_background_color="@color/transparent"
-        app:layout_constraintBottom_toTopOf="@+id/surahName"
+        app:layout_constraintBottom_toTopOf="@+id/controlsContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Progress Circle (for non-lyric mode) -->
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="0dp"
@@ -33,188 +49,175 @@
         android:progress="0"
         android:rotation="270"
         android:visibility="gone"
-        app:chainUseRtl="true"
-        app:layout_constraintBottom_toTopOf="@+id/surahName"
+        app:layout_constraintBottom_toTopOf="@+id/controlsContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <com.dirror.lyricviewx.LyricViewX
-        android:id="@+id/lyrics"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="3dp"
-        android:background="@color/transparent"
-        android:padding="0dp"
-        android:textDirection="rtl"
-        android:theme="@style/Theme.QuranFy.lyricFont"
-        app:layout_constraintBottom_toTopOf="@+id/surahName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingClass" />
-
+    <!-- Rotate Button -->
     <ImageButton
         android:id="@+id/rotate"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:alpha="1"
-        android:background="@color/transparent"
+        android:background="@drawable/small_circle_button"
+        android:padding="10dp"
         android:src="@drawable/ic_roatation"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="#09A2B6" />
+        app:tint="@color/Green" />
 
-    <TextView
-        android:id="@+id/currentTime"
-        android:layout_width="wrap_content"
+    <!-- Controls Container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/controlsContainer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:background="@color/transparent"
-        android:text="00:00"
-        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
-        app:layout_constraintStart_toEndOf="@+id/NextTrackButton"
-        app:layout_constraintTop_toTopOf="@+id/seekBar" />
-
-    <SeekBar
-        android:id="@+id/seekBar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="0dp"
-        android:layout_height="12dp"
-        android:progressBackgroundTint="@color/White"
-        android:progressBackgroundTintMode="add"
-        android:progressDrawable="@drawable/progress_gredient"
-        android:thumbOffset="5dp"
-        android:thumbTint="#70A5DF"
-        android:thumbTintMode="src_atop"
-        app:layout_constraintBottom_toBottomOf="@+id/PlayPauseButton"
-        app:layout_constraintEnd_toStartOf="@+id/TotalTime"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/currentTime"
-        app:layout_constraintTop_toBottomOf="@+id/seekBack" />
-
-    <TextView
-        android:id="@+id/surahName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:text="Al-Fatihah"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintEnd_toStartOf="@+id/seekForward"
-        app:layout_constraintStart_toEndOf="@+id/seekBack"
-        app:layout_constraintTop_toTopOf="@+id/PlayPauseButton" />
-
-    <TextView
-        android:id="@+id/TotalTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:background="@color/transparent"
-        android:text="00:00"
-        app:layout_constraintBottom_toBottomOf="@+id/seekBar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/seekBar" />
-
-    <ImageButton
-        android:id="@+id/PreviousTrackButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/button_round"
-        android:contentDescription="Next Track"
-        android:padding="8dp"
-        android:rotationY="180"
-        android:scaleType="centerCrop"
-        android:src="@drawable/next"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/PlayPauseButton"
-        app:layout_constraintEnd_toStartOf="@+id/PlayPauseButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/PlayPauseButton" />
-
-    <ImageButton
-        android:id="@+id/PlayPauseButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="5dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/button_round"
-        android:contentDescription="Play/Pause"
-        android:padding="5dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/pause"
+        android:layout_marginBottom="24dp"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/NextTrackButton"
-        app:layout_constraintStart_toEndOf="@+id/PreviousTrackButton"
-        tools:ignore="MissingConstraints" />
-
-    <ImageButton
-        android:id="@+id/NextTrackButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="5dp"
-        android:background="@drawable/button_round"
-        android:contentDescription="Next Track"
-        android:padding="8dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/next"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/PlayPauseButton"
-        app:layout_constraintStart_toEndOf="@+id/PlayPauseButton"
-        app:layout_constraintTop_toTopOf="@+id/PlayPauseButton" />
-
-    <ImageButton
-        android:id="@+id/seekBack"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="3dp"
-        android:background="@drawable/button_round"
-        android:contentDescription="Next Track"
-        android:scaleType="centerCrop"
-        android:src="@drawable/seekback"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
-        app:layout_constraintEnd_toStartOf="@+id/surahName"
-        app:layout_constraintStart_toEndOf="@+id/NextTrackButton"
-        app:layout_constraintTop_toTopOf="@+id/surahName" />
-
-    <ImageButton
-        android:id="@+id/seekForward"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginBottom="3dp"
-        android:background="@drawable/button_round"
-        android:contentDescription="Next Track"
-        android:scaleType="centerCrop"
-        android:src="@drawable/seeforward"
-        app:layout_constraintBottom_toTopOf="@+id/seekBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/surahName"
-        app:layout_constraintTop_toTopOf="@+id/surahName" />
+        app:layout_constraintStart_toStartOf="parent">
 
+        <!-- Surah Name -->
+        <TextView
+            android:id="@+id/surahName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:background="@color/transparent"
+            android:text="Al-Fatihah"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-bold"
+            android:textColor="@color/TextPrimary"
+            app:layout_constraintBottom_toTopOf="@+id/seekBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <!--    <ImageButton-->
-    <!--        android:id="@+id/repeatButton"-->
-    <!--        android:layout_width="45dp"-->
-    <!--        android:layout_height="45dp"-->
-    <!--        android:layout_gravity="center_vertical"-->
-    <!--        android:layout_marginEnd="24dp"-->
-    <!--        android:background="@drawable/button_round"-->
-    <!--        android:contentDescription="repeat"-->
-    <!--        android:padding="8dp"-->
-    <!--        android:scaleType="centerCrop"-->
-    <!--        android:src="@drawable/ic_repeat"-->
-    <!--        app:layout_constraintBottom_toBottomOf="@+id/NextTrackButton"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toEndOf="@+id/NextTrackButton"-->
-    <!--        app:layout_constraintTop_toTopOf="@+id/NextTrackButton" />-->
+        <!-- Seekbar -->
+        <SeekBar
+            android:id="@+id/seekBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="6dp"
+            android:layout_marginBottom="8dp"
+            android:progressBackgroundTint="#E0E0E0"
+            android:progressBackgroundTintMode="add"
+            android:progressDrawable="@drawable/progress_gredient"
+            android:thumbOffset="0dp"
+            android:thumbTint="@color/Green"
+            android:thumbTintMode="src_atop"
+            app:layout_constraintBottom_toTopOf="@+id/currentTime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Time Labels -->
+        <TextView
+            android:id="@+id/currentTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:background="@color/transparent"
+            android:text="00:00"
+            android:textSize="13sp"
+            android:textColor="@color/TextSecondary"
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/TotalTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:background="@color/transparent"
+            android:text="00:00"
+            android:textSize="13sp"
+            android:textColor="@color/TextSecondary"
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintBottom_toTopOf="@+id/PlayPauseButton"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Playback Controls Row -->
+        <ImageButton
+            android:id="@+id/seekBack"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/small_circle_button"
+            android:contentDescription="Seek Back"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/seekback"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/PreviousTrackButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@color/Green" />
+
+        <ImageButton
+            android:id="@+id/PreviousTrackButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="12dp"
+            android:background="@drawable/small_circle_button"
+            android:contentDescription="Previous Track"
+            android:padding="12dp"
+            android:rotationY="180"
+            android:scaleType="fitCenter"
+            android:src="@drawable/next"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/PlayPauseButton"
+            app:layout_constraintStart_toEndOf="@+id/seekBack"
+            app:tint="@color/Green" />
+
+        <ImageButton
+            android:id="@+id/PlayPauseButton"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/large_circle_button"
+            android:contentDescription="Play/Pause"
+            android:elevation="4dp"
+            android:padding="18dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/pause"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:tint="@color/White" />
+
+        <ImageButton
+            android:id="@+id/NextTrackButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/small_circle_button"
+            android:contentDescription="Next Track"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/next"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/seekForward"
+            app:layout_constraintStart_toEndOf="@+id/PlayPauseButton"
+            app:tint="@color/Green" />
+
+        <ImageButton
+            android:id="@+id/seekForward"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/small_circle_button"
+            android:contentDescription="Seek Forward"
+            android:padding="12dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/seeforward"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/NextTrackButton"
+            app:tint="@color/Green" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

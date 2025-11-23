@@ -52,7 +52,6 @@ public class playScreen extends AppCompatActivity {
         if (Build.VERSION.SDK_INT > 28)
             BindPlayScreen.progress.setProgressDrawable(AppCompatResources.getDrawable(this, R.drawable.circle));
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         orientation = getResources().getConfiguration().orientation;
 
         BindPlayScreen.surahName.setText(surahData.getSurahName());
@@ -91,17 +90,26 @@ public class playScreen extends AppCompatActivity {
         if (mediaPlayer != null) current.postDelayed(new Runnable() {
             @Override
             public void run() {
-                //Setting TotalTime of Surah
-                String TotalDuration = createDuration(getDuration());
-                BindPlayScreen.TotalTime.setText(TotalDuration);
                 try {
+                    // Check if mediaPlayer is still valid
+                    if (mediaPlayer == null || BindPlayScreen == null) {
+                        return;
+                    }
+                    
+                    //Setting TotalTime of Surah
+                    String TotalDuration = createDuration(getDuration());
+                    BindPlayScreen.TotalTime.setText(TotalDuration);
+                    
                     //Setting the current duration from the media player
-                    BindPlayScreen.seekBar.setMax(mediaPlayer.getDuration());
-                    BindPlayScreen.progress.setMax(mediaPlayer.getDuration() - 1000);
-                    currentTime = createDuration(mediaPlayer.getCurrentPosition());
+                    int duration = mediaPlayer.getDuration();
+                    int currentPosition = mediaPlayer.getCurrentPosition();
+                    
+                    BindPlayScreen.seekBar.setMax(duration);
+                    BindPlayScreen.progress.setMax(duration - 1000);
+                    currentTime = createDuration(currentPosition);
 
 //                    Updating the lyric Time with Music RealTime
-                    BindPlayScreen.lyrics.updateTime(mediaPlayer.getCurrentPosition(), true);
+                    BindPlayScreen.lyrics.updateTime(currentPosition, true);
 
                     BindPlayScreen.currentTime.setText(currentTime);
 
@@ -110,14 +118,15 @@ public class playScreen extends AppCompatActivity {
                         BindPlayScreen.PlayPauseButton.setImageResource(play);
                     } else {
                         //Setting progressBar of Slider
-                        BindPlayScreen.seekBar.setProgress(mediaPlayer.getCurrentPosition(), true);
-                        BindPlayScreen.progress.setProgress(mediaPlayer.getCurrentPosition(), true);
+                        BindPlayScreen.seekBar.setProgress(currentPosition, true);
+                        BindPlayScreen.progress.setProgress(currentPosition, true);
                         BindPlayScreen.PlayPauseButton.setImageResource(pause);
                     }
+                    current.postDelayed(this, delay);
                 } catch (IllegalStateException e) {
-                    e.printStackTrace();
+                    // MediaPlayer is in an invalid state, stop the handler
+                    return;
                 }
-                current.postDelayed(this, delay);
             }
         }, delay);
     }
@@ -152,6 +161,10 @@ public class playScreen extends AppCompatActivity {
             BindPlayScreen.lyrics.setVisibility(View.GONE);
             BindPlayScreen.progress.setVisibility(View.VISIBLE);
             BindPlayScreen.quranIcon.setVisibility(View.VISIBLE);
+            
+            // Add pulse animation to Quran icon
+            android.view.animation.Animation pulseAnim = android.view.animation.AnimationUtils.loadAnimation(this, R.anim.pulse_animation);
+            BindPlayScreen.quranIcon.startAnimation(pulseAnim);
         }
 
     }

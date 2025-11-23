@@ -82,10 +82,11 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         holder.surahNameArabic.setText(ArabicGet.getSurahArabic());
 
         lyricId = context.getResources().getIdentifier("_" + surah_getter.getSurahNumber(), "raw", context.getPackageName());
-        for (int i = 1; i <= position; i++)
-            if (lyricId != 0) {
-                holder.ReadImage.setVisibility(View.VISIBLE);
-            } else holder.ReadImage.setVisibility(View.GONE);
+        if (lyricId != 0) {
+            holder.readIconContainer.setVisibility(View.VISIBLE);
+        } else {
+            holder.readIconContainer.setVisibility(View.GONE);
+        }
 
 
         //Clicking The ItemView or Surah List
@@ -229,6 +230,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         public TextView surahInformation;
         public TextView surahNameArabic;
         public CircleImageView ReadImage;
+        public androidx.cardview.widget.CardView readIconContainer;
         public ImageButton DownloadButton;
 
         public ViewHolder(@NonNull View itemView) {
@@ -238,6 +240,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             surahInformation = itemView.findViewById(R.id.surahInformation);
             surahNameArabic = itemView.findViewById(R.id.surahNameArabic);
             ReadImage = itemView.findViewById(R.id.surahRead);
+            readIconContainer = itemView.findViewById(R.id.readIconContainer);
             DownloadButton = itemView.findViewById(R.id.download);
         }
     }
