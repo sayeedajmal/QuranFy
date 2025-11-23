@@ -1,8 +1,5 @@
 package com.strong.quranfy.Utils;
 
-import static com.strong.quranfy.Utils.mediaService.NextPlay;
-import static com.strong.quranfy.Utils.mediaService.PlayPause;
-import static com.strong.quranfy.Utils.mediaService.PreviousPlay;
 import static com.strong.quranfy.Utils.mediaService.mediaPlayer;
 import static com.strong.quranfy.Utils.mediaService.setFlagPlay;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
@@ -28,42 +25,15 @@ public class BroadCastRec extends BroadcastReceiver {
             String state = intent.getStringExtra(TelephonyManager.EXTRA_STATE);
 
             assert state != null;
-            if (state.equals(TelephonyManager.EXTRA_STATE_RINGING)) {
-                if (mediaPlayer != null && mediaPlayer.isPlaying()) mediaPlayer.pause();
-            } else if (state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
-                if (mediaPlayer != null && mediaPlayer.isPlaying()) mediaPlayer.pause();
+            if (state.equals(TelephonyManager.EXTRA_STATE_RINGING) || state.equals(TelephonyManager.EXTRA_STATE_OFFHOOK)) {
+                Intent pauseIntent = new Intent(context, mediaService.class);
+                pauseIntent.setAction("PAUSE");
+                context.startService(pauseIntent);
             } else if (state.equals(TelephonyManager.EXTRA_STATE_IDLE)) {
-                if (mediaPlayer != null && !mediaPlayer.isPlaying()) mediaPlayer.start();
-
+                Intent resumeIntent = new Intent(context, mediaService.class);
+                resumeIntent.setAction("RESUME");
+                context.startService(resumeIntent);
             }
-        }
-
-
-        switch (Objects.requireNonNull(ACTION)) {
-            case "PLAY":
-                if (mediaPlayer != null && mediaPlayer.isPlaying()) {
-                    setFlagPlay(PlayPause(context));
-                } else if (mediaPlayer != null) {
-                    setFlagPlay(PlayPause(context));
-                }
-                break;
-            case "NEXT":
-                if (Integer.parseInt(PlaySurahNumber) < 114 && mediaPlayer != null) {
-                    NextPlay();
-                    ACTION("NEXT");
-                }
-                break;
-            case "PREVIOUS":
-                if (Integer.parseInt(PlaySurahNumber) > 1 && mediaPlayer != null) {
-                    PreviousPlay();
-                    ACTION("PREVIOUS");
-                }
-                break;
-            case "CLOSE":
-                if (mediaPlayer != null && mediaPlayer.isPlaying()) mediaPlayer.pause();
-                setFlagPlay(false);
-                closeNotification();
-                break;
         }
     }
 }

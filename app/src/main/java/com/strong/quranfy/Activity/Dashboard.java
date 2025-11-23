@@ -6,8 +6,7 @@ import static com.strong.quranfy.Fragment.Surah_Frag.SearchSurah;
 import static com.strong.quranfy.Models.playList.ACTION;
 import static com.strong.quranfy.R.drawable.pause;
 import static com.strong.quranfy.R.drawable.play;
-import static com.strong.quranfy.Utils.mediaService.NextPlay;
-import static com.strong.quranfy.Utils.mediaService.PlayPause;
+import static com.strong.quranfy.R.drawable.play;
 import static com.strong.quranfy.Utils.mediaService.isPlaying;
 import static com.strong.quranfy.Utils.mediaService.mediaPlayer;
 import static com.strong.quranfy.Utils.mediaService.setFlagPlay;
@@ -90,18 +89,24 @@ public class Dashboard extends AppCompatActivity implements surah_adaptor.onClic
 
         //PlayButton
         BindDash.PlayPauseButton.setOnClickListener(view -> {
-            setFlagPlay(PlayPause(this));
-            if (!isPlaying) {
-                BindDash.PlayPauseButton.setImageResource(play);
-            } else {
-                BindDash.PlayPauseButton.setImageResource(pause);
-            }
+            Intent intent = new Intent(this, com.strong.quranfy.Utils.mediaService.class);
+            intent.setAction("PLAY");
+            startService(intent);
+            // UI update logic might need to be delayed or reactive, but for now keeping it optimistic
+            // Actually, PlayPause in service toggles state.
+            // Dashboard UI updates in the Runnable loop (current.postDelayed).
+            // So we don't strictly need to update UI here, but let's leave the optimistic update if it was there?
+            // The original code called setFlagPlay(PlayPause(this)) and then updated UI.
+            // Now we send intent.
+            // The Runnable loop checks isPlaying and updates UI.
         });
 
         //Next Track
         BindDash.NextTrackButton.setOnClickListener(view -> {
             if (PlaySurahNumber != null && Integer.parseInt(PlaySurahNumber) < 114 && mediaPlayer != null) {
-                NextPlay();
+                Intent intent = new Intent(this, com.strong.quranfy.Utils.mediaService.class);
+                intent.setAction("NEXT");
+                startService(intent);
                 ACTION("NEXT");
             } else Toast.makeText(this, "select surah to listen", Toast.LENGTH_SHORT).show();
 

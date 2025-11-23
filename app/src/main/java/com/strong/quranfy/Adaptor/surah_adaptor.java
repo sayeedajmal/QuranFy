@@ -115,8 +115,6 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             setSurahName(surah_getter.getSurahName());
             setSurahInform(surahInform.getSurahInformation());
 
-            MediaPanel.PushNotification(context, REQ_CODE, R.drawable.pause, "Pause");
-
             onClickSendData.onReceiveData(intent);
 
             mediaService.setFlagPlay(true);
@@ -178,7 +176,10 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             file = new File(directory[0], SurahNumber + ".mp3");
         }
         if (file.exists()) {
-            mediaService.localSurah(Uri.fromFile(file));
+            Intent intent = new Intent(context, mediaService.class);
+            intent.setAction("PLAY_URI");
+            intent.putExtra("uri", Uri.fromFile(file).toString());
+            context.startService(intent);
         } else {
             if (Integer.parseInt(SurahNumber) < 10) {
                 int surah = Integer.parseInt(SurahNumber);
@@ -194,7 +195,10 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
 
 
     private static void AudioPlay(Uri uri) {
-        mediaService.MediaPlay(uri, context);
+        Intent intent = new Intent(context, mediaService.class);
+        intent.setAction("PLAY_URI");
+        intent.putExtra("uri", uri.toString());
+        context.startService(intent);
     }
 
     //Update Data on Next or Previous Button
@@ -207,7 +211,6 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         setSurahInform(surahInform.getSurahInformation());
 
         updateList();
-        MediaPanel.PushNotification(context, REQ_CODE, R.drawable.pause, "Pause");
     }
 
     public static void closeNotification() {

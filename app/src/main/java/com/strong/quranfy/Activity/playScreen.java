@@ -2,8 +2,6 @@ package com.strong.quranfy.Activity;
 
 import static com.strong.quranfy.R.drawable.pause;
 import static com.strong.quranfy.R.drawable.play;
-import static com.strong.quranfy.Utils.mediaService.NextPlay;
-import static com.strong.quranfy.Utils.mediaService.PreviousPlay;
 import static com.strong.quranfy.Utils.mediaService.createDuration;
 import static com.strong.quranfy.Utils.mediaService.getDuration;
 import static com.strong.quranfy.Utils.mediaService.isPlaying;
@@ -11,6 +9,7 @@ import static com.strong.quranfy.Utils.mediaService.mediaPlayer;
 import static com.strong.quranfy.Utils.mediaService.setFlagPlay;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -178,14 +177,18 @@ public class playScreen extends AppCompatActivity {
     private void NextTrack() {
         BindPlayScreen.NextTrackButton.setOnClickListener(view -> {
             playList.ACTION("NEXT");
-            NextPlay();
+            Intent intent = new Intent(this, mediaService.class);
+            intent.setAction("NEXT");
+            startService(intent);
         });
     }
 
     private void PrevTrack() {
         BindPlayScreen.PreviousTrackButton.setOnClickListener(view -> {
             playList.ACTION("PREVIOUS");
-            PreviousPlay();
+            Intent intent = new Intent(this, mediaService.class);
+            intent.setAction("PREVIOUS");
+            startService(intent);
         });
     }
 
@@ -210,12 +213,13 @@ public class playScreen extends AppCompatActivity {
 
     private void PlayPause() {
         BindPlayScreen.PlayPauseButton.setOnClickListener(view -> {
-            setFlagPlay(mediaService.PlayPause(this));
-            if (!isPlaying) {
-                BindPlayScreen.PlayPauseButton.setImageResource(play);
-            } else {
-                BindPlayScreen.PlayPauseButton.setImageResource(pause);
-            }
+            Intent intent = new Intent(this, mediaService.class);
+            intent.setAction("PLAY");
+            startService(intent);
+            // Optimistic UI update or wait for runnable?
+            // Original code: setFlagPlay(mediaService.PlayPause(this));
+            // Service toggles flag. Runnable updates UI.
+            // Let's just trigger service. Runnable loop will handle UI.
         });
     }
 
