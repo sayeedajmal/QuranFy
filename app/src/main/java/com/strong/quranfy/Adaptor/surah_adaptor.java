@@ -124,7 +124,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         });
 
         //        Check Already File is Stored or Not
-        holder.DownloadButton.setVisibility(!checkFile(surah_getter.getSurahNumber()) ? View.VISIBLE : View.INVISIBLE);
+        holder.downloadIconContainer.setVisibility(!checkFile(surah_getter.getSurahNumber()) ? View.VISIBLE : View.GONE);
 
         //Download Button Getting The Surah And Store to the App's Storage
         holder.DownloadButton.setOnClickListener(v -> {
@@ -231,6 +231,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         public TextView surahNameArabic;
         public CircleImageView ReadImage;
         public androidx.cardview.widget.CardView readIconContainer;
+        public androidx.cardview.widget.CardView downloadIconContainer;
         public ImageButton DownloadButton;
 
         public ViewHolder(@NonNull View itemView) {
@@ -241,6 +242,7 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
             surahNameArabic = itemView.findViewById(R.id.surahNameArabic);
             ReadImage = itemView.findViewById(R.id.surahRead);
             readIconContainer = itemView.findViewById(R.id.readIconContainer);
+            downloadIconContainer = itemView.findViewById(R.id.downloadIconContainer);
             DownloadButton = itemView.findViewById(R.id.download);
         }
     }

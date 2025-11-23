@@ -55,6 +55,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="8dp"
             android:orientation="vertical"
+            android:background="@color/transparent"
             app:layout_constraintBottom_toBottomOf="@+id/surahNumber"
             app:layout_constraintEnd_toStartOf="@+id/actionContainer"
             app:layout_constraintStart_toEndOf="@+id/surahNumber"
@@ -80,6 +81,7 @@
                 android:text="MECCAN • 7 VERSES"
                 android:textColor="@color/TextSecondary"
                 android:textSize="12sp"
+                android:background="@color/transparent"
                 android:fontFamily="sans-serif"
                 android:letterSpacing="0.05"
                 android:maxLines="1"
@@ -93,6 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:background="@color/transparent"
             android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/surahNameArabic"
@@ -100,6 +103,7 @@
 
             <!-- Download Button -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/downloadIconContainer"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginEnd="8dp"
