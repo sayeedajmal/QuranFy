@@ -105,7 +105,7 @@
                 android:padding="20dp"
                 app:cardCornerRadius="16dp">
 
-                <ImageView
+                <pl.droidsonroids.gif.GifImageView
                     android:id="@+id/imageView"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
@@ -115,8 +115,7 @@
                     android:contentDescription="Icon"
                     android:rotationY="180"
                     android:scaleType="centerInside"
-                    android:src="@drawable/last_read"
-                    android:tint="@color/White"
+                    android:src="@drawable/quran"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 

@@ -24,14 +24,13 @@
         tools:ignore="MissingClass" />
 
     <!-- Quran Icon (for non-lyric mode) -->
-    <de.hdodenhof.circleimageview.CircleImageView
+    <pl.droidsonroids.gif.GifImageView
         android:id="@+id/quranIcon"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="60dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/quran_img"
+        android:layout_height="150dp"
+        android:src="@drawable/quran"
         android:visibility="gone"
+        android:rotation="360"
         app:civ_circle_background_color="@color/transparent"
         app:layout_constraintBottom_toTopOf="@+id/controlsContainer"
         app:layout_constraintEnd_toEndOf="parent"

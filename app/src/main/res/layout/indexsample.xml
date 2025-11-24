@@ -68,6 +68,7 @@
                 android:text="Al-Fatihah"
                 android:textColor="@color/TextPrimary"
                 android:textSize="18sp"
+                android:background="@color/transparent"
                 android:textStyle="bold"
                 android:fontFamily="sans-serif-medium"
                 android:maxLines="1"
