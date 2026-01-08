@@ -2,7 +2,6 @@ package com.strong.quranfy.Utils;
 
 import static com.strong.quranfy.Activity.playScreen.currentDuration;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
-import static com.strong.quranfy.Adaptor.surah_adaptor.getAudioFile;
 import static com.strong.quranfy.Utils.MediaPanel.PushNotification;
 
 import android.app.Notification;
@@ -15,16 +14,21 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.IBinder;
-import android.util.Log;
-
+import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import com.strong.quranfy.R;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import android.os.PowerManager;
 
 public class mediaService extends Service {
     public static boolean isPlaying = false;
@@ -35,12 +39,17 @@ public class mediaService extends Service {
     private AudioManager audioManager;
     private AudioFocusRequest audioFocusRequest;
     
+    private ArrayList<String> playlist = new ArrayList<>();
+    private int currentTrackIndex = 0;
+    private String currentSurahName = "";
+    private String currentSurahInfo = "";
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
     private final AudioManager.OnAudioFocusChangeListener audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
         @Override
         public void onAudioFocusChange(int focusChange) {
             switch (focusChange) {
                 case AudioManager.AUDIOFOCUS_LOSS:
-                    // Permanent loss - stop playback
                     if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
                         setFlagPlay(false);
@@ -49,7 +58,6 @@ public class mediaService extends Service {
                     }
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
-                    // Temporary loss (e.g., phone call) - pause
                     if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
                         setFlagPlay(false);
@@ -58,13 +66,11 @@ public class mediaService extends Service {
                     }
                     break;
                 case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK:
-                    // Temporary loss but can duck (lower volume) - just lower volume
                     if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                         mediaPlayer.setVolume(0.3f, 0.3f);
                     }
                     break;
                 case AudioManager.AUDIOFOCUS_GAIN:
-                    // Regained focus - restore volume
                     if (mediaPlayer != null) {
                         mediaPlayer.setVolume(1.0f, 1.0f);
                     }
@@ -77,10 +83,8 @@ public class mediaService extends Service {
     public void onCreate() {
         super.onCreate();
         
-        // Initialize AudioManager
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         
-        // Create AudioFocusRequest for Android O and above
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             audioFocusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
                     .setAudioAttributes(
@@ -145,10 +149,21 @@ public class mediaService extends Service {
         if (intent != null && intent.getAction() != null) {
             String action = intent.getAction();
             switch (action) {
-                case "PLAY_URI":
-                    String uriString = intent.getStringExtra("uri");
-                    if (uriString != null) {
-                        MediaPlay(Uri.parse(uriString), this);
+                case "PLAY_PLAYLIST":
+                    playlist = intent.getStringArrayListExtra("playlist");
+                    currentSurahName = intent.getStringExtra("surahName");
+                    currentSurahInfo = intent.getStringExtra("surahInfo");
+                    currentTrackIndex = 0;
+                    
+                    Log.d("MEDIA SERVICE", "Received playlist with " + (playlist != null ? playlist.size() : 0) + " tracks");
+                    if (playlist != null) {
+                        for (int i = 0; i < Math.min(playlist.size(), 5); i++) {
+                            Log.d("MEDIA SERVICE", "Track " + i + ": " + playlist.get(i));
+                        }
+                    }
+                    
+                    if (playlist != null && !playlist.isEmpty()) {
+                        MediaPlay(playlist.get(currentTrackIndex));
                     }
                     break;
                 case "PLAY":
@@ -178,7 +193,6 @@ public class mediaService extends Service {
                     if (mediaPlayer != null && mediaPlayer.isPlaying()) mediaPlayer.pause();
                     setFlagPlay(false);
                     
-                    // Abandon audio focus
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         audioManager.abandonAudioFocusRequest(audioFocusRequest);
                     } else {
@@ -193,59 +207,114 @@ public class mediaService extends Service {
         return START_NOT_STICKY;
     }
 
-    public void MediaPlay(Uri FileUri, Context context) {
-        // Request audio focus before playing
+    public static boolean isPrepared = false;
+
+    public void MediaPlay(String url) {
+        // Skip empty URLs
+        if (url == null || url.isEmpty()) {
+            Log.e("MEDIA SERVICE", "Empty URL, skipping to next");
+            playNextTrack();
+            return;
+        }
+
         int result;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             result = audioManager.requestAudioFocus(audioFocusRequest);
         } else {
             result = audioManager.requestAudioFocus(audioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         }
-        
+
         if (result != AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
-            // Could not get audio focus, don't play
             return;
         }
-        
-        if (mediaPlayer == null) {
-            mediaPlayer = new MediaPlayer();
-            mediaPlayer.setAudioAttributes(new AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).setUsage(AudioAttributes.USAGE_MEDIA).build());
-        }
 
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-        }
-        
-        try {
-            mediaPlayer.setDataSource(context, FileUri);
-            mediaPlayer.setOnPreparedListener(mp -> {
-                mp.start();
-                setDuration(mp.getDuration());
-                currentDuration();
-                setFlagPlay(true);
-                updatePlaybackState(PlaybackStateCompat.STATE_PLAYING);
+        isPrepared = false;
+        duration = 0;
+
+        // Run MediaPlayer setup in background to avoid blocking main thread (Slow Binder)
+        executorService.execute(() -> {
+            try {
+                if (mediaPlayer != null) {
+                    try {
+                        mediaPlayer.stop();
+                        mediaPlayer.release();
+                    } catch (Exception e) {
+                        Log.e("MEDIA SERVICE", "Error releasing player: " + e.getMessage());
+                    }
+                    mediaPlayer = null;
+                }
+
+                mediaPlayer = new MediaPlayer();
+                mediaPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA)
+                        .build());
                 
-                // Set metadata
-                android.support.v4.media.MediaMetadataCompat.Builder metadataBuilder = new android.support.v4.media.MediaMetadataCompat.Builder()
-                        .putString(android.support.v4.media.MediaMetadataCompat.METADATA_KEY_TITLE, com.strong.quranfy.Models.surahData.getSurahName())
-                        .putString(android.support.v4.media.MediaMetadataCompat.METADATA_KEY_ARTIST, com.strong.quranfy.Models.surahData.getSurahInform())
-                        .putLong(android.support.v4.media.MediaMetadataCompat.METADATA_KEY_DURATION, mp.getDuration())
-                        .putBitmap(android.support.v4.media.MediaMetadataCompat.METADATA_KEY_ALBUM_ART, android.graphics.BitmapFactory.decodeResource(getResources(), R.drawable.quran_icon));
-                mediaSession.setMetadata(metadataBuilder.build());
+                // Keep CPU awake during playback
+                mediaPlayer.setWakeMode(getApplicationContext(), PowerManager.PARTIAL_WAKE_LOCK);
+
+                Log.d("MEDIA SERVICE", "Playing URL: " + url);
                 
-                showNotification(R.drawable.pause, "Pause");
-            });
-            
-            mediaPlayer.setOnCompletionListener(mp -> {
-                setFlagPlay(false);
-                updatePlaybackState(PlaybackStateCompat.STATE_PAUSED);
-                showNotification(R.drawable.play, "Play");
-            });
-            
-            mediaPlayer.prepareAsync();
-        } catch (IOException e) {
-            Log.e("MEDIA SERVICE ERROR : ", Objects.requireNonNull(e.getLocalizedMessage()));
+                // Use setDataSource(String) for network URLs
+                mediaPlayer.setDataSource(url);
+
+                mediaPlayer.setOnPreparedListener(mp -> {
+                    isPrepared = true;
+                    mp.start();
+                    setDuration(mp.getDuration());
+                    currentDuration();
+                    setFlagPlay(true);
+                    updatePlaybackState(PlaybackStateCompat.STATE_PLAYING);
+
+                    MediaMetadataCompat.Builder metadataBuilder = new MediaMetadataCompat.Builder()
+                            .putString(MediaMetadataCompat.METADATA_KEY_TITLE, currentSurahName)
+                            .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, currentSurahInfo)
+                            .putLong(MediaMetadataCompat.METADATA_KEY_DURATION, mp.getDuration())
+                            .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, android.graphics.BitmapFactory.decodeResource(getResources(), R.drawable.quran_icon));
+                    mediaSession.setMetadata(metadataBuilder.build());
+
+                    showNotification(R.drawable.pause, "Pause");
+                });
+
+                mediaPlayer.setOnCompletionListener(mp -> {
+                    isPrepared = false;
+                    playNextTrack();
+                });
+
+                mediaPlayer.setOnErrorListener((mp, what, extra) -> {
+                    isPrepared = false;
+                    String errorType = (what == MediaPlayer.MEDIA_ERROR_SERVER_DIED) ? "Server Died" : "Unknown";
+                    Log.e("MEDIA SERVICE ERROR", "Error playing: " + url + " what=" + what + " (" + errorType + ") extra=" + extra);
+                    
+                    try {
+                        mp.reset();
+                    } catch (Exception e) {
+                        Log.e("MEDIA SERVICE", "Error resetting player: " + e.getMessage());
+                    }
+                    
+                    new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(this::playNextTrack, 500);
+                    return true;
+                });
+
+                mediaPlayer.prepareAsync();
+            } catch (IOException | IllegalStateException e) {
+                isPrepared = false;
+                Log.e("MEDIA SERVICE ERROR", "Setup failed: " + e.getMessage());
+                new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(this::playNextTrack, 500);
+            }
+        });
+    }
+    
+    private void playNextTrack() {
+        if (currentTrackIndex < playlist.size() - 1) {
+            currentTrackIndex++;
+            Log.d("MEDIA SERVICE", "Moving to next track: " + currentTrackIndex);
+            MediaPlay(playlist.get(currentTrackIndex));
+        } else {
+            Log.d("MEDIA SERVICE", "Playlist finished");
+            setFlagPlay(false);
+            updatePlaybackState(PlaybackStateCompat.STATE_PAUSED);
+            showNotification(R.drawable.play, "Play");
         }
     }
 
@@ -255,45 +324,42 @@ public class mediaService extends Service {
         startForeground(1, notification);
     }
 
-    // Kept static for compatibility, but should be refactored later
-    public static void localSurah(Uri path) {
-        // This seems unused or for local files? 
-        // For now, let's leave it but it won't trigger foreground service unless we change it.
+    public void PlayPause(Context context) {
+    if (mediaPlayer == null) return;
+
+    if (!isPrepared) {
+        Log.d("MEDIA SERVICE", "Ignoring PlayPause: still preparing");
+        return; // or set a pendingPlay=true flag
     }
 
-    public void PlayPause(Context context) {
-        if (mediaPlayer != null) {
-            if (mediaPlayer.isPlaying()) {
-                mediaPlayer.pause();
-                setFlagPlay(false);
-                updatePlaybackState(PlaybackStateCompat.STATE_PAUSED);
-                showNotification(R.drawable.play, "Play");
-            } else {
-                mediaPlayer.start();
-                setFlagPlay(true);
-                updatePlaybackState(PlaybackStateCompat.STATE_PLAYING);
-                showNotification(R.drawable.pause, "Pause");
-            }
-        }
+    if (mediaPlayer.isPlaying()) {
+        mediaPlayer.pause();
+        setFlagPlay(false);
+        updatePlaybackState(PlaybackStateCompat.STATE_PAUSED);
+        showNotification(R.drawable.play, "Play");
+    } else {
+        mediaPlayer.start();
+        setFlagPlay(true);
+        updatePlaybackState(PlaybackStateCompat.STATE_PLAYING);
+        showNotification(R.drawable.pause, "Pause");
     }
+}
+
 
     public void NextPlay() {
-        if (mediaPlayer != null) {
-            int nextSurah = Integer.parseInt(PlaySurahNumber) + 1;
-            PlaySurahNumber = String.valueOf(nextSurah);
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            getAudioFile(String.valueOf(nextSurah));
+        // Skip to next Surah? Or next Ayah?
+        // Usually Next button in notification skips to next track.
+        // Here, let's skip to next Ayah if available, or just do nothing for now as logic for next Surah is complex (needs fetch).
+        if (currentTrackIndex < playlist.size() - 1) {
+            currentTrackIndex++;
+            MediaPlay(playlist.get(currentTrackIndex));
         }
     }
 
     public void PreviousPlay() {
-        if (mediaPlayer != null) {
-            int PrevSurah = Integer.parseInt(PlaySurahNumber) - 1;
-            PlaySurahNumber = String.valueOf(PrevSurah);
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            getAudioFile(String.valueOf(PrevSurah));
+        if (currentTrackIndex > 0) {
+            currentTrackIndex--;
+            MediaPlay(playlist.get(currentTrackIndex));
         }
     }
 
@@ -328,6 +394,21 @@ public class mediaService extends Service {
 
     public static void setFlagPlay(boolean isPlaying) {
         mediaService.isPlaying = isPlaying;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (executorService != null) {
+            executorService.shutdown();
+        }
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+        if (mediaSession != null) {
+            mediaSession.release();
+        }
     }
 
     private void updatePlaybackState(int state) {

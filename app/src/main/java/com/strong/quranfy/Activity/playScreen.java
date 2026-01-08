@@ -27,7 +27,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 
-import com.strong.quranfy.Models.playList;
 import com.strong.quranfy.Models.surahData;
 import com.strong.quranfy.R;
 import com.strong.quranfy.Utils.mediaService;
@@ -80,8 +79,16 @@ public class playScreen extends AppCompatActivity {
     }
 
     private void seekBackForward() {
-        BindPlayScreen.seekBack.setOnClickListener(view -> mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 5000, MediaPlayer.SEEK_PREVIOUS_SYNC));
-        BindPlayScreen.seekForward.setOnClickListener(view -> mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 5000, MediaPlayer.SEEK_NEXT_SYNC));
+        BindPlayScreen.seekBack.setOnClickListener(view -> {
+            if (mediaPlayer != null && mediaService.isPrepared) {
+                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() - 5000, MediaPlayer.SEEK_PREVIOUS_SYNC);
+            }
+        });
+        BindPlayScreen.seekForward.setOnClickListener(view -> {
+            if (mediaPlayer != null && mediaService.isPrepared) {
+                mediaPlayer.seekTo(mediaPlayer.getCurrentPosition() + 5000, MediaPlayer.SEEK_NEXT_SYNC);
+            }
+        });
     }
 
     public static void currentDuration() {
@@ -100,27 +107,42 @@ public class playScreen extends AppCompatActivity {
                     String TotalDuration = createDuration(getDuration());
                     BindPlayScreen.TotalTime.setText(TotalDuration);
                     
-                    //Setting the current duration from the media player
-                    int duration = mediaPlayer.getDuration();
-                    int currentPosition = mediaPlayer.getCurrentPosition();
+                    if (mediaPlayer != null && mediaService.isPrepared) {
+                        // Hide loading indicator when prepared
+                        BindPlayScreen.loadingProgress.setVisibility(View.GONE);
+                        BindPlayScreen.PlayPauseButton.setVisibility(View.VISIBLE);
+                        
+                        //Setting the current duration from the media player
+                        int duration = mediaPlayer.getDuration();
+                        int currentPosition = mediaPlayer.getCurrentPosition();
                     
-                    BindPlayScreen.seekBar.setMax(duration);
-                    BindPlayScreen.progress.setMax(duration - 1000);
-                    currentTime = createDuration(currentPosition);
+                        BindPlayScreen.seekBar.setMax(duration);
+                        BindPlayScreen.progress.setMax(duration - 1000);
+                        currentTime = createDuration(currentPosition);
 
-//                    Updating the lyric Time with Music RealTime
-                    BindPlayScreen.lyrics.updateTime(currentPosition, true);
+                        // Updating the lyric Time with Music RealTime
+                        BindPlayScreen.lyrics.updateTime(currentPosition, true);
 
-                    BindPlayScreen.currentTime.setText(currentTime);
+                        BindPlayScreen.currentTime.setText(currentTime);
 
-                    // Notification Action  for Play Pause
-                    if (!isPlaying) {
-                        BindPlayScreen.PlayPauseButton.setImageResource(play);
+                        // Notification Action  for Play Pause
+                        if (!isPlaying) {
+                            BindPlayScreen.PlayPauseButton.setImageResource(play);
+                        } else {
+                            //Setting progressBar of Slider
+                            BindPlayScreen.seekBar.setProgress(currentPosition, true);
+                            BindPlayScreen.progress.setProgress(currentPosition, true);
+                            BindPlayScreen.PlayPauseButton.setImageResource(pause);
+                        }
                     } else {
-                        //Setting progressBar of Slider
-                        BindPlayScreen.seekBar.setProgress(currentPosition, true);
-                        BindPlayScreen.progress.setProgress(currentPosition, true);
-                        BindPlayScreen.PlayPauseButton.setImageResource(pause);
+                        // Show loading indicator while preparing
+                        BindPlayScreen.loadingProgress.setVisibility(View.VISIBLE);
+                        BindPlayScreen.PlayPauseButton.setVisibility(View.INVISIBLE);
+                        
+                        // Reset UI elements to avoid showing stale data
+                        BindPlayScreen.seekBar.setProgress(0);
+                        BindPlayScreen.progress.setProgress(0);
+                        BindPlayScreen.currentTime.setText("00:00");
                     }
                     current.postDelayed(this, delay);
                 } catch (IllegalStateException e) {
@@ -148,7 +170,7 @@ public class playScreen extends AppCompatActivity {
 
             BindPlayScreen.lyrics.setDraggable(true, l -> {
                 BindPlayScreen.lyrics.updateTime(l, true);
-                if (mediaPlayer != null) {
+                if (mediaPlayer != null && mediaService.isPrepared) {
                     setFlagPlay(true);
                     mediaPlayer.seekTo(l, MediaPlayer.SEEK_NEXT_SYNC);
                     mediaPlayer.start();
@@ -189,7 +211,6 @@ public class playScreen extends AppCompatActivity {
 
     private void NextTrack() {
         BindPlayScreen.NextTrackButton.setOnClickListener(view -> {
-            playList.ACTION("NEXT");
             Intent intent = new Intent(this, mediaService.class);
             intent.setAction("NEXT");
             startService(intent);
@@ -198,7 +219,6 @@ public class playScreen extends AppCompatActivity {
 
     private void PrevTrack() {
         BindPlayScreen.PreviousTrackButton.setOnClickListener(view -> {
-            playList.ACTION("PREVIOUS");
             Intent intent = new Intent(this, mediaService.class);
             intent.setAction("PREVIOUS");
             startService(intent);
@@ -219,7 +239,9 @@ public class playScreen extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                if (mediaPlayer != null) mediaPlayer.seekTo(seekBar.getProgress());
+                if (mediaPlayer != null && mediaService.isPrepared) {
+                    mediaPlayer.seekTo(seekBar.getProgress());
+                }
             }
         });
     }

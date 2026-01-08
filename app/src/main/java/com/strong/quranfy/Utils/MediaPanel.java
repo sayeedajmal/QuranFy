@@ -18,7 +18,6 @@ import android.support.v4.media.session.MediaSessionCompat;
 
 import androidx.core.app.NotificationCompat;
 
-import com.google.firebase.database.FirebaseDatabase;
 import com.strong.quranfy.Activity.Dashboard;
 import com.strong.quranfy.R;
 
@@ -69,6 +68,5 @@ public class MediaPanel extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
     }
 }

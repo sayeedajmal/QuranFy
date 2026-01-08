@@ -11,6 +11,7 @@
 
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".Utils.MediaPanel"
@@ -36,14 +37,7 @@
         <activity android:name=".Activity.playScreen" />
         <activity android:name=".Activity.Setting" />
 
-        <service
-            android:name=".Utils.FirebaseMsg"
-            android:exported="true"
-            android:permission="Message">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+
 
         <service android:name=".Utils.mediaService" android:enabled="true" android:exported="false" />
 

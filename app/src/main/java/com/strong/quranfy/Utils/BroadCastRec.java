@@ -3,8 +3,7 @@ package com.strong.quranfy.Utils;
 import static com.strong.quranfy.Utils.mediaService.mediaPlayer;
 import static com.strong.quranfy.Utils.mediaService.setFlagPlay;
 import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
-import static com.strong.quranfy.Adaptor.surah_adaptor.closeNotification;
-import static com.strong.quranfy.Models.playList.ACTION;
+import static com.strong.quranfy.Adaptor.surah_adaptor.PlaySurahNumber;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

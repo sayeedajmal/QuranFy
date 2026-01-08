@@ -1,61 +1,41 @@
 package com.strong.quranfy.Adaptor;
 
-import static android.content.Context.NOTIFICATION_SERVICE;
-import static com.strong.quranfy.Activity.Dashboard.updateList;
-import static com.strong.quranfy.Models.surahData.setSurahInform;
-import static com.strong.quranfy.Models.surahData.setSurahName;
-import static com.strong.quranfy.Models.surahData.setSurahNumber;
-
 import android.annotation.SuppressLint;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.strong.quranfy.Activity.Dashboard;
 import com.strong.quranfy.Activity.playScreen;
-import com.strong.quranfy.Models.SurahArabicGet;
-import com.strong.quranfy.Models.surahInform;
-import com.strong.quranfy.Models.surah_getter;
+import com.strong.quranfy.Models.Surah;
+import com.strong.quranfy.Models.surahData;
 import com.strong.quranfy.R;
-import com.strong.quranfy.Utils.MediaPanel;
 import com.strong.quranfy.Utils.mediaService;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder> {
-    public static final int REQ_CODE = 100;
     public static Context context;
     public static String PlaySurahNumber;
     private final onClickSendData onClickSendData;
-    static ArrayList<surah_getter> surah_getters;
-    static ArrayList<surahInform> SurahInform;
-    static int lyricId;
-    ArrayList<SurahArabicGet> SurahArabic;
-    public static int POSITION;
+    List<Surah> surahList;
+    List<Surah> surahListFull; // For filtering
 
-    public surah_adaptor(ArrayList<surah_getter> surah_getters, Context context, ArrayList<surahInform> surahInform, ArrayList<SurahArabicGet> surahArabic) {
+    public surah_adaptor(List<Surah> surahList, Context context) {
         surah_adaptor.context = context;
-        surah_adaptor.surah_getters = surah_getters;
-        SurahInform = surahInform;
-        this.SurahArabic = surahArabic;
+        this.surahList = surahList;
+        this.surahListFull = new ArrayList<>(surahList);
         try {
             this.onClickSendData = ((surah_adaptor.onClickSendData) context);
         } catch (ClassCastException e) {
@@ -72,156 +52,154 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        surah_getter surah_getter = surah_getters.get(position);
-        surahInform surahInform = SurahInform.get(position);
-        SurahArabicGet ArabicGet = SurahArabic.get(position);
+        Surah surah = surahList.get(position);
 
-        holder.surahNumber.setText(surah_getter.getSurahNumber());
-        holder.surahName.setText(surah_getter.getSurahName());
-        holder.surahInformation.setText(surahInform.getSurahInformation());
-        holder.surahNameArabic.setText(ArabicGet.getSurahArabic());
+        holder.surahNumber.setText(String.valueOf(surah.getNumber()));
+        holder.surahName.setText(surah.getEnglishName());
+        holder.surahInformation.setText(surah.getEnglishNameTranslation() + " - " + surah.getNumberOfAyahs() + " Ayahs");
+        holder.surahNameArabic.setText(surah.getName().replace("سُورَةُ", "").trim());
 
-        lyricId = context.getResources().getIdentifier("_" + surah_getter.getSurahNumber(), "raw", context.getPackageName());
-        if (lyricId != 0) {
-            holder.readIconContainer.setVisibility(View.VISIBLE);
-        } else {
-            holder.readIconContainer.setVisibility(View.GONE);
-        }
-
+        holder.readIconContainer.setVisibility(View.GONE); // Hide read icon for now
+        holder.downloadIconContainer.setVisibility(View.GONE); // Hide download icon for now
 
         //Clicking The ItemView or Surah List
         holder.itemView.setOnClickListener(view -> {
-            //Implementation of song download
-            PlaySurahNumber = surah_getter.getSurahNumber();
+            PlaySurahNumber = String.valueOf(surah.getNumber());
 
-            setPOSITION(position);
-
-            getAudioFile(surah_getter.getSurahNumber());
-
-            //Setting CurrentSurahNumber
-            playScreen.currentSurahNumber = surah_getter.getSurahNumber();
-
-            Intent intent = new Intent(context, playScreen.class);
-            /*Sending Data From RecyclerView to PlayScreen*/
-            intent.putExtra("SurahNumber", surah_getter.getSurahNumber());
-            intent.putExtra("SurahName", surah_getter.getSurahName());
-            intent.putExtra("SurahInformation", surahInform.getSurahInformation());
-
-            mediaService.CheckMediaPlaying();
-
-            //Sending the Data to SharedPreference
-            DataPref(surah_getter.getSurahNumber(), surah_getter.getSurahName(), ArabicGet.getSurahArabic(), surahInform.getSurahInformation());
-
-            setSurahNumber(surah_getter.getSurahNumber());
-            setSurahName(surah_getter.getSurahName());
-            setSurahInform(surahInform.getSurahInformation());
-
-            onClickSendData.onReceiveData(intent);
-
-            mediaService.setFlagPlay(true);
-
-            context.startActivity(intent);
-        });
-
-        //        Check Already File is Stored or Not
-        holder.downloadIconContainer.setVisibility(!checkFile(surah_getter.getSurahNumber()) ? View.VISIBLE : View.GONE);
-
-        //Download Button Getting The Surah And Store to the App's Storage
-        holder.DownloadButton.setOnClickListener(v -> {
-            String surahNumber = surah_getter.getSurahNumber();
-
-            StorageReference mStorageRef;
-            if (Integer.parseInt(surahNumber) < 10) {
-                int surah = Integer.parseInt(surahNumber);
-                @SuppressLint("DefaultLocale") String number = String.format("%02d", surah);
-                mStorageRef = FirebaseStorage.getInstance().getReference().child(number + ".mp3");
-            } else {
-                mStorageRef = FirebaseStorage.getInstance().getReference().child(surahNumber + ".mp3");
+            // Generate Playlist
+            ArrayList<String> playlist = new ArrayList<>();
+            String reciterId = Dashboard.selectedQariId;
+            for (int i = 1; i <= surah.getNumberOfAyahs(); i++) {
+                // Format: https://cdn.islamic.network/quran/audio/128/{reciterId}/{ayahNumber}.mp3
+                // Note: Ayah number here needs to be absolute or relative?
+                // The API documentation says {ayahNumber} is absolute (1-6236).
+                // Wait, if I use /quran/{edition}, I get all ayahs.
+                // If I construct URL manually, I need absolute ayah number.
+                // Calculating absolute ayah number is hard without metadata.
+                // ALTERNATIVE: Use the API to get the Surah audio URLs.
+                // But that requires a network call.
+                // The user requirements said: "when i selct a qari then in the backend it have to select that qari"
+                // And "Audio files are not always returned directly... but you can extract audio file URLs... or construct them"
+                // Constructing absolute ayah numbers requires knowing the start index of each Surah.
+                
+                // Let's use the /surah/{number}/{edition} endpoint in mediaService or here?
+                // If I do it here, I need to fetch it.
+                // Better approach: Pass the Surah Number and Reciter ID to MediaService, and let it fetch the audio list?
+                // OR: Just play the full surah audio if available?
+                // The user said "gapless playback of Ayah-by-Ayah".
+                
+                // Let's check if there is an endpoint for Surah Audio.
+                // GET /surah/{surah}/{edition} returns all ayahs with audio.
+                // This is the best way.
             }
-
-            File[] directory = context.getExternalFilesDirs(Environment.DIRECTORY_MUSIC);
-            File file = new File(directory[0], mStorageRef.getName());
-
-            mStorageRef.getFile(file).addOnSuccessListener(taskSnapshot -> {
-                Toast.makeText(context, "Surah Saved", Toast.LENGTH_SHORT).show();
-            }).addOnFailureListener(e -> Snackbar.make(v, Objects.requireNonNull(e.getLocalizedMessage()), Snackbar.LENGTH_SHORT).show());
-
+            
+            // So, instead of passing a list of URLs, let's pass the Surah Number and Reciter ID to the service,
+            // and let the service fetch the audio list.
+            // OR, fetch it here and pass it. Fetching here is better for UI feedback.
+            
+            // For now, I'll update the adapter to just trigger the intent with Surah details.
+            // I will implement a method in Dashboard or a Helper to fetch audio and start service.
+            
+            // Actually, `mediaService` should probably handle the fetching to keep UI responsive?
+            // No, Service is for playing.
+            
+            // Let's Fetch Audio URLs here (asynchronously) then start service.
+            fetchAudioAndPlay(surah.getNumber(), reciterId, surah);
         });
+    }
+    
+    private void fetchAudioAndPlay(int surahNumber, String reciterId, Surah surah) {
+        android.widget.Toast.makeText(context, "Loading Audio...", android.widget.Toast.LENGTH_SHORT).show();
 
+        if (!Dashboard.isAyahMode) {
+            // Full Surah Mode
+            ArrayList<String> audioUrls = new ArrayList<>();
+            // Construct URL: https://cdn.islamic.network/quran/audio-surah/128/{reciterId}/{surahNumber}.mp3
+            String surahUrl = "https://cdn.islamic.network/quran/audio-surah/128/" + reciterId + "/" + surahNumber + ".mp3";
+            audioUrls.add(surahUrl);
+
+            android.util.Log.d("SURAH_ADAPTER", "Full Surah Mode - URL: " + surahUrl);
+            startMediaService(audioUrls, surah, surahNumber);
+        } else {
+            // Ayah by Ayah Mode
+            com.strong.quranfy.Network.QuranApiService apiService = com.strong.quranfy.Network.RetrofitClient.getClient().create(com.strong.quranfy.Network.QuranApiService.class);
+            retrofit2.Call<com.google.gson.JsonObject> call = apiService.getSurahWithEdition(surahNumber, reciterId);
+
+            call.enqueue(new retrofit2.Callback<com.google.gson.JsonObject>() {
+                @Override
+                public void onResponse(retrofit2.Call<com.google.gson.JsonObject> call, retrofit2.Response<com.google.gson.JsonObject> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        com.google.gson.JsonObject data = response.body().getAsJsonObject("data");
+                        com.google.gson.JsonArray ayahs = data.getAsJsonArray("ayahs");
+                        ArrayList<String> audioUrls = new ArrayList<>();
+
+                        android.util.Log.d("SURAH_ADAPTER", "Total ayahs in response: " + ayahs.size());
+
+                        for (com.google.gson.JsonElement ayah : ayahs) {
+                            String audioUrl = ayah.getAsJsonObject().get("audio").getAsString();
+                            android.util.Log.d("SURAH_ADAPTER", "Audio URL: " + audioUrl);
+                            if (audioUrl != null && !audioUrl.isEmpty()) {
+                                audioUrls.add(audioUrl);
+                            }
+                        }
+
+                        if (audioUrls.isEmpty()) {
+                            android.widget.Toast.makeText(context, "No audio available for this Surah", android.widget.Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        startMediaService(audioUrls, surah, surahNumber);
+                    } else {
+                        android.widget.Toast.makeText(context, "Failed to load audio", android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(retrofit2.Call<com.google.gson.JsonObject> call, Throwable t) {
+                    android.widget.Toast.makeText(context, "Error: " + t.getMessage(), android.widget.Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
-    private boolean checkFile(String surahNumber) {
-        File[] directory = context.getExternalFilesDirs(Environment.DIRECTORY_MUSIC);
-        File fileUri;
-        if (Integer.parseInt(surahNumber) < 10) {
-            @SuppressLint("DefaultLocale") String number = String.format("%02d", Integer.parseInt(surahNumber));
-            fileUri = new File(directory[0], number + ".mp3");
-        } else {
-            fileUri = new File(directory[0], surahNumber + ".mp3");
-        }
-        return fileUri.exists();
-    }
+    private void startMediaService(ArrayList<String> audioUrls, Surah surah, int surahNumber) {
+        android.util.Log.d("SURAH_ADAPTER", "Starting service with playlist size: " + audioUrls.size());
 
-    //THIS IS USED FOR DOWNLOADING THE FILE WHICH YOU HAVE CLICKED ON ITEM_VIEW
-    @SuppressLint("DefaultLocale")
-    public static void getAudioFile(String SurahNumber) {
-        StorageReference mStorageRef;
-        File[] directory = context.getExternalFilesDirs(Environment.DIRECTORY_MUSIC);
-        File file;
-
-        if (Integer.parseInt(SurahNumber) < 10) {
-            int surah = Integer.parseInt(SurahNumber);
-            String number = String.format("%02d", surah);
-            file = new File(directory[0], number + ".mp3");
-        } else {
-            file = new File(directory[0], SurahNumber + ".mp3");
-        }
-        if (file.exists()) {
-            Intent intent = new Intent(context, mediaService.class);
-            intent.setAction("PLAY_URI");
-            intent.putExtra("uri", Uri.fromFile(file).toString());
-            context.startService(intent);
-        } else {
-            if (Integer.parseInt(SurahNumber) < 10) {
-                int surah = Integer.parseInt(SurahNumber);
-                String number = String.format("%02d", surah);
-                mStorageRef = FirebaseStorage.getInstance().getReference().child(number + ".mp3");
-            } else {
-                mStorageRef = FirebaseStorage.getInstance().getReference().child(SurahNumber + ".mp3");
-            }
-
-            mStorageRef.getDownloadUrl().addOnSuccessListener(surah_adaptor::AudioPlay).addOnFailureListener(e -> Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show());
-        }
-    }
-
-
-    private static void AudioPlay(Uri uri) {
+        // Start Service
         Intent intent = new Intent(context, mediaService.class);
-        intent.setAction("PLAY_URI");
-        intent.putExtra("uri", uri.toString());
+        intent.setAction("PLAY_PLAYLIST");
+        intent.putStringArrayListExtra("playlist", audioUrls);
+        intent.putExtra("surahName", surah.getEnglishName());
+        intent.putExtra("surahInfo", surah.getEnglishNameTranslation());
         context.startService(intent);
-    }
 
-    //Update Data on Next or Previous Button
-    public static void UpdateData() {
-        surah_getter surah_getter = surah_getters.get(POSITION);
-        surahInform surahInform = SurahInform.get(POSITION);
+        // Update UI
+        playScreen.currentSurahNumber = String.valueOf(surahNumber);
+        Intent playIntent = new Intent(context, playScreen.class);
+        playIntent.putExtra("SurahNumber", String.valueOf(surahNumber));
+        playIntent.putExtra("SurahName", surah.getEnglishName());
+        playIntent.putExtra("SurahInformation", surah.getEnglishNameTranslation());
 
-        setSurahNumber(surah_getter.getSurahNumber());
-        setSurahName(surah_getter.getSurahName());
-        setSurahInform(surahInform.getSurahInformation());
+        // Shared Prefs
+        DataPref(String.valueOf(surahNumber), surah.getEnglishName(), surah.getName(), surah.getEnglishNameTranslation());
 
-        updateList();
-    }
+        surahData.setSurahNumber(String.valueOf(surahNumber));
+        surahData.setSurahName(surah.getEnglishName());
+        surahData.setSurahInform(surah.getEnglishNameTranslation());
 
-    public static void closeNotification() {
-        NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-        manager.cancel(1);
+        onClickSendData.onReceiveData(playIntent);
+        mediaService.setFlagPlay(true);
+        context.startActivity(playIntent);
     }
 
     @Override
     public int getItemCount() {
-        return surah_getters.size();
+        return surahList.size();
+    }
+
+    public void filterList(List<Surah> filteredList) {
+        surahList = filteredList;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -247,10 +225,6 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         }
     }
 
-    public static void setPOSITION(int POSITION) {
-        surah_adaptor.POSITION = POSITION;
-    }
-
     //DataPreference Setup
     public void DataPref(String SurahNumber, String SurahName, String SurahNameArabic, String SurahInform) {
         SharedPreferences preferences = context.getSharedPreferences("RecentPlay", Context.MODE_PRIVATE);
@@ -261,7 +235,6 @@ public class surah_adaptor extends RecyclerView.Adapter<surah_adaptor.ViewHolder
         prefEditor.putString("SurahInform", SurahInform);
         prefEditor.apply();
     }
-
 
     /*This Interface is used for Dashboard strip*/
     public interface onClickSendData {

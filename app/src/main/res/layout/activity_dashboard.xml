@@ -96,10 +96,10 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_marginStart="16dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="85dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:background="@drawable/last_read_gradient"
                 android:elevation="6dp"
                 android:padding="20dp"
@@ -147,7 +147,6 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     android:fontFamily="sans-serif-medium"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -162,7 +161,6 @@
                     android:text="Al-Fatihah"
                     android:textColor="@color/White"
                     android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/LastReadSurahNum"
                     app:layout_constraintTop_toBottomOf="@+id/textView"
                     tools:ignore="MissingConstraints" />
@@ -178,10 +176,76 @@
                     android:textColor="@color/White"
                     android:textSize="32sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
+
+                <!-- Integrated Qari Selection -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:background="@drawable/glass_background"
+                    android:paddingHorizontal="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <Spinner
+                        android:id="@+id/QariSelection"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@color/transparent"
+                        android:tint="@color/transparent"
+                        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/divider"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="1dp"
+                        android:layout_height="30dp"
+                        android:layout_marginEnd="12dp"
+                        android:background="#44FFFFFF"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/toggleContainer"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/toggleContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:background="@color/transparent"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:alpha="0.7"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Ayah Mode"
+                            android:background="@color/transparent"
+                            android:textColor="@color/White"
+                            android:textSize="12sp" />
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/AyahModeToggle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:checked="true"
+                            android:scaleX="0.8"
+                            android:scaleY="0.8"
+                            app:thumbTint="@color/Green"
+                            app:trackTint="@color/White"
+                            tools:ignore="UseSwitchCompatOrMaterialXml" />
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -204,26 +268,15 @@
             android:progressBackgroundTintMode="add"
             android:progressDrawable="@drawable/progress_gredient" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_gravity="top|center"
-            android:layout_marginTop="6dp"
-            android:background="@color/transparent"
-            android:backgroundTint="@color/transparent"
-            android:foreground="?selectableItemBackgroundBorderless"
-            app:tabIconTint="@color/Green"
-            app:tabIndicatorColor="@color/Green" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="40dp">
+            android:layout_marginTop="10dp">
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/dashboardPager"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/SurahRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintBottom_toTopOf="@+id/playStrip"
@@ -239,12 +292,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="16dp"
                 android:backgroundTint="#EDEDED"
                 android:src="@drawable/search"
                 android:tintMode="multiply"
                 app:fabCustomSize="45dp"
-                app:layout_constraintBottom_toBottomOf="@+id/dashboardPager"
+                app:layout_constraintBottom_toTopOf="@+id/playStrip"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:rippleColor="@color/ThemeWhite" />
 
@@ -363,6 +416,18 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/NextTrackButton"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ProgressBar
+                    android:id="@+id/PlayStripLoading"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:indeterminate="true"
+                    android:visibility="gone"
+                    android:indeterminateTint="@color/Green"
+                    app:layout_constraintBottom_toBottomOf="@+id/PlayPauseButton"
+                    app:layout_constraintEnd_toEndOf="@+id/PlayPauseButton"
+                    app:layout_constraintStart_toStartOf="@+id/PlayPauseButton"
+                    app:layout_constraintTop_toTopOf="@+id/PlayPauseButton" />
 
                 <!-- Next Button -->
                 <ImageButton
